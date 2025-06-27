@@ -7,6 +7,7 @@ import {
   ResumePage,
   WorkAtMtsPage,
   RulesPage,
+  PromptGalleryPage,
 } from "../pages";
 
 
@@ -18,4 +19,5 @@ export const router = createBrowserRouter([
   { path: "/register", element: <RegisterPage /> },
   { path: "/rules", element: <RulesPage /> },
   { path: "/work", element: <WorkAtMtsPage /> },
+  { path: "/gallery", element: <PromptGalleryPage /> },
 ]);
