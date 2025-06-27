@@ -6,7 +6,7 @@ export const ModalRoot: FC = () => {
   const { isOpen, content, close } = useModalStore();
 
   return (
-    <Modal open={isOpen} onClose={close}>
+    <Modal isModalOpen={isOpen} handleClose={close}>
       {content}
     </Modal>
   );

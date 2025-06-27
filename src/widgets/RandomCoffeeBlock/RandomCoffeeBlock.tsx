@@ -31,13 +31,13 @@ export const RandomCoffeeBlock: FC = () => {
     >
       <Carousel
         items={items}
-        slidesToShow={2}
+        slidesToShow={4}
         slidesToScroll={1}
         arrowColor="#FF0032"
         infinite={false}
       />
 
-      <Flex gap="24px">
+      <Flex gap="24px" justify="center">
         <DateInput
           label="Дата"
           aria-label="Выбери дату"
@@ -51,14 +51,15 @@ export const RandomCoffeeBlock: FC = () => {
           onChange={setTime}
         />
       </Flex>
-
-      <Button
-        variant="primary"
-        style={{ marginTop: 16 }}
-        aria-label="Назначить встречу"
-      >
-        Назначить встречу
-      </Button>
+      <Flex gap="24px" justify="center">
+        <Button
+          variant="primary"
+          style={{ marginTop: 16 }}
+          aria-label="Назначить встречу"
+        >
+          Назначить встречу
+        </Button>
+      </Flex>
     </Section>
   );
 };

@@ -1,54 +1,65 @@
-import type { FC } from "react";
-import { Button } from "antd";
+import React from "react";
+import { Section } from "../../shared";
+import {
+  Button,
+  IconArrowCircle,
+  mts_text_secondary,
+  Text,
+} from "@chernyshovaalexandra/mtsui";
+import { FilterTag, Grid, TagRow, VacancyCard } from "./style";
 
+const tags = ["Все", "Продажи и развитие", "Дизайн", "Финансы", "Работа в IT"];
 const vacancies = new Array(6).fill(null);
 
-export const VacancyGrid: FC = () => (
-  <section aria-labelledby="vacancy-title">
-    <h2 id="vacancy-title">Вакансии</h2>
+export const VacancyGrid: React.FC = () => {
+  return (
+    <Section title="Вакансии" aria-labelledby="vacancy-title">
+      <TagRow role="tablist" aria-label="Фильтры вакансий">
+        {tags.map((tag, i) => (
+          <FilterTag
+            key={tag}
+            aria-selected={i === 1}
+            tabIndex={0}
+            role="tab"
+            $active={i === 1}
+          >
+            {tag}
+          </FilterTag>
+        ))}
+      </TagRow>
 
-    <div
-      style={{ display: "flex", gap: 8, marginBottom: 16, flexWrap: "wrap" }}
-    >
-      {["Все", "Продажи и развитие", "Дизайн", "Финансы", "Работа в IT"].map(
-        (tag) => (
-          //   <FilterTag key={tag} label={tag} />
-          <>{tag}</>
-        )
-      )}
-    </div>
+      <Grid>
+        {vacancies.map((_, i) => (
+          <VacancyCard key={i} aria-label={`Вакансия ${i + 1}`}>
+            <div>
+              <Text variant="P3-Bold-Comp">Продавец (Розничная сеть МТС)</Text>
+              <Text style={{ margin: "4px 0" }}>от 60 000 до 90 000 ₽</Text>
+              <Text
+                variant="P4-Regular-Comp"
+                style={{ color: mts_text_secondary }}
+              >
+                В офисе • Гибкий график • АО РТК
+              </Text>
+            </div>
+            <IconArrowCircle
+              direction="right"
+              width={32}
+              height={32}
+              aria-hidden="true"
+            />
+          </VacancyCard>
+        ))}
+      </Grid>
 
-    <div
-      style={{
-        display: "grid",
-        gap: 12,
-        gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-      }}
-    >
-      {vacancies.map((_, i) => (
-        <article
-          key={i}
-          aria-label={`Вакансия ${i + 1}`}
-          style={{ border: "1px solid #eee", padding: 16 }}
-        >
-          <h3>Продавец (Розничная сеть МТС)</h3>
-          <p>от 60 000 до 90 000 ₽</p>
-          <p style={{ fontSize: 12, color: "#777" }}>
-            В офисе • Гибкий график • АО РТК
-          </p>
-          <Button type="link" aria-label="Смотреть вакансию">
-            →
-          </Button>
-        </article>
-      ))}
-    </div>
+      <Button
+        variant="primary"
+        aria-label="Показать больше вакансий"
+        style={{ marginTop: 24, alignSelf: "center" }}
+      >
+        Больше вакансий
+      </Button>
+    </Section>
+  );
+};
 
-    <Button
-      type="primary"
-      style={{ marginTop: 24 }}
-      aria-label="Больше вакансий"
-    >
-      Больше вакансий
-    </Button>
-  </section>
-);
+export default VacancyGrid;
