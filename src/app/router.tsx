@@ -8,6 +8,7 @@ import {
   InterviewPage,
   WorkAtMtsPage,
   RulesPage,
+  PromptGalleryPage,
 } from "../pages";
 
 
@@ -20,4 +21,5 @@ export const router = createBrowserRouter([
   { path: "/rules", element: <RulesPage /> },
   { path: "/interview", element: <InterviewPage /> },
   { path: "/work", element: <WorkAtMtsPage /> },
+  { path: "/gallery", element: <PromptGalleryPage /> },
 ]);
