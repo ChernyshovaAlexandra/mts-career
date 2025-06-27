@@ -6,6 +6,7 @@ import {
   RegisterPage,
   ResumePage,
   WorkAtMtsPage,
+  RulesPage,
 } from "../pages";
 
 
@@ -15,5 +16,6 @@ export const router = createBrowserRouter([
   { path: "/faq", element: <FAQPage /> },
   { path: "/login", element: <LoginPage /> },
   { path: "/register", element: <RegisterPage /> },
+  { path: "/rules", element: <RulesPage /> },
   { path: "/work", element: <WorkAtMtsPage /> },
 ]);
