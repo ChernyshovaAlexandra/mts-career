@@ -3,14 +3,14 @@ import { Text } from "@chernyshovaalexandra/mtsui";
 import { Section } from "../../shared";
 import { MainLayout } from "../../layouts";
 
-const ResumePage: FC = () => (
+const InterviewPage: FC = () => (
   <MainLayout>
-    <Section title="Подготовка резюме">
+    <Section title="Подготовка к собеседованию">
       <Text variant="P4-Regular-Text">
-        Здесь будет информация о том, как составить резюме.
+        Здесь будет информация о том, как подготовиться к собеседованию.
       </Text>
     </Section>
   </MainLayout>
 );
 
-export default ResumePage;
+export default InterviewPage;
