@@ -25,8 +25,14 @@ const MainPage = () => {
 
       <Section title="Общие навыки">
         <CardGrid columns={3}>
-          <SkillCard title="Подготовка резюме" />
-          <SkillCard title="Подготовка к собеседованию" />
+          <SkillCard
+            title="Подготовка резюме"
+            onClick={() => navigate("/resume")}
+          />
+          <SkillCard
+            title="Подготовка к собеседованию"
+            onClick={() => navigate("/interview")}
+          />
           <SkillCard title="Работа в МТС" onClick={() => navigate("/work")} />
         </CardGrid>
       </Section>
