@@ -39,10 +39,16 @@ const MainPage = () => {
 
       <Section title="Активности по направлениям">
         <CardGrid columns={2}>
-          <ActivityCard title="Маркетинг и коммуникации" />
-          <ActivityCard title="Сервис и услуги" />
-          <ActivityCard title="IT-направление" />
-          <ActivityCard title="Финансы" />
+          <ActivityCard
+            title="Маркетинг и коммуникации"
+            onClick={() => navigate("/marketing")}
+          />
+          <ActivityCard
+            title="Сервис и услуги"
+            onClick={() => navigate("/service")}
+          />
+          <ActivityCard title="IT-направление" onClick={() => navigate("/it")} />
+          <ActivityCard title="Финансы" onClick={() => navigate("/finance")} />
         </CardGrid>
       </Section>
     </MainLayout>
