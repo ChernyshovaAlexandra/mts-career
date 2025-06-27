@@ -1,7 +1,8 @@
 import type { FC } from "react";
-import { Container, Faq, Header, Button } from "@chernyshovaalexandra/mtsui";
+import { Container, Faq, Header, Button, Text } from "@chernyshovaalexandra/mtsui";
 import styled from "styled-components";
 import { MainLayout } from "../../layouts";
+import { useModalStore } from "../../store";
 
 const faqItems = [
   {
@@ -36,6 +37,22 @@ const StyledButtonWrapper = styled.div`
 `;
 
 const FAQPage: FC = () => {
+  const open = useModalStore((state) => state.open);
+  const close = useModalStore((state) => state.close);
+
+  const handleAskClick = () => {
+    open(
+      <div style={{ textAlign: "center" }}>
+        <Text variant="P4-Regular-Text" style={{ marginBottom: 24 }}>
+          Задавай вопросы по адресу example@mail.com
+        </Text>
+        <Button variant="primary" onClick={close}>
+          Понятно
+        </Button>
+      </div>
+    );
+  };
+
   return (
     <MainLayout>
       <Container>
@@ -43,7 +60,9 @@ const FAQPage: FC = () => {
           <Header variant="H1-Wide">Ответы на вопросы</Header>
           <Faq items={faqItems} />
           <StyledButtonWrapper>
-            <Button variant="primary">Задать вопрос</Button>
+            <Button variant="primary" onClick={handleAskClick}>
+              Задать вопрос
+            </Button>
           </StyledButtonWrapper>
         </StyledPage>
       </Container>

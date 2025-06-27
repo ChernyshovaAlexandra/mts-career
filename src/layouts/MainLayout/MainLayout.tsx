@@ -1,6 +1,6 @@
 import type { FC, PropsWithChildren } from "react";
 import styled from "styled-components";
-import { Footer, Header } from "../../widgets";
+import { Footer, Header, ModalRoot } from "../../widgets";
 
 
 const Wrapper = styled.div`
@@ -19,6 +19,7 @@ export const MainLayout: FC<PropsWithChildren> = ({ children }) => {
       <Header />
       <Main>{children}</Main>
       <Footer />
+      <ModalRoot />
     </Wrapper>
   );
 };
