@@ -4,6 +4,8 @@ import { createGlobalStyle } from "styled-components";
  * Глобальные стили для приложения
  *
  * Включает стили для доступности, базовые стили и утилиты
+ * Адаптивный дизайн: десктопная версия для больших экранов,
+ * мобильная версия для iPhone 13 mini и подобных устройств
  */
 const GlobalStyles = createGlobalStyle`
   /* CSS переменные */
@@ -46,6 +48,19 @@ const GlobalStyles = createGlobalStyle`
     --font-weight-semibold: 600;
     --font-weight-bold: 700;
     --font-weight-black: 900;
+  }
+
+  /* Мобильные оптимизации */
+  @media (max-width: 768px) {
+    html {
+      /* Предотвращение 300ms задержки на мобильных устройствах */
+      touch-action: manipulation;
+      /* Улучшенная производительность скролла */
+      -webkit-overflow-scrolling: touch;
+      /* Оптимизация для мобильных устройств */
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
   }
 
   /* Подключение шрифтов MTS Wide */
@@ -159,6 +174,18 @@ const GlobalStyles = createGlobalStyle`
     color: var(--text-primary);
   }
 
+  /* Мобильные оптимизации для body */
+  @media (max-width: 768px) {
+    body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+      font-size: 16px; /* Предотвращает зум на iOS */
+    }
+  }
+
   /* Улучшенная контрастность для ссылок */
   a {
     color: var(--text-light-primary-link);
@@ -172,6 +199,13 @@ const GlobalStyles = createGlobalStyle`
   /* Стили для кнопок */
   button {
     font-family: inherit;
+  }
+
+  @media (max-width: 768px) {
+    button {
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
   }
 
   /* Улучшенная доступность для интерактивных элементов */
@@ -191,6 +225,18 @@ const GlobalStyles = createGlobalStyle`
     [tabindex]:focus {
       outline: 2px solid var(--text-light-accent);
       outline-offset: 2px;
+    }
+
+    .card, [class*="Card"] {
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      background: #ffffff;
+    }
+
+    .mobile-container {
+      padding: 0 16px;
+      max-width: 375px;
+      margin: 0 auto;
     }
   }
 
@@ -217,6 +263,13 @@ const GlobalStyles = createGlobalStyle`
   input, textarea, select {
     font-family: inherit;
     font-size: inherit;
+  }
+
+  @media (max-width: 768px) {
+    input, textarea, select {
+      -webkit-appearance: none;
+      border-radius: 0;
+    }
   }
 
   /* Улучшенная доступность для таблиц */
@@ -247,6 +300,17 @@ const GlobalStyles = createGlobalStyle`
 
   ::-webkit-scrollbar-thumb:hover {
     background: #a8a8a8;
+  }
+
+  @media (max-width: 768px) {
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    
+    * {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
   }
 `;
 

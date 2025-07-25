@@ -60,6 +60,7 @@ const StatusBadge = styled.span`
  *
  * Отображает основную информацию о пользователе включая имя, фамилию,
  * персональный код, город и статус.
+ * Полностью адаптирована для доступности с правильными связями label-value.
  *
  * @param props - Свойства компонента
  * @returns JSX элемент карточки персональных данных
@@ -76,21 +77,27 @@ const PersonalDataCard: FC<PersonalDataCardProps> = ({
   return (
     <Card title="Персональные данные" titleId="personal-data-title">
       <DataRow>
-        <FieldLabel>Имя и фамилия</FieldLabel>
+        <FieldLabel id="name-label">Имя и фамилия</FieldLabel>
         <NameContainer>
-          <Name>{displayName}</Name>
-          <StatusBadge>{status}</StatusBadge>
+          <Name id="name-value" aria-labelledby="name-label">
+            {displayName}
+          </Name>
+          <StatusBadge aria-label={`Статус: ${status}`}>{status}</StatusBadge>
         </NameContainer>
       </DataRow>
 
       <DataRow>
-        <FieldLabel>Персональный код</FieldLabel>
-        <FieldValue>{personalCode}</FieldValue>
+        <FieldLabel id="code-label">Персональный код</FieldLabel>
+        <FieldValue id="code-value" aria-labelledby="code-label">
+          {personalCode}
+        </FieldValue>
       </DataRow>
 
       <DataRow>
-        <FieldLabel>Город</FieldLabel>
-        <FieldValue>{city}</FieldValue>
+        <FieldLabel id="city-label">Город</FieldLabel>
+        <FieldValue id="city-value" aria-labelledby="city-label">
+          {city}
+        </FieldValue>
       </DataRow>
     </Card>
   );
