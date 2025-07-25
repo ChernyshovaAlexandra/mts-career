@@ -12,31 +12,57 @@ import {
 } from "../../shared/ui";
 
 const PageContainer = styled.main`
-  background-color: #f5f5f5;
-  min-height: 100vh;
+  background-color: #ffffff;
   padding: 20px;
+  position: relative;
 `;
 
 const ContentWrapper = styled.div`
   max-width: 1200px;
   margin: 0 auto;
+  position: relative;
+  z-index: 2;
 `;
 
 const PageTitle = styled.h1`
-  font-size: 32px;
-  font-weight: 700;
+  font-size: 56px;
+  font-weight: 500;
   text-align: center;
-  margin: 0 0 32px 0;
+  margin: 48px 0 40px 0;
   color: #1a1a1a;
   text-transform: uppercase;
-  font-family: "MTS Wide", sans-serif;
+`;
+
+const CardsBackground = styled.div`
+  background-color: #f2f3f7;
+  border-radius: 24px;
+  padding: 16px;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 3;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 640px;
+    height: 400px;
+    background-image: url("/images/account-bg.webp");
+    background-size: cover; // Растягиваем на всю ширину
+    background-repeat: no-repeat;
+    background-position: bottom right;
+    z-index: 1;
+    pointer-events: none;
+  }
 `;
 
 const GridLayout = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
-  margin-bottom: 24px;
+  position: relative;
+  z-index: 3;
 
   @media (max-width: 1024px) {
     grid-template-columns: 1fr;
@@ -46,13 +72,17 @@ const GridLayout = styled.div`
 const LeftColumn = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
+  position: relative;
+  z-index: 3;
 `;
 
 const RightColumn = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
+  position: relative;
+  z-index: 3;
 `;
 
 /**
@@ -65,7 +95,6 @@ const RightColumn = styled.div`
  * @returns JSX элемент страницы личного кабинета
  */
 const AccountPage: FC = () => {
-  // Обработчики событий
   const handleViewRating = () => {
     console.log("Открыть рейтинг участников");
   };
@@ -86,7 +115,6 @@ const AccountPage: FC = () => {
     console.log("Пройти опрос");
   };
 
-  // Данные для компонентов
   const personalData = {
     firstName: "Кова",
     lastName: "Константин",
@@ -166,37 +194,38 @@ const AccountPage: FC = () => {
         <PageContainer>
           <ContentWrapper>
             <PageTitle>Личный кабинет</PageTitle>
+            <CardsBackground>
+              <GridLayout>
+                <LeftColumn>
+                  <PersonalDataCard {...personalData} />
+                  <TablePositionCard
+                    position={tablePosition.position}
+                    points={tablePosition.points}
+                    onViewRating={handleViewRating}
+                  />
+                  <InterviewSimulationCard
+                    {...interviewSimulation}
+                    onChangeTime={handleChangeInterviewTime}
+                  />
+                  <RandomCoffeeCard
+                    {...randomCoffee}
+                    onChangeTime={handleChangeCoffeeTime}
+                  />
+                </LeftColumn>
 
-            <GridLayout>
-              <LeftColumn>
-                <PersonalDataCard {...personalData} />
-                <TablePositionCard
-                  position={tablePosition.position}
-                  points={tablePosition.points}
-                  onViewRating={handleViewRating}
-                />
-                <InterviewSimulationCard
-                  {...interviewSimulation}
-                  onChangeTime={handleChangeInterviewTime}
-                />
-                <RandomCoffeeCard
-                  {...randomCoffee}
-                  onChangeTime={handleChangeCoffeeTime}
-                />
-              </LeftColumn>
-
-              <RightColumn>
-                <ActivityScaleCard
-                  generalSkills={generalSkills}
-                  activities={activities}
-                  onActivityClick={handleActivityClick}
-                />
-                <FeedbackCard
-                  description="Пройди опрос и получи баллы."
-                  onTakeSurvey={handleTakeSurvey}
-                />
-              </RightColumn>
-            </GridLayout>
+                <RightColumn>
+                  <ActivityScaleCard
+                    generalSkills={generalSkills}
+                    activities={activities}
+                    onActivityClick={handleActivityClick}
+                  />
+                  <FeedbackCard
+                    description="Пройди опрос и получи баллы."
+                    onTakeSurvey={handleTakeSurvey}
+                  />
+                </RightColumn>
+              </GridLayout>
+            </CardsBackground>
           </ContentWrapper>
         </PageContainer>
       </MainLayout>

@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import styled from "styled-components";
-import CardTitle from "../../shared/ui/CardTitle";
+import Card from "../../shared/ui/Card";
 import FieldLabel from "../../shared/ui/FieldLabel";
 import FieldValue from "../../shared/ui/FieldValue";
 import Button from "../../shared/ui/Button";
@@ -18,13 +18,6 @@ interface RandomCoffeeCardProps {
   meetingDate: string;
   onChangeTime: () => void;
 }
-
-const Card = styled.article`
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 24px;
-  margin-bottom: 12px;
-`;
 
 const EmployeeInfo = styled.div`
   display: flex;
@@ -73,9 +66,7 @@ const RandomCoffeeCard: FC<RandomCoffeeCardProps> = ({
   onChangeTime,
 }) => {
   return (
-    <Card role="region" aria-labelledby="random-coffee-title">
-      <CardTitle id="random-coffee-title">Рандом-кофе с сотрудником</CardTitle>
-
+    <Card title="Рандом-кофе с сотрудником" titleId="random-coffee-title">
       <EmployeeInfo>
         <EmployeeName>{employeeName}</EmployeeName>
         <Position>{position}</Position>
