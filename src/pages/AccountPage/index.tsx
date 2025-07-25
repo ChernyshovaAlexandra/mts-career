@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import styled from "styled-components";
 import { MainLayout } from "../../layouts";
+import { GlobalStyles, PageTitle } from "../../shared";
 import {
   PersonalDataCard,
   TablePositionCard,
@@ -8,12 +9,10 @@ import {
   RandomCoffeeCard,
   ActivityScaleCard,
   FeedbackCard,
-  GlobalStyles,
-} from "../../shared/ui";
+} from "../../entities";
 
 const PageContainer = styled.main`
   background-color: #ffffff;
-  padding: 20px;
   position: relative;
 `;
 
@@ -22,15 +21,6 @@ const ContentWrapper = styled.div`
   margin: 0 auto;
   position: relative;
   z-index: 2;
-`;
-
-const PageTitle = styled.h1`
-  font-size: 56px;
-  font-weight: 500;
-  text-align: center;
-  margin: 48px 0 40px 0;
-  color: #1a1a1a;
-  text-transform: uppercase;
 `;
 
 const CardsBackground = styled.div`
@@ -49,7 +39,7 @@ const CardsBackground = styled.div`
     width: 640px;
     height: 400px;
     background-image: url("/images/account-bg.webp");
-    background-size: cover; // Растягиваем на всю ширину
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: bottom right;
     z-index: 1;
@@ -116,7 +106,7 @@ const AccountPage: FC = () => {
   };
 
   const personalData = {
-    firstName: "Кова",
+    firstName: "Ковалёв",
     lastName: "Константин",
     personalCode: "1234567890",
     city: "Москва",

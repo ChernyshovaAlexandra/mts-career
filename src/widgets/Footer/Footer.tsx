@@ -10,8 +10,8 @@ const Wrapper = styled.footer`
 `;
 
 const Text = styled.span`
-  font-size: 14px;
-  color: #6b6b6b;
+  font-size: var(--font-size-sm);
+  color: var(--text-light-secondary);
 `;
 
 export const Footer: FC = () => {

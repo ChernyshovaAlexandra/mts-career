@@ -6,6 +6,48 @@ import { createGlobalStyle } from "styled-components";
  * Включает стили для доступности, базовые стили и утилиты
  */
 const GlobalStyles = createGlobalStyle`
+  /* CSS переменные */
+  :root {
+    /* Размеры компонентов */
+    --header-height: 64px;
+    --footer-height: 72px;
+    
+    /* Цвета текстов */
+    --text-primary: #1D2023;
+    --text-light-secondary:#626C77;
+    --text-controls-tertiary-active: #F2F3F7;
+    --text-light-secondary: #626C77;
+    --text-light-primary-link: #0070E5;
+    --text-light-accent: #007CFF;  
+    
+    /* Размеры шрифтов */
+    --font-size-xs: 12px;
+    --font-size-sm: 14px;
+    --font-size-base: 16px;
+    --font-size-lg: 17px;
+    --font-size-xl: 18px;
+    --font-size-2xl: 20px;
+    --font-size-3xl: 24px;
+    --font-size-4xl: 32px;
+    --font-size-5xl: 56px;
+    
+    /* Высота строк */
+    --line-height-tight: 120%;
+    --line-height-normal: 140%;
+    --line-height-relaxed: 160%;
+    
+    /* Межбуквенное расстояние */
+    --letter-spacing-none: 0px;
+    --letter-spacing-wide: 0.6px;
+    
+    /* Веса шрифтов */
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-black: 900;
+  }
+
   /* Подключение шрифтов MTS Wide */
   @font-face {
     font-family: 'MTS Wide';
@@ -102,7 +144,7 @@ const GlobalStyles = createGlobalStyle`
 
   /* Базовые стили для доступности */
   *:focus {
-    outline: 2px solid #4CAF50;
+    outline: 2px solid var(--text-light-accent);
     outline-offset: 2px;
   }
 
@@ -114,12 +156,12 @@ const GlobalStyles = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.6;
-    color: #1a1a1a;
+    color: var(--text-primary);
   }
 
   /* Улучшенная контрастность для ссылок */
   a {
-    color: #0066cc;
+    color: var(--text-light-primary-link);
     text-decoration: none;
   }
 
@@ -147,7 +189,7 @@ const GlobalStyles = createGlobalStyle`
     button:focus,
     a:focus,
     [tabindex]:focus {
-      outline: 2px solid #4CAF50;
+      outline: 2px solid var(--text-light-accent);
       outline-offset: 2px;
     }
   }

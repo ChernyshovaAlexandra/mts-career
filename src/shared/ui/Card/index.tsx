@@ -15,10 +15,10 @@ const CardContainer = styled.article`
 `;
 
 const CardTitle = styled.h2`
-  font-size: 18px;
-  font-weight: 600;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
   margin: 0 0 16px 0;
-  color: #1a1a1a;
+  color: var(--text-primary);
 `;
 
 /**
@@ -32,11 +32,7 @@ const CardTitle = styled.h2`
  */
 const Card: FC<CardProps> = ({ children, title, titleId, className }) => {
   return (
-    <CardContainer
-      role="region"
-      aria-labelledby={titleId}
-      className={className}
-    >
+    <CardContainer aria-labelledby={titleId} className={className}>
       {title && <CardTitle id={titleId}>{title}</CardTitle>}
       {children}
     </CardContainer>

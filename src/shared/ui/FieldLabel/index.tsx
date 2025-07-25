@@ -16,7 +16,7 @@ const Label = styled.span`
   font-size: 16px;
   line-height: 140%;
   letter-spacing: 0px;
-  color: #666;
+  color: var(--text-light-secondary);
   display: block;
   margin-bottom: 4px;
 `;
