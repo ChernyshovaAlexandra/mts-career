@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import styled from "styled-components";
-import CardTitle from "../../shared/ui/CardTitle";
+import Card from "../../shared/ui/Card";
 import Button from "../../shared/ui/Button";
 
 /**
@@ -12,13 +12,6 @@ interface FeedbackCardProps {
   description: string;
   onTakeSurvey: () => void;
 }
-
-const Card = styled.article`
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 24px;
-  margin-bottom: 12px;
-`;
 
 const Description = styled.p`
   font-size: 14px;
@@ -39,9 +32,7 @@ const Description = styled.p`
  */
 const FeedbackCard: FC<FeedbackCardProps> = ({ description, onTakeSurvey }) => {
   return (
-    <Card role="region" aria-labelledby="feedback-title">
-      <CardTitle id="feedback-title">Обратная связь</CardTitle>
-
+    <Card title="Обратная связь" titleId="feedback-title">
       <Description>{description}</Description>
 
       <Button

@@ -1,14 +1,14 @@
 export { PageTitle } from "./PageTitle";
 export { Section } from "./Section";
 export { CardGrid } from "./CardGrid";
-export { default as PersonalDataCard } from "./PersonalDataCard";
+export { default as Card } from "./Card";
+export { default as PersonalDataCard } from "../../entities/PersonalDataCard";
 export { default as TablePositionCard } from "../../entities/TablePositionCard";
 export { default as InterviewSimulationCard } from "../../entities/InterviewSimulationCard";
 export { default as RandomCoffeeCard } from "../../entities/RandomCoffeeCard";
 export { default as ActivityScaleCard } from "../../entities/ActivityScaleCard";
 export { default as FeedbackCard } from "../../entities/FeedbackCard";
 export { default as GlobalStyles } from "./GlobalStyles";
-export { default as CardTitle } from "./CardTitle";
 export { default as FieldLabel } from "./FieldLabel";
 export { default as FieldValue } from "./FieldValue";
 export { default as Button } from "./Button";

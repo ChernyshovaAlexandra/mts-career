@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import styled from "styled-components";
-import CardTitle from "../../shared/ui/CardTitle";
+import Card from "../../shared/ui/Card";
 
 /**
  * @typedef {Object} ActivityItem
@@ -26,23 +26,24 @@ interface ActivityScaleCardProps {
   onActivityClick: (activityName: string) => void;
 }
 
-const Card = styled.article`
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 24px;
-  margin-bottom: 12px;
-`;
+const Section = styled.section``;
 
-const Section = styled.section`
-  margin-bottom: 20px;
+const SectionSeparator = styled.div`
+  height: 1px;
+  background-color: rgba(188, 195, 208, 0.5);
+  margin: 12px 0 24px 0;
 `;
 
 const SectionTitle = styled.h3`
-  font-size: 16px;
-  font-weight: 600;
+  font-family: "MTS Text", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 14px;
+  line-height: 140%;
+  letter-spacing: 0px;
+  text-transform: uppercase;
   margin: 0 0 12px 0;
   color: #1a1a1a;
-  font-family: "MTS Wide", sans-serif;
 `;
 
 const ActivityList = styled.ul`
@@ -55,14 +56,9 @@ const ActivityItem = styled.li`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 0;
-  border-bottom: 1px solid #f0f0f0;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(188, 195, 208, 0.5);
   cursor: pointer;
-  transition: background-color 0.2s ease;
-
-  &:hover {
-    background-color: #f8f8f8;
-  }
 
   &:last-child {
     border-bottom: none;
@@ -75,13 +71,17 @@ const ActivityLink = styled.button`
   gap: 8px;
   background: none;
   border: none;
-  color: #0066cc;
-  font-size: 14px;
+  color: #0070e5;
+  font-family: "MTS Text", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 17px;
+  line-height: 140%;
+  letter-spacing: 0px;
   cursor: pointer;
   padding: 0;
   text-align: left;
   flex: 1;
-  font-family: "MTS Wide", sans-serif;
 
   &:hover {
     text-decoration: underline;
@@ -94,8 +94,8 @@ const ActivityLink = styled.button`
 `;
 
 const ArrowIcon = styled.span`
-  font-size: 12px;
-  color: #0066cc;
+  font-size: 17px;
+  color: #0070e5;
 `;
 
 const ActivityProgress = styled.div`
@@ -139,8 +139,8 @@ const ActivityScaleCard: FC<ActivityScaleCardProps> = ({
         onClick={() => onActivityClick(item.name)}
         aria-label={`Перейти к активности: ${item.name}`}
       >
-        <ArrowIcon>→</ArrowIcon>
         {item.name}
+        <ArrowIcon>→</ArrowIcon>
       </ActivityLink>
       <ActivityProgress>
         <ProgressText>{item.progress}</ProgressText>
@@ -150,9 +150,7 @@ const ActivityScaleCard: FC<ActivityScaleCardProps> = ({
   );
 
   return (
-    <Card role="region" aria-labelledby="activity-scale-title">
-      <CardTitle id="activity-scale-title">Шкала активностей</CardTitle>
-
+    <Card title="Шкала активностей" titleId="activity-scale-title">
       <Section>
         <SectionTitle>ОБЩИЕ НАВЫКИ</SectionTitle>
         <ActivityList role="list">
@@ -161,6 +159,8 @@ const ActivityScaleCard: FC<ActivityScaleCardProps> = ({
           )}
         </ActivityList>
       </Section>
+
+      <SectionSeparator />
 
       <Section>
         <SectionTitle>АКТИВНОСТИ</SectionTitle>

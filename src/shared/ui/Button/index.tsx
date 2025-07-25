@@ -20,7 +20,7 @@ const StyledButton = styled.button`
   height: 44px;
   border-radius: 16px;
   padding: 10px;
-  background-color: #f5f5f5;
+  background-color: #f2f3f7;
   border: none;
   cursor: pointer;
   transition: background-color 0.2s ease;

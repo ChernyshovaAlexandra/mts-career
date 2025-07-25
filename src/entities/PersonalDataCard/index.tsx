@@ -1,9 +1,8 @@
 import type { FC } from "react";
 import styled from "styled-components";
-import CardTitle from "../CardTitle";
-import FieldLabel from "../FieldLabel";
-import FieldValue from "../FieldValue";
-import Button from "../Button";
+import Card from "../../shared/ui/Card";
+import FieldLabel from "../../shared/ui/FieldLabel";
+import FieldValue from "../../shared/ui/FieldValue";
 
 /**
  * @typedef {Object} PersonalDataCardProps
@@ -20,13 +19,6 @@ interface PersonalDataCardProps {
   city: string;
   status: string;
 }
-
-const Card = styled.article`
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 24px;
-  margin-bottom: 12px;
-`;
 
 const DataRow = styled.div`
   display: flex;
@@ -82,9 +74,7 @@ const PersonalDataCard: FC<PersonalDataCardProps> = ({
   const displayName = `${firstName} ${lastName}`;
 
   return (
-    <Card role="region" aria-labelledby="personal-data-title">
-      <CardTitle id="personal-data-title">Персональные данные</CardTitle>
-
+    <Card title="Персональные данные" titleId="personal-data-title">
       <DataRow>
         <FieldLabel>Имя и фамилия</FieldLabel>
         <NameContainer>

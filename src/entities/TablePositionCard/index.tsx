@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import styled from "styled-components";
+import Card from "../../shared/ui/Card";
 import FieldLabel from "../../shared/ui/FieldLabel";
 import FieldValue from "../../shared/ui/FieldValue";
 import Button from "../../shared/ui/Button";
@@ -15,13 +16,6 @@ interface TablePositionCardProps {
   points: string;
   onViewRating: () => void;
 }
-
-const Card = styled.article`
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 24px;
-  margin-bottom: 12px;
-`;
 
 const DataRow = styled.div`
   display: flex;
@@ -56,11 +50,7 @@ const TablePositionCard: FC<TablePositionCardProps> = ({
   onViewRating,
 }) => {
   return (
-    <Card role="region" aria-labelledby="table-position-title">
-      <div id="table-position-title" className="sr-only">
-        Место в таблице рейтинга
-      </div>
-
+    <Card title="Место в таблице рейтинга" titleId="table-position-title">
       <DataRow>
         <FieldLabel>Место в таблице</FieldLabel>
         <Position aria-label={`Позиция в рейтинге: ${position}`}>

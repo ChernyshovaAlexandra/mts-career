@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import styled from "styled-components";
-import CardTitle from "../../shared/ui/CardTitle";
+import Card from "../../shared/ui/Card";
 import FieldLabel from "../../shared/ui/FieldLabel";
 import FieldValue from "../../shared/ui/FieldValue";
 import Button from "../../shared/ui/Button";
@@ -16,13 +16,6 @@ interface InterviewSimulationCardProps {
   interviewDate: string;
   onChangeTime: () => void;
 }
-
-const Card = styled.article`
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 24px;
-  margin-bottom: 12px;
-`;
 
 const DataRow = styled.div`
   display: flex;
@@ -50,11 +43,7 @@ const InterviewSimulationCard: FC<InterviewSimulationCardProps> = ({
   onChangeTime,
 }) => {
   return (
-    <Card role="region" aria-labelledby="interview-simulation-title">
-      <CardTitle id="interview-simulation-title">
-        Симуляция собеседования
-      </CardTitle>
-
+    <Card title="Симуляция собеседования" titleId="interview-simulation-title">
       <DataRow>
         <FieldLabel>Направление</FieldLabel>
         <FieldValue>{direction}</FieldValue>
