@@ -20,38 +20,27 @@ const StyledButton = styled.button`
   height: 44px;
   border-radius: 16px;
   padding: 10px;
-  background-color: #f2f3f7;
+  background-color: var(--text-controls-tertiary-active);
   border: none;
   cursor: pointer;
   transition: background-color 0.2s ease;
   font-family: "MTS Wide", sans-serif;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   font-style: normal;
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   line-height: 16px;
-  letter-spacing: 0.6px;
+  letter-spacing: var(--letter-spacing-wide);
   text-align: center;
   vertical-align: middle;
   text-transform: uppercase;
-  color: #1a1a1a;
+  color: var(--text-primary);
 
   &:hover {
     background-color: #e8e8e8;
   }
 
-  &:focus {
-    outline: 2px solid #4caf50;
-    outline-offset: 2px;
-  }
-
   &:active {
     background-color: #d8d8d8;
-  }
-
-  &:disabled {
-    background-color: #f0f0f0;
-    color: #999;
-    cursor: not-allowed;
   }
 `;
 

@@ -2,229 +2,214 @@
 
 ## Общее описание
 
-AccountPage представляет собой главную страницу личного кабинета пользователя в системе MTS Career. Страница отображает персональную информацию пользователя, его активность в программе, запланированные мероприятия и текущий статус в рейтинговой системе.
+AccountPage является центральным элементом системы MTS Career, предоставляющим пользователю единую точку доступа ко всем аспектам его участия в программе развития карьеры. Страница объединяет персональную информацию, прогресс обучения, социальные взаимодействия и систему геймификации.
 
-## Архитектура и структура
+## Техническая архитектура
 
-### Карточки (Cards)
+### Компонентная структура
 
-#### 1. PersonalDataCard - Карточка персональных данных
-
-**Назначение**: Отображает основную информацию о пользователе
-**Содержимое**:
-
-- Заголовок: "Персональные данные"
-- Поле "Имя и фамилия" с значением и статус-бейджем
-- Поле "Персональный код" с числовым значением
-- Поле "Город" с названием города
-
-**Структура данных**:
-
-```typescript
-interface PersonalDataCardProps {
-  firstName: string; // Имя пользователя
-  lastName: string; // Фамилия пользователя
-  personalCode: string; // Персональный код
-  city: string; // Город
-  status: string; // Статус (например, "Новичок")
-}
+```
+AccountPage
+├── PersonalDataCard (персональная информация)
+├── TablePositionCard (рейтинг и баллы)
+├── InterviewSimulationCard (симуляция собеседований)
+├── RandomCoffeeCard (нетворкинг)
+├── ActivityScaleCard (развитие навыков)
+└── FeedbackCard (обратная связь)
 ```
 
-**Визуальные элементы**:
+### Интерфейсы и типизация
 
-- StatusBadge: зеленый бейдж со статусом пользователя
-- FieldLabel: названия полей (MTS Text, 16px)
-- FieldValue: значения полей (MTS Text, 17px)
-
-#### 2. TablePositionCard - Карточка места в рейтинге
-
-**Назначение**: Показывает позицию пользователя в общем рейтинге
-**Содержимое**:
-
-- Поле "Место в таблице" с числовым значением
-- Поле "Баллы" с количеством набранных баллов
-- Кнопка "РЕЙТИНГ УЧАСТНИКОВ"
-
-**Структура данных**:
-
-```typescript
-interface TablePositionCardProps {
-  position: number; // Позиция в рейтинге
-  points: string; // Количество баллов
-  onViewRating: () => void; // Обработчик просмотра рейтинга
-}
-```
-
-#### 3. InterviewSimulationCard - Карточка симуляции собеседования
-
-**Назначение**: Отображает информацию о запланированной симуляции собеседования
-**Содержимое**:
-
-- Заголовок: "Симуляция собеседования"
-- Поле "Направление" с названием направления
-- Поле "Дата собеседования" с датой и временем
-- Кнопка "ИЗМЕНИТЬ ВРЕМЯ"
-
-**Структура данных**:
-
-```typescript
-interface InterviewSimulationCardProps {
-  direction: string; // Направление собеседования
-  interviewDate: string; // Дата и время
-  onChangeTime: () => void; // Обработчик изменения времени
-}
-```
-
-#### 4. RandomCoffeeCard - Карточка рандом-кофе
-
-**Назначение**: Показывает информацию о запланированной встрече с сотрудником
-**Содержимое**:
-
-- Заголовок: "Рандом-кофе с сотрудником"
-- Имя и должность сотрудника
-- Поле "Дата собеседования" с датой встречи
-- Кнопка "ИЗМЕНИТЬ ВРЕМЯ"
-
-**Структура данных**:
-
-```typescript
-interface RandomCoffeeCardProps {
-  employeeName: string; // Имя сотрудника
-  position: string; // Должность сотрудника
-  meetingDate: string; // Дата встречи
-  onChangeTime: () => void; // Обработчик изменения времени
-}
-```
-
-#### 5. ActivityScaleCard - Карточка шкалы активностей
-
-**Назначение**: Отображает прогресс по общим навыкам и активностям
-**Содержимое**:
-
-- Заголовок: "Шкала активностей"
-- Секция "ОБЩИЕ НАВЫКИ" со списком навыков
-- Секция "АКТИВНОСТИ" со списком активностей
-
-**Структура данных**:
+#### Основные типы данных
 
 ```typescript
 interface ActivityItem {
-  name: string; // Название активности/навыка
-  progress: string; // Прогресс ("XX из XX" или "Не начато")
-  completed?: boolean; // Завершена ли активность
+  name: string;
+  progress: string;
+  completed?: boolean;
+}
+
+interface PersonalDataCardProps {
+  firstName: string;
+  lastName: string;
+  personalCode: string;
+  city: string;
+  status: string;
+}
+
+interface TablePositionCardProps {
+  position: number;
+  points: string;
+  onViewRating: () => void;
+}
+
+interface InterviewSimulationCardProps {
+  direction: string;
+  interviewDate: string;
+  onChangeTime: () => void;
+}
+
+interface RandomCoffeeCardProps {
+  employeeName: string;
+  position: string;
+  meetingDate: string;
+  onChangeTime: () => void;
+  employeeImage?: string;
 }
 
 interface ActivityScaleCardProps {
-  generalSkills: ActivityItem[]; // Список общих навыков
-  activities: ActivityItem[]; // Список активностей
-  onActivityClick: (activityName: string) => void; // Обработчик клика
+  generalSkills: ActivityItem[];
+  activities: ActivityItem[];
+  onActivityClick: (activityName: string) => void;
 }
-```
 
-**Визуальные элементы**:
-
-- ActivityLink: кликабельные ссылки на активности
-- ArrowIcon: стрелка "→" для индикации кликабельности
-- StarIcon: звездочка "★" для завершенных активностей
-- ProgressText: текст прогресса справа
-
-#### 6. FeedbackCard - Карточка обратной связи
-
-**Назначение**: Предоставляет возможность пройти опрос и получить баллы
-**Содержимое**:
-
-- Заголовок: "Обратная связь"
-- Описание опроса
-- Кнопка "ПРОЙТИ ОПРОС"
-
-**Структура данных**:
-
-```typescript
 interface FeedbackCardProps {
-  description: string; // Описание опроса
-  onTakeSurvey: () => void; // Обработчик прохождения опроса
+  description: string;
+  onTakeSurvey: () => void;
 }
 ```
-
-## Доступность (a11y)
-
-### ARIA атрибуты
-
-- `role="region"` для всех карточек
-- `aria-labelledby` для связи с заголовками
-- `aria-label` для кнопок и интерактивных элементов
-- `sr-only` класс для скрытых элементов
-
-### Навигация
-
-- Поддержка клавиатурной навигации
-- Фокус-индикаторы для всех интерактивных элементов
-- Логическая структура заголовков
-
-## SEO оптимизация
-
-### Семантическая разметка
-
-- Использование `<main>`, `<article>`, `<section>`
-- Правильная иерархия заголовков (`<h1>`, `<h2>`, `<h3>`)
-- Описательные `alt` атрибуты для изображений
-
-### Метаданные
-
-- Заголовок страницы: "Личный кабинет"
-- Описание: Страница личного кабинета пользователя MTS Career
-
-## Интерактивность
 
 ### Обработчики событий
 
-- `onViewRating`: Просмотр полного рейтинга участников
-- `onChangeTime`: Изменение времени собеседований/встреч
-- `onActivityClick`: Переход к детальной информации об активности
-- `onTakeSurvey`: Прохождение опроса
+```typescript
+// Основные обработчики страницы
+const handleViewRating = () => void;
+const handleChangeInterviewTime = () => void;
+const handleChangeCoffeeTime = () => void;
+const handleActivityClick = (activityName: string) => void;
+const handleTakeSurvey = () => void;
+```
 
-### Состояния
+### Специфичные улучшения для AccountPage
 
-- Hover эффекты для кнопок и ссылок
-- Focus состояния для доступности
-- Active состояния для обратной связи
+#### Карточки
 
-## Адаптивность
+```typescript
+// Каждая карточка использует семантический тег article
+<Card aria-labelledby="card-title">
+  <h2 id="card-title">Заголовок карточки</h2>
+  {/* Содержимое */}
+</Card>
+```
 
-### Медиа-запросы
+#### Интерактивные элементы
 
-- Адаптивная сетка для мобильных устройств
-- Уменьшенные отступы на маленьких экранах
-- Оптимизированные размеры шрифтов
+```typescript
+// Кнопки с описательными aria-label
+<Button
+  aria-label={`Изменить время встречи с ${employeeName}`}
+  onClick={handleChangeTime}
+>
+  ИЗМЕНИТЬ ВРЕМЯ
+</Button>
 
-## Производительность
+// Ссылки с контекстной информацией
+<ActivityLink
+  aria-label={`Перейти к активности: ${activityName}. Прогресс: ${progress}`}
+  onClick={() => onActivityClick(activityName)}
+>
+  {activityName}
+  <ChevronRight aria-hidden="true" />
+</ActivityLink>
+```
 
-### Оптимизация
+#### Прогресс и статусы
 
-- Использование styled-components для CSS-in-JS
-- Ленивая загрузка компонентов
-- Мемоизация для предотвращения лишних ререндеров
+```typescript
+// Прогресс с aria-live для динамических обновлений
+<div aria-live="polite" aria-atomic="true">
+  <ProgressText>{progress}</ProgressText>
+  {completed && <StarIcon aria-label="Завершено" />}
+</div>
+```
 
-## Безопасность
+#### Формы и поля
 
-### Валидация данных
+```typescript
+// Связанные label и input
+<FieldLabel htmlFor="employee-name">Имя сотрудника</FieldLabel>
+<FieldValue id="employee-name">{employeeName}</FieldValue>
+```
 
-- Проверка типов для всех props
-- Санитизация пользовательского ввода
-- Защита от XSS атак
+## Компоненты и их интерфейсы
 
-## Тестирование
+### PersonalDataCard
 
-### Покрытие тестами
+**Назначение**: Отображение персональной информации пользователя
 
-- Unit тесты для всех компонентов
-- Integration тесты для взаимодействий
-- Accessibility тесты для a11y соответствия
+```typescript
+interface PersonalDataCardProps {
+  firstName: string;
+  lastName: string;
+  personalCode: string;
+  city: string;
+  status: string;
+}
+```
 
-## Мониторинг и аналитика
+### TablePositionCard
 
-### События
+**Назначение**: Отображение позиции в рейтинге и баллов
 
-- Отслеживание кликов по кнопкам
-- Аналитика переходов между активностями
-- Мониторинг времени на странице
+```typescript
+interface TablePositionCardProps {
+  position: number;
+  points: string;
+  onViewRating: () => void;
+}
+```
+
+### InterviewSimulationCard
+
+**Назначение**: Информация о запланированной симуляции собеседования
+
+```typescript
+interface InterviewSimulationCardProps {
+  direction: string;
+  interviewDate: string;
+  onChangeTime: () => void;
+}
+```
+
+### RandomCoffeeCard
+
+**Назначение**: Информация о запланированной встрече с сотрудником
+
+```typescript
+interface RandomCoffeeCardProps {
+  employeeName: string;
+  position: string;
+  meetingDate: string;
+  onChangeTime: () => void;
+  employeeImage?: string;
+}
+```
+
+### ActivityScaleCard
+
+**Назначение**: Отображение прогресса по навыкам и активностям
+
+```typescript
+interface ActivityItem {
+  name: string;
+  progress: string;
+  completed?: boolean;
+}
+
+interface ActivityScaleCardProps {
+  generalSkills: ActivityItem[];
+  activities: ActivityItem[];
+  onActivityClick: (activityName: string) => void;
+}
+```
+
+### FeedbackCard
+
+**Назначение**: Возможность пройти опрос и получить баллы
+
+```typescript
+interface FeedbackCardProps {
+  description: string;
+  onTakeSurvey: () => void;
+}
+```

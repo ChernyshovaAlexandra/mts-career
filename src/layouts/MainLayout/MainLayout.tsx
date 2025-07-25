@@ -10,6 +10,7 @@ const Wrapper = styled.div`
 
 const Main = styled.main`
   flex: 1;
+  min-height: calc(100vh - var(--header-height) - var(--footer-height));
 `;
 
 export const MainLayout: FC<PropsWithChildren> = ({ children }) => {

@@ -4,6 +4,7 @@ import Card from "../../shared/ui/Card";
 import FieldLabel from "../../shared/ui/FieldLabel";
 import FieldValue from "../../shared/ui/FieldValue";
 import Button from "../../shared/ui/Button";
+import { IconUser } from "@chernyshovaalexandra/mtsui";
 
 /**
  * @typedef {Object} RandomCoffeeCardProps
@@ -11,31 +12,64 @@ import Button from "../../shared/ui/Button";
  * @property {string} position - Должность сотрудника
  * @property {string} meetingDate - Дата и время встречи
  * @property {() => void} onChangeTime - Обработчик изменения времени встречи
+ * @property {string} [employeeImage] - URL изображения сотрудника (опционально)
  */
 interface RandomCoffeeCardProps {
   employeeName: string;
   position: string;
   meetingDate: string;
   onChangeTime: () => void;
+  employeeImage?: string;
 }
 
 const EmployeeInfo = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  gap: 12px;
   margin-bottom: 16px;
 `;
 
+const EmployeeAvatar = styled.div`
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f6f8;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    fill: #666;
+  }
+`;
+
+const EmployeeImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
+const EmployeeDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+`;
+
 const EmployeeName = styled.span`
-  font-size: 17px;
-  font-weight: 500;
-  color: #1a1a1a;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
   font-family: "MTS Wide", sans-serif;
 `;
 
 const Position = styled.span`
-  font-size: 14px;
-  color: #666;
+  font-size: var(--font-size-sm);
+  color: var(--text-light-secondary);
   font-family: "MTS Wide", sans-serif;
 `;
 
@@ -64,12 +98,22 @@ const RandomCoffeeCard: FC<RandomCoffeeCardProps> = ({
   position,
   meetingDate,
   onChangeTime,
+  employeeImage,
 }) => {
   return (
     <Card title="Рандом-кофе с сотрудником" titleId="random-coffee-title">
       <EmployeeInfo>
-        <EmployeeName>{employeeName}</EmployeeName>
-        <Position>{position}</Position>
+        <EmployeeAvatar>
+          {employeeImage ? (
+            <EmployeeImage src={employeeImage} alt={`Фото ${employeeName}`} />
+          ) : (
+            <IconUser />
+          )}
+        </EmployeeAvatar>
+        <EmployeeDetails>
+          <EmployeeName>{employeeName}</EmployeeName>
+          <Position>{position}</Position>
+        </EmployeeDetails>
       </EmployeeInfo>
 
       <DataRow>
@@ -79,7 +123,7 @@ const RandomCoffeeCard: FC<RandomCoffeeCardProps> = ({
 
       <Button
         onClick={onChangeTime}
-        aria-label="Изменить время встречи с сотрудником"
+        aria-label={`Изменить время встречи с ${employeeName}`}
       >
         ИЗМЕНИТЬ ВРЕМЯ
       </Button>

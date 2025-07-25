@@ -1,6 +1,8 @@
 import type { FC } from "react";
 import styled from "styled-components";
 import Card from "../../shared/ui/Card";
+import StarIcon from "../../shared/icons/StarIcon";
+import ChevronRight from "../../shared/icons/ChevronRight";
 
 /**
  * @typedef {Object} ActivityItem
@@ -36,14 +38,14 @@ const SectionSeparator = styled.div`
 
 const SectionTitle = styled.h3`
   font-family: "MTS Text", sans-serif;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   font-style: normal;
-  font-size: 14px;
-  line-height: 140%;
-  letter-spacing: 0px;
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-none);
   text-transform: uppercase;
   margin: 0 0 12px 0;
-  color: #1a1a1a;
+  color: var(--text-primary);
 `;
 
 const ActivityList = styled.ul`
@@ -71,13 +73,13 @@ const ActivityLink = styled.button`
   gap: 8px;
   background: none;
   border: none;
-  color: #0070e5;
+  color: var(--text-light-primary-link);
   font-family: "MTS Text", sans-serif;
-  font-weight: 400;
+  font-weight: var(--font-weight-normal);
   font-style: normal;
-  font-size: 17px;
-  line-height: 140%;
-  letter-spacing: 0px;
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-none);
   cursor: pointer;
   padding: 0;
   text-align: left;
@@ -86,36 +88,36 @@ const ActivityLink = styled.button`
   &:hover {
     text-decoration: underline;
   }
-
-  &:focus {
-    outline: 2px solid #4caf50;
-    outline-offset: 2px;
-  }
-`;
-
-const ArrowIcon = styled.span`
-  font-size: 17px;
-  color: #0070e5;
 `;
 
 const ActivityProgress = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 14px;
-  color: #666;
-  font-family: "MTS Wide", sans-serif;
+  justify-content: flex-end;
+  min-width: 80px;
 `;
 
 const ProgressText = styled.span`
-  font-size: 14px;
-  color: #666;
   font-family: "MTS Wide", sans-serif;
+  font-weight: var(--font-weight-medium);
+  font-style: normal;
+  font-size: var(--font-size-2xl);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-none);
+  text-align: right;
+  color: var(--text-primary);
 `;
 
-const StarIcon = styled.span`
-  color: #1a1a1a;
-  font-size: 16px;
+const StatusText = styled.span`
+  font-family: "MTS Compact", sans-serif;
+  font-weight: var(--font-weight-normal);
+  font-style: normal;
+  font-size: var(--font-size-sm);
+  line-height: 20px;
+  letter-spacing: var(--letter-spacing-none);
+  text-align: right;
+  color: var(--text-light-secondary);
 `;
 
 /**
@@ -133,21 +135,26 @@ const ActivityScaleCard: FC<ActivityScaleCardProps> = ({
   activities,
   onActivityClick,
 }) => {
-  const renderActivityItem = (item: ActivityItem, index: number) => (
-    <ActivityItem key={`${item.name}-${index}`}>
-      <ActivityLink
-        onClick={() => onActivityClick(item.name)}
-        aria-label={`Перейти к активности: ${item.name}`}
-      >
-        {item.name}
-        <ArrowIcon>→</ArrowIcon>
-      </ActivityLink>
-      <ActivityProgress>
-        <ProgressText>{item.progress}</ProgressText>
-        {item.completed && <StarIcon>★</StarIcon>}
-      </ActivityProgress>
-    </ActivityItem>
-  );
+  const renderActivityItem = (item: ActivityItem, index: number) => {
+    const isProgress = item.progress.includes("из");
+    const TextComponent = isProgress ? ProgressText : StatusText;
+
+    return (
+      <ActivityItem key={`${item.name}-${index}`}>
+        <ActivityLink
+          onClick={() => onActivityClick(item.name)}
+          aria-label={`Перейти к активности: ${item.name}. Прогресс: ${item.progress}`}
+        >
+          {item.name}
+          <ChevronRight size={20} aria-hidden="true" />
+        </ActivityLink>
+        <ActivityProgress aria-live="polite" aria-atomic="true">
+          <TextComponent>{item.progress}</TextComponent>
+          {item.completed && <StarIcon size={20} aria-label="Завершено" />}
+        </ActivityProgress>
+      </ActivityItem>
+    );
+  };
 
   return (
     <Card title="Шкала активностей" titleId="activity-scale-title">
