@@ -5,8 +5,9 @@ import {
 
 const navLinks = [
   { title: "Правила участия", url: "/rules" },
-  { title: "FAQ", url: "/faq" },
-  { title: "Промт-галерея", url: "/gallery" },
+  { title: "Задать вопрос", url: "/faq" },
+  { title: "Рейтинг участников", url: "/#" },
+  // { title: "Промт-галерея", url: "/gallery" },
 ];
 
 export const Header = () => {
