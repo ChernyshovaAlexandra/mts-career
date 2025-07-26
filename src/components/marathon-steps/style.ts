@@ -51,6 +51,7 @@ export const GrayBlockDiv = styled.div`
     font-style: normal;
     font-weight: 400;
     line-height: 140%;
+    margin: 0;
   }
 `;
 

@@ -39,6 +39,7 @@ export const MarathonSteps = memo(() => {
 
         {/* Даты марафона */}
         <Flex
+          wrap
           justify="space-between"
           style={{ marginTop: "20px", gap: "20px" }}
         >
