@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Card from "../../shared/ui/Card";
 import StarIcon from "../../shared/icons/StarIcon";
 import ChevronRight from "../../shared/icons/ChevronRight";
+import { Header, Link } from "@chernyshovaalexandra/mtsui";
 
 /**
  * @typedef {Object} ActivityItem
@@ -36,17 +37,13 @@ const SectionSeparator = styled.div`
   margin: 12px 0 24px 0;
 `;
 
-const SectionTitle = styled.h3`
-  font-family: "MTS Text", sans-serif;
-  font-weight: var(--font-weight-medium);
-  font-style: normal;
-  font-size: var(--font-size-sm);
-  line-height: var(--line-height-normal);
-  letter-spacing: var(--letter-spacing-none);
-  text-transform: uppercase;
-  margin: 0 0 12px 0;
-  color: var(--text-primary);
-`;
+const SectionTitleStyle = {
+  fontSize: "var(--font-size-sm)",
+  fontWeight: "var(--font-weight-medium)",
+  lineHeight: "var(--line-height-tight)",
+  color: "var(--text-primary)",
+  marginBottom: "12px",
+};
 
 const ActivityList = styled.ul`
   list-style: none;
@@ -64,29 +61,6 @@ const ActivityItem = styled.li`
 
   &:last-child {
     border-bottom: none;
-  }
-`;
-
-const ActivityLink = styled.button`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: none;
-  border: none;
-  color: var(--text-light-primary-link);
-  font-family: "MTS Text", sans-serif;
-  font-weight: var(--font-weight-normal);
-  font-style: normal;
-  font-size: var(--font-size-lg);
-  line-height: var(--line-height-normal);
-  letter-spacing: var(--letter-spacing-none);
-  cursor: pointer;
-  padding: 0;
-  text-align: left;
-  flex: 1;
-
-  &:hover {
-    text-decoration: underline;
   }
 `;
 
@@ -141,13 +115,18 @@ const ActivityScaleCard: FC<ActivityScaleCardProps> = ({
 
     return (
       <ActivityItem key={`${item.name}-${index}`}>
-        <ActivityLink
+        <Link
+          style={{
+            display: "flex",
+            alignItems: "end",
+            fontSize: "var(--font-size-lg)",
+          }}
           onClick={() => onActivityClick(item.name)}
           aria-label={`Перейти к активности: ${item.name}. Прогресс: ${item.progress}`}
         >
           {item.name}
-          <ChevronRight size={20} aria-hidden="true" />
-        </ActivityLink>
+          <ChevronRight size={16} />
+        </Link>
         <ActivityProgress aria-live="polite" aria-atomic="true">
           <TextComponent>{item.progress}</TextComponent>
           {item.completed && <StarIcon size={20} aria-label="Завершено" />}
@@ -159,7 +138,13 @@ const ActivityScaleCard: FC<ActivityScaleCardProps> = ({
   return (
     <Card title="Шкала активностей" titleId="activity-scale-title">
       <Section>
-        <SectionTitle>ОБЩИЕ НАВЫКИ</SectionTitle>
+        <Header
+          variant="H3-Wide"
+          id="general-skills-title"
+          style={SectionTitleStyle}
+        >
+          ОБЩИЕ НАВЫКИ
+        </Header>
         <ActivityList role="list">
           {generalSkills.map((skill, index) =>
             renderActivityItem(skill, index)
@@ -170,7 +155,13 @@ const ActivityScaleCard: FC<ActivityScaleCardProps> = ({
       <SectionSeparator />
 
       <Section>
-        <SectionTitle>АКТИВНОСТИ</SectionTitle>
+        <Header
+          variant="H3-Wide"
+          id="activities-title"
+          style={SectionTitleStyle}
+        >
+          АКТИВНОСТИ
+        </Header>
         <ActivityList role="list">
           {activities.map((activity, index) =>
             renderActivityItem(activity, index)

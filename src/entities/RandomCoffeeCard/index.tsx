@@ -3,8 +3,8 @@ import styled from "styled-components";
 import Card from "../../shared/ui/Card";
 import FieldLabel from "../../shared/ui/FieldLabel";
 import FieldValue from "../../shared/ui/FieldValue";
-import Button from "../../shared/ui/Button";
-import { IconUser } from "@chernyshovaalexandra/mtsui";
+import { Button, IconUser } from "@chernyshovaalexandra/mtsui";
+import { ACCOUNTPAGE_BTN_THEME } from "../../pages/AccountPage/constants";
 
 /**
  * @typedef {Object} RandomCoffeeCardProps
@@ -122,6 +122,7 @@ const RandomCoffeeCard: FC<RandomCoffeeCardProps> = ({
       </DataRow>
 
       <Button
+        {...ACCOUNTPAGE_BTN_THEME}
         onClick={onChangeTime}
         aria-label={`Изменить время встречи с ${employeeName}`}
       >

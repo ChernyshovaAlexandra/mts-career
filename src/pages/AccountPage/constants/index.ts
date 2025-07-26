@@ -1,4 +1,9 @@
 import type { AccountPageData } from "../types";
+import type { CSSProperties } from "react";
+export const ACCOUNTPAGE_BTN_THEME = {
+  variant: "gray" as any,
+  style: { color: "var(--text-primary)", width: "218px" } as CSSProperties,
+};
 
 export const ACCOUNT_PAGE_DATA: AccountPageData = {
   personalData: {
