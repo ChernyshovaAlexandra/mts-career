@@ -5,7 +5,6 @@ import { GlobalStyles } from "../shared";
 export const App = () => (
   <>
     <GlobalStyles />
-
     <RouterProvider router={router} />
   </>
 );

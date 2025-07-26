@@ -1,38 +1,35 @@
 import { Container, Header as H1, Text } from "@chernyshovaalexandra/mtsui";
-import { applyNbsp } from "../../../utils";
+import { applyNbsp } from "../../utils";
 import { Flex } from "antd";
 import { memo } from "react";
-import { MainS } from "./style";
+import { ContentMain, MainS, FlexStyled } from "./style";
 
 export const KVSection = memo(() => {
   return (
-    <MainS tabIndex={-1}>
+    <MainS
+      aria-label="Карьера без лимитов"
+      id="kv-section"
+      role="main"
+      aria-labelledby="kv-heading"
+    >
       <Container>
-        <Flex>
-          <div style={{ flex: "0 1 50%" }}>
+        <FlexStyled>
+          <ContentMain>
             <Flex vertical gap="16px">
-              <H1
-                id="main-section-heading"
-                variant="H1-Wide"
-                aria-label="Карьера без лимитов — основной заголовок страницы"
-              >
-                {`Карьера\nбез лимитов`}
+              <H1 id="kv-heading" variant="H1-Wide" tabIndex={-1}>
+                Карьера{"\n"}без лимитов
               </H1>
 
-              <Text
-                variant="P2-Regular-Comp"
-                aria-label="Онлайн-марафон, где можно освоить полезные навыки и получить шанс на работу в МТС"
-              >
+              <Text variant="P2-Regular-Comp">
                 {applyNbsp(
                   `Онлайн-марафон, где ты можешь освоить полезные навыки, пройти карьерные активности и получить шанс устроиться на работу в МТС.`
                 )}
               </Text>
             </Flex>
-          </div>
-        </Flex>
+          </ContentMain>
+        </FlexStyled>
       </Container>
 
-      {/* Скрытое описание фона для скринридеров */}
       <span
         aria-hidden="true"
         style={{
