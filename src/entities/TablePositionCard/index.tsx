@@ -3,7 +3,8 @@ import styled from "styled-components";
 import Card from "../../shared/ui/Card";
 import FieldLabel from "../../shared/ui/FieldLabel";
 import FieldValue from "../../shared/ui/FieldValue";
-import Button from "../../shared/ui/Button";
+import { Button } from "@chernyshovaalexandra/mtsui";
+import { ACCOUNTPAGE_BTN_THEME } from "../../pages/AccountPage/constants";
 
 /**
  * @typedef {Object} TablePositionCardProps
@@ -65,7 +66,11 @@ const TablePositionCard: FC<TablePositionCardProps> = ({
         </FieldValue>
       </DataRow>
 
-      <Button onClick={onViewRating} aria-label="Открыть рейтинг участников">
+      <Button
+        {...ACCOUNTPAGE_BTN_THEME}
+        onClick={onViewRating}
+        aria-label="Открыть рейтинг участников"
+      >
         РЕЙТИНГ УЧАСТНИКОВ
       </Button>
     </Card>
