@@ -5,5 +5,4 @@ export { default as Card } from "./Card";
 export { default as GlobalStyles } from "./GlobalStyles";
 export { default as FieldLabel } from "./FieldLabel";
 export { default as FieldValue } from "./FieldValue";
-export { default as Button } from "./Button";
 export { default as StarIcon } from "../icons/StarIcon";

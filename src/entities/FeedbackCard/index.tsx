@@ -1,7 +1,8 @@
 import type { FC } from "react";
 import styled from "styled-components";
 import Card from "../../shared/ui/Card";
-import Button from "../../shared/ui/Button";
+import { ACCOUNTPAGE_BTN_THEME } from "../../pages/AccountPage/constants";
+import { Button } from "@chernyshovaalexandra/mtsui";
 
 /**
  * @typedef {Object} FeedbackCardProps
@@ -36,6 +37,7 @@ const FeedbackCard: FC<FeedbackCardProps> = ({ description, onTakeSurvey }) => {
       <Description>{description}</Description>
 
       <Button
+        {...ACCOUNTPAGE_BTN_THEME}
         onClick={onTakeSurvey}
         aria-label="Пройти опрос для получения баллов"
       >
