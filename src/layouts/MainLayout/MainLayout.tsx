@@ -17,7 +17,7 @@ const Main = styled.main`
 export const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <Wrapper>
-      <Header />
+      {/* <Header /> */}
       <Main>{children}</Main>
       <Footer />
       <ModalRoot />

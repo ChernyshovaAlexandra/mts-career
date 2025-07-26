@@ -3,7 +3,7 @@ import { CardGrid, Section } from "../../shared";
 import { ActivityCard, SkillCard } from "../../entities";
 import { MainLayout } from "../../layouts";
 import { useNavigate } from "react-router-dom";
-import { KVSection, MarathonSteps } from "../../components";
+import { KVSection, MarathonSteps, SkillsSection } from "../../components";
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -12,21 +12,10 @@ const MainPage = () => {
     <MainLayout>
       <KVSection />
       <MarathonSteps />
+      <SkillsSection />
       {/*
 
-      <Section title="Общие навыки">
-        <CardGrid columns={3}>
-          <SkillCard
-            title="Подготовка резюме"
-            onClick={() => navigate("/resume")}
-          />
-          <SkillCard
-            title="Подготовка к собеседованию"
-            onClick={() => navigate("/interview")}
-          />
-          <SkillCard title="Работа в МТС" onClick={() => navigate("/work")} />
-        </CardGrid>
-      </Section>
+      
 
       <Section title="Активности по направлениям">
         <CardGrid columns={2}>

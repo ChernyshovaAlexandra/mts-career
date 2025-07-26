@@ -12,6 +12,7 @@ interface SectionProps {
   title: string;
   subtitle?: string;
   withSeparator?: boolean;
+  headingLevel?: 1 | 2 | 3;
 }
 
 const Wrapper = styled.section`
@@ -24,11 +25,18 @@ export const Section: FC<PropsWithChildren<SectionProps>> = ({
   subtitle,
   children,
   withSeparator = false,
+  headingLevel = 2,
 }) => {
+  const headingTag = `h${headingLevel}` as keyof React.JSX.IntrinsicElements;
+
+  const headingId = `${id || title.replace(/\s+/g, "-").toLowerCase()}-heading`;
+
   return (
-    <Wrapper id={id}>
+    <Wrapper id={id} role="region" aria-labelledby={headingId}>
       <Container>
-        <Header variant="H1-Wide">{title}</Header>
+        <Header as={headingTag} id={headingId} variant="H1-Wide">
+          {title}
+        </Header>
         {subtitle && (
           <Text variant="P4-Regular-Text" style={{ marginTop: 8 }}>
             {subtitle}
