@@ -44,7 +44,7 @@ const Name = styled.span`
 `;
 
 const StatusBadge = styled.span`
-  background-color: #4caf50;
+  background-color: var(--accent-positive);
   color: white;
   padding: 4px 8px;
   border-radius: 12px;

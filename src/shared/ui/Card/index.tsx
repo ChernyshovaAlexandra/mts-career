@@ -12,7 +12,6 @@ const CardContainer = styled.article`
   background: #ffffff;
   border-radius: 16px;
   padding: 16px 20px;
-  margin-bottom: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   border: 1px solid rgba(0, 0, 0, 0.04);
   transition: box-shadow 0.2s ease-in-out;
@@ -25,7 +24,6 @@ const CardContainer = styled.article`
   @media (max-width: 768px) {
     border-radius: 12px;
     padding: 16px;
-    margin-bottom: 12px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
   }
 
@@ -37,7 +35,7 @@ const CardContainer = styled.article`
 `;
 
 const CardTitle = styled.h2`
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-semibold);
   margin: 0 0 16px 0;
   color: var(--text-primary);
