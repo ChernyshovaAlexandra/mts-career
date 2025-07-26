@@ -13,11 +13,12 @@ import {
   ServicePage,
   ITPage,
   FinancePage,
+  AccountPage,
 } from "../pages";
-
 
 export const router = createBrowserRouter([
   { path: "/", element: <MainPage /> },
+  { path: "/account", element: <AccountPage /> },
   { path: "/resume", element: <ResumePage /> },
   { path: "/faq", element: <FAQPage /> },
   { path: "/login", element: <LoginPage /> },
