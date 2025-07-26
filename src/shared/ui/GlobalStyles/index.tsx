@@ -51,20 +51,15 @@ const GlobalStyles = createGlobalStyle`
     --font-weight-black: 900;
   }
 
-  /* Мобильные оптимизации */
   @media (max-width: 768px) {
     html {
-      /* Предотвращение 300ms задержки на мобильных устройствах */
       touch-action: manipulation;
-      /* Улучшенная производительность скролла */
       -webkit-overflow-scrolling: touch;
-      /* Оптимизация для мобильных устройств */
       -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
     }
   }
 
-  /* Подключение шрифтов MTS Wide */
   @font-face {
     font-family: 'MTS Wide';
     src: url('/fonts/MTSWide-Regular.woff2') format('woff2'),
@@ -158,13 +153,11 @@ const GlobalStyles = createGlobalStyle`
     border-width: 0;
   }
 
-  /* Базовые стили для доступности */
   *:focus {
     outline: 2px solid var(--text-light-accent);
     outline-offset: 2px;
   }
 
-  /* Улучшенная читаемость текста */
   body {
     font-family: 'MTS Wide', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -175,7 +168,6 @@ const GlobalStyles = createGlobalStyle`
     color: var(--text-primary);
   }
 
-  /* Мобильные оптимизации для body */
   @media (max-width: 768px) {
     body {
       margin: 0;
@@ -209,13 +201,11 @@ const GlobalStyles = createGlobalStyle`
     }
   }
 
-  /* Улучшенная доступность для интерактивных элементов */
   [role="button"],
   [role="link"] {
     cursor: pointer;
   }
 
-  /* Стили для фокуса на мобильных устройствах */
   @media (max-width: 768px) {
     *:focus {
       outline: none;
@@ -241,12 +231,10 @@ const GlobalStyles = createGlobalStyle`
     }
   }
 
-  /* Улучшенная доступность для списков */
   ul, ol {
     padding-left: 1.5em;
   }
 
-  /* Стили для заголовков */
   h1, h2, h3, h4, h5, h6 {
     margin-top: 0;
     margin-bottom: 0.5em;
@@ -254,13 +242,11 @@ const GlobalStyles = createGlobalStyle`
     line-height: 1.25;
   }
 
-  /* Улучшенная доступность для изображений */
   img {
     max-width: 100%;
     height: auto;
   }
 
-  /* Стили для форм */
   input, textarea, select {
     font-family: inherit;
     font-size: inherit;
@@ -273,7 +259,6 @@ const GlobalStyles = createGlobalStyle`
     }
   }
 
-  /* Улучшенная доступность для таблиц */
   table {
     border-collapse: collapse;
     width: 100%;

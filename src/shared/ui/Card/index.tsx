@@ -1,4 +1,5 @@
-import type { FC, ReactNode } from "react";
+import { Header } from "@chernyshovaalexandra/mtsui";
+import type { CSSProperties, FC, ReactNode } from "react";
 import styled from "styled-components";
 
 interface CardProps {
@@ -34,18 +35,13 @@ const CardContainer = styled.article`
   }
 `;
 
-const CardTitle = styled.h2`
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-semibold);
-  margin: 0 0 16px 0;
-  color: var(--text-primary);
-  line-height: 1.3;
-
-  @media (max-width: 768px) {
-    font-size: var(--font-size-lg);
-    margin-bottom: 12px;
-  }
-`;
+const CardTitleStyle: CSSProperties = {
+  fontSize: "var(--font-size-2xl)",
+  fontWeight: "var(--font-weight-semibold)",
+  margin: "0 0 16px 0",
+  color: "var(--text-primary)",
+  lineHeight: "1.3",
+};
 
 /**
  * Общий компонент карточки
@@ -61,7 +57,11 @@ const CardTitle = styled.h2`
 const Card: FC<CardProps> = ({ children, title, titleId, className }) => {
   return (
     <CardContainer aria-labelledby={titleId} className={className}>
-      {title && <CardTitle id={titleId}>{title}</CardTitle>}
+      {title && (
+        <Header variant="H2-Wide" style={CardTitleStyle}>
+          {title}
+        </Header>
+      )}
       {children}
     </CardContainer>
   );
