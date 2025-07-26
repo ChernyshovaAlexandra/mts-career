@@ -1,0 +1,10 @@
+---
+alwaysApply: false
+---
+
+{
+"name": "Project Documentation Immersion",
+"description": "Provides project documentation for deeper contextual understanding.",
+"match": "docs/\*_/_.{md,mdx,txt}",
+"immersion": true
+}
