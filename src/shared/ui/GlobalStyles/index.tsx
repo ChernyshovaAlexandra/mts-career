@@ -21,6 +21,7 @@ const GlobalStyles = createGlobalStyle`
     --text-light-secondary: #626C77;
     --text-light-primary-link: #0070E5;
     --text-light-accent: #007CFF;  
+    --accent-positive: #26CD58;
     
     /* Размеры шрифтов */
     --font-size-xs: 12px;

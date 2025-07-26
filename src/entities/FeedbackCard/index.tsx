@@ -14,8 +14,8 @@ interface FeedbackCardProps {
 }
 
 const Description = styled.p`
-  font-size: 14px;
-  color: #666;
+  font-size: var(--font-size-lg);
+  color: var(--text-primary);
   margin: 0 0 16px 0;
   line-height: 1.4;
   font-family: "MTS Wide", sans-serif;
