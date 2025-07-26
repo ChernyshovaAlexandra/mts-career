@@ -1,6 +1,6 @@
 import type { FC, PropsWithChildren } from "react";
 import styled from "styled-components";
-import { Footer, Header, ModalRoot } from "../../widgets";
+import { Footer, /*Header,*/ ModalRoot } from "../../widgets";
 
 const Wrapper = styled.div`
   display: flex;

@@ -157,6 +157,11 @@ const GlobalStyles = createGlobalStyle`
     outline: 2px solid var(--text-light-accent);
     outline-offset: 2px;
   }
+  *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
   body {
     font-family: 'MTS Wide', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -166,6 +171,7 @@ const GlobalStyles = createGlobalStyle`
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.6;
     color: var(--text-primary);
+    
   }
 
   @media (max-width: 768px) {

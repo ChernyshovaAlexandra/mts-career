@@ -41,8 +41,13 @@ export const MainS = styled.section.attrs(() => ({
     text-transform: uppercase;
     white-space: pre-wrap;
     text-align: center;
+    
     @media screen and (min-width: 840px) {
       text-align: left;
+    }
+    @media screen and (min-width: 1280px) {
+      font-size: 56px;
+      line-height: 110%;
     }
   }
   p {

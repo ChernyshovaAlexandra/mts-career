@@ -7,6 +7,7 @@ import styled, { css } from "styled-components";
 
 export const MarathonSection = styled.section`
   position: relative;
+  margin-bottom: 60px;
 `;
 
 export const GrayBlock = styled.li`
@@ -78,4 +79,17 @@ export const StyledOl = styled.ol`
   padding: 0;
   margin: 0;
   flex-wrap: wrap;
+`;
+
+export const GrayBlockDivTranslation = styled(GrayBlockDiv)`
+  margin-top: 20px;
+  background: url("/images/translation/img.png") no-repeat, #f2f3f7;
+  background-size: 30%, 100%;
+  background-position: 90% 90%, center;
+
+
+  @media screen and (min-width: 1280px){
+    background-position: 90% 50%, center;
+    background-size: 250px, 100%;
+  }
 `;

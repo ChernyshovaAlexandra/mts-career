@@ -5,7 +5,7 @@ import {
   Separator,
   Header,
 } from "@chernyshovaalexandra/mtsui";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 interface SectionProps {
   id?: string;
@@ -13,10 +13,25 @@ interface SectionProps {
   subtitle?: string;
   withSeparator?: boolean;
   headingLevel?: 1 | 2 | 3;
+  align?: "left" | "center";
 }
 
 const Wrapper = styled.section`
-  margin: 48px 0;
+  margin: 120px 0;
+`;
+
+const HeaderWrapper = styled.div<{ align?: "left" | "center" }>`
+  ${({ align }) =>
+    align === "center" &&
+    css`
+      text-align: center;
+
+      /* выравниваем и подзаголовок */
+      & > * {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    `}
 `;
 
 export const Section: FC<PropsWithChildren<SectionProps>> = ({
@@ -26,6 +41,7 @@ export const Section: FC<PropsWithChildren<SectionProps>> = ({
   children,
   withSeparator = false,
   headingLevel = 2,
+  align = "left",
 }) => {
   const headingTag = `h${headingLevel}` as keyof React.JSX.IntrinsicElements;
 
@@ -34,9 +50,16 @@ export const Section: FC<PropsWithChildren<SectionProps>> = ({
   return (
     <Wrapper id={id} role="region" aria-labelledby={headingId}>
       <Container>
-        <Header as={headingTag} id={headingId} variant="H1-Wide">
-          {title}
-        </Header>
+        <HeaderWrapper align={align}>
+          <Header
+            style={{ textTransform: "uppercase" }}
+            as={headingTag}
+            id={headingId}
+            variant="H1-Wide"
+          >
+            {title}
+          </Header>
+        </HeaderWrapper>
         {subtitle && (
           <Text variant="P4-Regular-Text" style={{ marginTop: 8 }}>
             {subtitle}

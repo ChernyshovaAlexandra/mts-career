@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@chernyshovaalexandra/mtsui':
-        specifier: ^1.4.49
-        version: 1.4.49(@types/react@19.1.8)(antd@5.26.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(framer-motion@10.18.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(prop-types@15.8.1)(react-dom@19.1.0(react@19.1.0))(react-router-dom@7.6.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)(styled-components@6.1.19(react-dom@19.1.0(react@19.1.0))(react@19.1.0))
+        specifier: ^1.4.56
+        version: 1.4.56(@types/react@19.1.8)(antd@5.26.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(framer-motion@10.18.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(prop-types@15.8.1)(react-dom@19.1.0(react@19.1.0))(react-router-dom@7.6.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)(styled-components@6.1.19(react-dom@19.1.0(react@19.1.0))(react@19.1.0))
       antd:
         specifier: ^5.26.2
         version: 5.26.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -208,8 +208,8 @@ packages:
     resolution: {integrity: sha512-8OLQgDScAOHXnAz2cV+RfzzNMipuLVBz2biuAJFMV9bfkNf393je3VM8CLkjQodW5+iWsSJdSgSWT6rsZoXHPw==}
     engines: {node: '>=6.9.0'}
 
-  '@chernyshovaalexandra/mtsui@1.4.49':
-    resolution: {integrity: sha512-RStM76zOzwSiPxx+fDgUAbRIWNrro1KOJQCfkc9ub+9qXtZSQL3HxppxRTmsdj5PNQmZn6gjqjakg6IRtLTcqg==, tarball: https://npm.pkg.github.com/download/@chernyshovaalexandra/mtsui/1.4.49/cc3d597f5c687d797f282cb84013d396caefb727}
+  '@chernyshovaalexandra/mtsui@1.4.56':
+    resolution: {integrity: sha512-PQzv7t5A117J6XsyOkiKCyR5swJKhcw/SZXIJde/LYIEy0Wl2QBMmKJngU9P9lZ7fYiEuh3tdyvw6DErg2j0jg==, tarball: https://npm.pkg.github.com/download/@chernyshovaalexandra/mtsui/1.4.56/b6bd85c04e23632c8de34d1e7eb18fa27dc9cfc0}
     peerDependencies:
       antd: ^5.24.6
       framer-motion: ^10.12.14
@@ -2415,7 +2415,7 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.27.1
 
-  '@chernyshovaalexandra/mtsui@1.4.49(@types/react@19.1.8)(antd@5.26.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(framer-motion@10.18.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(prop-types@15.8.1)(react-dom@19.1.0(react@19.1.0))(react-router-dom@7.6.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)(styled-components@6.1.19(react-dom@19.1.0(react@19.1.0))(react@19.1.0))':
+  '@chernyshovaalexandra/mtsui@1.4.56(@types/react@19.1.8)(antd@5.26.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(framer-motion@10.18.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(prop-types@15.8.1)(react-dom@19.1.0(react@19.1.0))(react-router-dom@7.6.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)(styled-components@6.1.19(react-dom@19.1.0(react@19.1.0))(react@19.1.0))':
     dependencies:
       antd: 5.26.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       framer-motion: 10.18.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
