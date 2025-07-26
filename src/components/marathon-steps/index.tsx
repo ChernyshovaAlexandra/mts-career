@@ -1,5 +1,6 @@
 import { memo } from "react";
 import {
+  Button,
   Container,
   Header,
   mts_brand_red,
@@ -12,6 +13,7 @@ import {
   HiddenHeading,
   MarathonSection,
   StyledOl,
+  GrayBlockDivTranslation,
 } from "./style";
 import { applyNbsp } from "../../utils";
 
@@ -37,7 +39,6 @@ export const MarathonSteps = memo(() => {
           ))}
         </StyledOl>
 
-        {/* Даты марафона */}
         <Flex
           wrap
           justify="space-between"
@@ -57,6 +58,24 @@ export const MarathonSteps = memo(() => {
             </dl>
           </GrayBlockDiv>
         </Flex>
+        <GrayBlockDivTranslation>
+          <Flex vertical gap={"38px"} align="left">
+            <Header
+              variant="H3-Wide"
+              as="h3"
+              style={{ textTransform: "uppercase", textAlign: "left" }}
+            >
+              Трансляция мероприятия
+            </Header>
+            <Button
+              style={{ textTransform: "uppercase" }}
+              width="fit-content"
+              variant="primary"
+            >
+              Смотреть
+            </Button>
+          </Flex>
+        </GrayBlockDivTranslation>
       </Container>
     </MarathonSection>
   );
