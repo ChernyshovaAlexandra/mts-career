@@ -70,6 +70,7 @@ build_prod:
     paths:
       - dist/
     expire_in: 1 hour
+
 # deploy на main (production)
 deploy_prod:
   stage: deploy
