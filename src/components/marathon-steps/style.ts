@@ -11,10 +11,10 @@ export const MarathonSection = styled.section`
 `;
 
 export const GrayBlock = styled.li`
+  flex: 1;
   display: flex;
   border-radius: 32px;
   background: ${mts_bg_lower};
-  flex: 1;
   padding: 30px;
   align-items: center;
   gap: 20px;
