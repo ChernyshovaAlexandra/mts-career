@@ -1,0 +1,35 @@
+import type { FC, ReactNode } from "react";
+import { Section } from "../../shared";
+import { MainLayout } from "../MainLayout";
+import { Text } from "@chernyshovaalexandra/mtsui";
+import { GrayBlock } from "./style";
+
+type ActivityLayoutProps = {
+  title: string;
+  description: string;
+  children?: ReactNode;
+};
+
+export const ActivityLayout: FC<ActivityLayoutProps> = ({
+  title,
+  description,
+  children,
+}) => {
+  return (
+    <MainLayout>
+      <Section title={title}>
+        {/* Короткое описание */}
+        <GrayBlock>
+          <Text variant="P1-Regular-Comp" style={{ marginBottom: "32px" }}>
+            {description}
+          </Text>
+        </GrayBlock>
+
+        {/* Основной контент страницы */}
+        {children}
+      </Section>
+    </MainLayout>
+  );
+};
+
+export default ActivityLayout;

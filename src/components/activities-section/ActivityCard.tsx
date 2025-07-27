@@ -11,7 +11,6 @@ interface ActivityCardProps {
 export const ActivityCard: FC<ActivityCardProps> = ({
   title,
   description,
-
   onClick,
 }) => {
   return (

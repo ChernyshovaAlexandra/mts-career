@@ -9,11 +9,13 @@ import {
   WorkAtMtsPage,
   RulesPage,
   PromptGalleryPage,
-  MarketingPage,
-  ServicePage,
-  ITPage,
-  FinancePage,
   AccountPage,
+  AdTechPage,
+  FintechPage,
+  MediaPage,
+  TelecomPage,
+  UrentPage,
+  WebServicesPage,
 } from "../pages";
 
 export const router = createBrowserRouter([
@@ -27,8 +29,12 @@ export const router = createBrowserRouter([
   { path: "/interview", element: <InterviewPage /> },
   { path: "/work", element: <WorkAtMtsPage /> },
   { path: "/gallery", element: <PromptGalleryPage /> },
-  { path: "/marketing", element: <MarketingPage /> },
-  { path: "/service", element: <ServicePage /> },
-  { path: "/it", element: <ITPage /> },
-  { path: "/finance", element: <FinancePage /> },
+
+  // --- activities ---
+  { path: "/activities/adtech", element: <AdTechPage /> },
+  { path: "/activities/fintech", element: <FintechPage /> },
+  { path: "/activities/media", element: <MediaPage /> },
+  { path: "/activities/telecom", element: <TelecomPage /> },
+  { path: "/activities/urent", element: <UrentPage /> },
+  { path: "/activities/web", element: <WebServicesPage /> },
 ]);
