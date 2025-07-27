@@ -1,2 +1,2 @@
-export * from './SectionTitle';
-export * from './FilterTag';
+export * from "./SectionTitle/SectionTitle";
+export * from "./FilterTag/FilterTag";
