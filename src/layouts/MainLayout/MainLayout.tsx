@@ -6,12 +6,20 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   min-height: calc(100vh - 20px);
+  position: relative;
+  transition: margin-left 0.3s ease;
+  
+  margin-left: 0 !important;
+  width: 100% !important;
 `;
 
 const Main = styled.main`
   flex: 1;
   min-height: calc(100vh - var(--header-height) - var(--footer-height));
   position: relative;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 `;
 
 export const MainLayout: FC<PropsWithChildren> = ({ children }) => {
