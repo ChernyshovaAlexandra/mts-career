@@ -13,3 +13,11 @@ export { default as ServicePage } from "./ServicePage";
 export { default as ITPage } from "./ITPage";
 export { default as FinancePage } from "./FinancePage";
 export { default as AccountPage } from "./AccountPage";
+
+// --- Activities ---
+export { default as AdTechPage } from "./activities/adtech";
+export { default as FintechPage } from "./activities/fintech";
+export { default as MediaPage } from "./activities/media";
+export { default as TelecomPage } from "./activities/telecom";
+export { default as UrentPage } from "./activities/urent";
+export { default as WebServicesPage } from "./activities/web";
