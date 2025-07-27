@@ -1,7 +1,6 @@
 import type { FC } from "react";
 import { useMemo } from "react";
 import { MainLayout } from "../../layouts";
-import { GlobalStyles } from "../../shared";
 import { ACCOUNT_PAGE_DATA } from "./constants";
 import { useAccountPageHandlers } from "./hooks";
 import {
