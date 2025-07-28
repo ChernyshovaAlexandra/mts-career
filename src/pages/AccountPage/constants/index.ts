@@ -15,7 +15,7 @@ export const ACCOUNT_PAGE_DATA: AccountPageData = {
   },
   tablePosition: {
     position: 1367,
-    points: "XXXX",
+    points: 15083,
   },
   interviewSimulation: {
     direction: "Работа в IT",

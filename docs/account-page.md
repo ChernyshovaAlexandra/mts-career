@@ -39,7 +39,7 @@ interface PersonalDataCardProps {
 
 interface TablePositionCardProps {
   position: number;
-  points: string;
+  points: number;
   onViewRating: () => void;
 }
 
@@ -154,7 +154,7 @@ interface PersonalDataCardProps {
 ```typescript
 interface TablePositionCardProps {
   position: number;
-  points: string;
+  points: number;
   onViewRating: () => void;
 }
 ```
