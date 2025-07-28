@@ -13,6 +13,7 @@ export { default as ServicePage } from "./ServicePage";
 export { default as ITPage } from "./ITPage";
 export { default as FinancePage } from "./FinancePage";
 export { default as AccountPage } from "./AccountPage";
+export { default as StreamPage } from "./StreamPage";
 export { default as TournamentTablePage } from "./TournamentTablePage";
 
 // --- Activities ---
