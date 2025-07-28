@@ -9,6 +9,7 @@ import {
   WorkAtMtsPage,
   RulesPage,
   PromptGalleryPage,
+  StreamPage,
   AccountPage,
   TournamentTablePage,
   AdTechPage,
@@ -30,6 +31,7 @@ export const router = createBrowserRouter([
   { path: "/interview", element: <InterviewPage /> },
   { path: "/work", element: <WorkAtMtsPage /> },
   { path: "/gallery", element: <PromptGalleryPage /> },
+  { path: "/stream", element: <StreamPage /> },
   { path: "/tournament-table", element: <TournamentTablePage /> },
 
   // --- activities ---
