@@ -39,17 +39,10 @@ export const AnswersList = styled.ul`
 
 export const AnswerItem = styled.li`
   flex: 0 0 240px;
-`;
-
-export const ProgressWrapper = styled.div`
+  border-radius: 16px;
+  background: #fff;
+  padding: 30px;
   display: flex;
-  justify-content: center;
-  gap: 8px;
-`;
-
-export const Dot = styled.span`
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #bbc1c7;
+  flex-direction: column;
+  justify-content: flex-end;
 `;
