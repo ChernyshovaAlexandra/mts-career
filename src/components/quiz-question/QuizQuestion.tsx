@@ -21,10 +21,10 @@ export const QuizQuestion: FC<QuizQuestionProps> = ({
   answers,
   steps,
   selectedAnswerId,
-  isFirst,
+  // isFirst,
   isLast,
   onNext,
-  onPrev,
+  // onPrev,
   onSelect,
 }) => {
   const groupId = `q-${question.number}`;
@@ -42,7 +42,9 @@ export const QuizQuestion: FC<QuizQuestionProps> = ({
 
     if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
       event.preventDefault();
-      (event.currentTarget.previousElementSibling as HTMLElement | null)?.focus();
+      (
+        event.currentTarget.previousElementSibling as HTMLElement | null
+      )?.focus();
     }
   };
 
@@ -58,9 +60,14 @@ export const QuizQuestion: FC<QuizQuestionProps> = ({
         {applyNbsp(question.text)}
       </Header>
 
-      <AnswersList role="radiogroup" aria-labelledby={groupId}>
-        {answers.map((answer: Answer) => (
+      <AnswersList
+        role="radiogroup"
+        aria-labelledby={groupId}
+        data-has-selection={!!selectedAnswerId}
+      >
+        {answers.map((answer: Answer, i: number) => (
           <AnswerItem
+            data-index={i + 1}
             key={answer.id}
             role="radio"
             aria-checked={selectedAnswerId === answer.id}
@@ -73,10 +80,7 @@ export const QuizQuestion: FC<QuizQuestionProps> = ({
         ))}
       </AnswersList>
 
-      <Flex justify="space-between" style={{ marginTop: 24 }}>
-        <Button variant="secondary" disabled={isFirst} onClick={onPrev}>
-          Назад
-        </Button>
+      <Flex justify="center" style={{ marginTop: 24 }}>
         <Button variant="primary" disabled={!selectedAnswerId} onClick={onNext}>
           {isLast ? "Завершить" : "Далее"}
         </Button>
