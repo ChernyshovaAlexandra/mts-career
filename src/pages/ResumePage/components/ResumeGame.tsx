@@ -51,6 +51,11 @@ const GameContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
+
+  @media (max-width: 768px) {
+    gap: 20px;
+    padding: 0 16px;
+  }
 `;
 
 const InstructionText = styled(Text)`
@@ -87,6 +92,13 @@ const StyledSteps = styled(Steps)`
     align-items: center;
     justify-content: center;
     position: relative;
+
+    @media (max-width: 768px) {
+      width: 32px;
+      height: 44px;
+      font-size: 18px;
+      margin-inline-end: 12px;
+    }
     
     .ant-steps-icon {
       font-size: 24px;
@@ -127,6 +139,18 @@ const StyledSteps = styled(Steps)`
         svg {
           width: 12px;
           height: 12px;
+        }
+
+        @media (max-width: 768px) {
+          width: 18px;
+          height: 18px;
+          bottom: -5px;
+          right: -10px;
+
+          svg {
+            width: 10px;
+            height: 10px;
+          }
         }
       }
 
@@ -226,6 +250,7 @@ const OptionsContainer = styled.div`
   @media (max-width: 768px) {
     width: 100%;
     gap: 16px;
+    flex-direction: column;
   }
 `;
 
@@ -322,6 +347,13 @@ const CongratulationsCard = styled.div`
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
+
+  @media (max-width: 768px) {
+    padding: 24px;
+    margin-left: 16px;
+    margin-right: 16px;
+    max-width: none;
+  }
 `;
 
 const CongratulationsTitle = styled.h3`
@@ -329,6 +361,10 @@ const CongratulationsTitle = styled.h3`
   font-weight: 600;
   color: #212529;
   margin: 0 0 16px 0;
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
 `;
 
 const CongratulationsText = styled.p`
@@ -336,6 +372,11 @@ const CongratulationsText = styled.p`
   line-height: 140%;
   color: #6c757d;
   margin: 0 0 24px 0;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+    margin: 0 0 20px 0;
+  }
 `;
 
 const DownloadButton = styled(Button)`
@@ -348,6 +389,20 @@ const DownloadButton = styled(Button)`
   
   svg {
     flex-shrink: 0;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 280px;
+  }
+`;
+
+const ActionButton = styled(Button)`
+  width: 200px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 280px;
   }
 `;
 
@@ -517,24 +572,22 @@ export const ResumeGame: FC = memo(() => {
 
       <ActionButtons>
         {!isRevealed ? (
-          <Button
+          <ActionButton
             variant="primary"
             onClick={handleSubmit}
             disabled={answeredQuestions === 0}
             aria-label="Узнать результат"
-            style={{ width: '200px' }}
           >
             УЗНАТЬ РЕЗУЛЬТАТ
-          </Button>
+          </ActionButton>
         ) : (
-          <Button
+          <ActionButton
             variant="primary"
             onClick={handleRestart}
             aria-label="Играть ещё"
-            style={{ width: '200px' }}
           >
             ИГРАТЬ ЕЩЁ
-          </Button>
+          </ActionButton>
         )}
       </ActionButtons>
 
