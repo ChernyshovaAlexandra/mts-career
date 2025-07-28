@@ -212,12 +212,17 @@ packages:
     engines: {node: '>=6.9.0'}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@chernyshovaalexandra/mtsui@1.4.73':
     resolution: {integrity: sha512-qNloTamzO2sf/Y8mMFTAqB0dTjA3nI26UqSDo6iTLBo+C+7gySOa0/9n5YVKksgyb9NHKZayW7ww4XQgWe7Ugg==, tarball: https://npm.pkg.github.com/download/@chernyshovaalexandra/mtsui/1.4.73/d9b536e55be843d231f692a1b72a693e773af1b1}
 =======
   '@chernyshovaalexandra/mtsui@1.4.70':
     resolution: {integrity: sha512-PiiepkjUqxxn8oyjDpisfiD/xVmOEq/Bw9eyDoichjP4wfiYDuu0PCAfPiZlL60Dr/SSAmggQ5K0QG+gH5Oq7g==, tarball: https://npm.pkg.github.com/download/@chernyshovaalexandra/mtsui/1.4.70/78d907211920f61ee8a44fab0f20d818a8b15738}
 >>>>>>> b852d45 (first steps for fintech)
+=======
+  '@chernyshovaalexandra/mtsui@1.4.72':
+    resolution: {integrity: sha512-sAIrnnqWO5+koQbNAEwIuYnitEuth3xUYU3s3BqTOa8j9wEUbBmL5Ci5aCCNfKjfXyxTrfvdY90eRi8UbQGyag==, tarball: https://npm.pkg.github.com/download/@chernyshovaalexandra/mtsui/1.4.72/97f304e7602e715678b3ee229d1b5e50491fa6bc}
+>>>>>>> e729b9b (current status tests in fintech)
     peerDependencies:
       antd: ^5.24.6
       framer-motion: ^10.12.14
@@ -2462,10 +2467,14 @@ snapshots:
       '@babel/helper-validator-identifier': 7.27.1
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@chernyshovaalexandra/mtsui@1.4.73(@types/react@19.1.8)(antd@5.26.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(framer-motion@10.18.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(prop-types@15.8.1)(react-dom@19.1.0(react@19.1.0))(react-router-dom@7.6.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)(styled-components@6.1.19(react-dom@19.1.0(react@19.1.0))(react@19.1.0))':
 =======
   '@chernyshovaalexandra/mtsui@1.4.70(@types/react@19.1.8)(antd@5.26.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(framer-motion@10.18.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(prop-types@15.8.1)(react-dom@19.1.0(react@19.1.0))(react-router-dom@7.6.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)(styled-components@6.1.19(react-dom@19.1.0(react@19.1.0))(react@19.1.0))':
 >>>>>>> b852d45 (first steps for fintech)
+=======
+  '@chernyshovaalexandra/mtsui@1.4.72(@types/react@19.1.8)(antd@5.26.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(framer-motion@10.18.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(prop-types@15.8.1)(react-dom@19.1.0(react@19.1.0))(react-router-dom@7.6.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)(styled-components@6.1.19(react-dom@19.1.0(react@19.1.0))(react@19.1.0))':
+>>>>>>> e729b9b (current status tests in fintech)
     dependencies:
       antd: 5.26.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       framer-motion: 10.18.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
