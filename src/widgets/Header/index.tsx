@@ -89,7 +89,12 @@ export const Header: FC = () => {
               </IconBtn>
             </>
           ) : (
-            <Button width="fit-content" variant="primary" onClick={handleLogin}>
+            <Button
+              width="fit-content"
+              variant="primary"
+              onClick={handleLogin}
+              aria-label="Войти на сайт"
+            >
               Войти
             </Button>
           )}
