@@ -119,7 +119,7 @@ const handleTakeSurvey = () => void;
 // Прогресс с aria-live для динамических обновлений
 <div aria-live="polite" aria-atomic="true">
   <ProgressText>{progress}</ProgressText>
-  {completed && <StarIcon aria-label="Завершено" />}
+  {completed && <IconStar aria-label="Завершено" />}
 </div>
 ```
 

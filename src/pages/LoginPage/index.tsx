@@ -1,68 +1,43 @@
-import { type FC, useEffect, useState } from "react";
-import styled from "styled-components";
-import { Container, Header, Text, Button } from "@chernyshovaalexandra/mtsui";
+import { type FC, useRef } from "react";
+import { Container, Header, Button, Input } from "@chernyshovaalexandra/mtsui";
 import { MainLayout } from "../../layouts";
-
-const PageWrapper = styled.div`
-  padding: 40px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-`;
-
-const Form = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  width: 100%;
-  max-width: 320px;
-`;
-
-const Input = styled.input`
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-`;
-
-const BottomRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-`;
-
-const LinkButton = styled.button`
-  background: none;
-  border: none;
-  padding: 0;
-  color: #ff0032;
-  font-size: 14px;
-  cursor: pointer;
-`;
+import { BottomRow, LinkButton, PageWrapper, Form } from "./style";
+import { useOtpLogin } from "./hooks";
+import { OtpTimer } from "./components";
 
 const LoginPage: FC = () => {
-  const [email, setEmail] = useState("");
-  const [code, setCode] = useState("");
-  const [sent, setSent] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(600);
+  const {
+    email,
+    setEmail,
+    code,
+    setCode,
+    sent,
+    setSent,
+    timeLeft,
+    startTimer,
+    expired,
+  } = useOtpLogin();
 
-  useEffect(() => {
-    if (!sent || timeLeft <= 0) return;
-    const id = setInterval(() => setTimeLeft((t) => t - 1), 1000);
-    return () => clearInterval(id);
-  }, [sent, timeLeft]);
+  const codeInputRef = useRef<HTMLInputElement>(null);
 
-  const minutes = String(Math.floor(timeLeft / 60)).padStart(2, "0");
-  const seconds = String(timeLeft % 60).padStart(2, "0");
-
-  const handleEmailBlur = () => {
-    if (email && !sent) setSent(true);
+  /* --- callbacks --- */
+  const requestOtp = () => {
+    // TODO: запросить код на backend
+    setSent(true);
+    startTimer();
+    /* Переводим фокус на появившееся поле */
+    queueMicrotask(() => codeInputRef.current?.focus());
   };
 
-  const handleResend = () => {
-    setTimeLeft(600);
+  const resendOtp = () => {
+    // TODO: повторный запрос кода
+    startTimer();
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    console.info(111);
+    e.preventDefault();
+    sent ? /* TODO: отправить email+code */ null : requestOtp();
   };
 
   return (
@@ -73,37 +48,59 @@ const LoginPage: FC = () => {
             Авторизация
           </Header>
 
-          {sent && (
-            <Text variant="P4-Regular-Text" style={{ textAlign: "center" }}>
-              На твою почту был отправлен код для входа, он действует {minutes}
-              :{seconds} мин.
-            </Text>
-          )}
+          {sent && <OtpTimer seconds={timeLeft} />}
 
-          <Form>
+          <Form onSubmit={handleSubmit}>
             <Input
+              autoComplete="email"
+              label="E-mail"
+              disabled={sent}
               type="email"
-              placeholder="E-mail"
+              placeholder="Введи почту"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              onBlur={handleEmailBlur}
             />
 
             {sent && (
               <Input
-                type="text"
-                placeholder="Код"
+                ref={codeInputRef}
+                autoComplete="one-time-code"
+                inputMode="numeric"
+                pattern="\d{6}"
+                aria-describedby="code-timer"
+                type="password"
+                label="Код"
+                placeholder="6-значный код"
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
               />
             )}
 
-            {sent && (
+            {sent ? (
               <BottomRow>
-                <LinkButton type="button" onClick={handleResend}>
-                  Отправить код повторно
-                </LinkButton>
-                <Button variant="primary">Войти</Button>
+                {expired ? (
+                  <LinkButton
+                    as="button"
+                    type="button"
+                    onClick={resendOtp}
+                    aria-disabled={!expired}
+                    tabIndex={expired ? 0 : -1}
+                  >
+                    Отправить код повторно
+                  </LinkButton>
+                ) : (
+                  <></>
+                )}
+
+                <Button type="submit" variant="primary">
+                  Войти
+                </Button>
+              </BottomRow>
+            ) : (
+              <BottomRow>
+                <Button type="submit" variant="primary">
+                  Получить код для входа
+                </Button>
               </BottomRow>
             )}
           </Form>
