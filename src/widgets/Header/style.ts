@@ -3,8 +3,6 @@ import styled from "styled-components";
 /* вся белая панель */
 export const Bar = styled.header`
   background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0 0 0 / 6%);
   padding: 12px 0;
 
   display: flex;
@@ -56,8 +54,15 @@ export const IconBtn = styled.button`
 `;
 
 export const Surface = styled.div<{ elevation?: number }>`
+  position: absolute;
+  z-index: 12;
+  width: 280px;
+  right: 10px;
+  padding: 6px;
   background: #fff;
-  border-radius: 12px;
-  box-shadow: ${({ elevation = 2 }) =>
-    `0 ${elevation}px ${elevation * 2}px rgba(0,0,0,.1)`};
+  border-radius: 16px;
+  box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12),
+    0px 12px 20px 0px rgba(0, 0, 0, 0.14);
+
+ 
 `;
