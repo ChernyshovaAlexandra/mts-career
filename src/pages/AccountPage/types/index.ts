@@ -8,7 +8,7 @@ export interface PersonalData {
 
 export interface TablePosition {
   position: number;
-  points: string;
+  points: number;
 }
 
 export interface InterviewSimulation {
