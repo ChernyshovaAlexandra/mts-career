@@ -1,6 +1,6 @@
 import type { FC, PropsWithChildren } from "react";
 import styled from "styled-components";
-import { Footer, /*Header,*/ ModalRoot } from "../../widgets";
+import { Footer, Header, ModalRoot } from "../../widgets";
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,9 +16,21 @@ const Main = styled.main`
 
 export const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
-    <Wrapper>
-      {/* <Header /> */}
-      <Main>{children}</Main>
+    <Wrapper role="presentation">
+      <a
+        href="#main-content"
+        style={{
+          position: "absolute",
+          left: -9999,
+          top: 0,
+        }}
+        onFocus={(e) => (e.currentTarget.style.left = "0")}
+        onBlur={(e) => (e.currentTarget.style.left = "-9999px")}
+      >
+        Перейти к содержимому
+      </a>
+      <Header />
+      <Main role="main">{children}</Main>
       <Footer />
       <ModalRoot />
     </Wrapper>
