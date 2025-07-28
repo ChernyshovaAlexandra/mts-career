@@ -1,7 +1,11 @@
+<<<<<<< HEAD
 import {
   mts_bg_secondary_elevated,
   mts_brand_red,
 } from "@chernyshovaalexandra/mtsui";
+=======
+import { mts_bg_secondary_elevated } from "@chernyshovaalexandra/mtsui";
+>>>>>>> b852d45 (first steps for fintech)
 import styled from "styled-components";
 
 export const QuizQuestionWrapper = styled.div`
@@ -41,12 +45,16 @@ export const AnswersList = styled.ul`
   @media (max-width: 959px) {
     display: flex;
     overflow-x: auto;
+<<<<<<< HEAD
 
+=======
+>>>>>>> b852d45 (first steps for fintech)
     gap: 12px;
   }
 `;
 
 export const AnswerItem = styled.li`
+<<<<<<< HEAD
   position: relative;
   flex: 0 0 240px;
   border-radius: 16px;
@@ -85,4 +93,20 @@ export const AnswerItem = styled.li`
     cursor: default;
     outline: 2px solid transparent;
   }
+=======
+  flex: 0 0 240px;
+`;
+
+export const ProgressWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+`;
+
+export const Dot = styled.span`
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #bbc1c7;
+>>>>>>> b852d45 (first steps for fintech)
 `;
