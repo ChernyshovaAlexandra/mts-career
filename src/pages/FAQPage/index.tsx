@@ -1,26 +1,40 @@
 import type { FC } from "react";
-import { Container, Faq, Header, Button, Text } from "@chernyshovaalexandra/mtsui";
+import {
+  Container,
+  Faq,
+  Header,
+  Button,
+  Text,
+} from "@chernyshovaalexandra/mtsui";
 import styled from "styled-components";
 import { MainLayout } from "../../layouts";
 import { useModalStore } from "../../store";
+import { applyNbsp } from "../../utils";
 
 const faqItems = [
   {
     question: "Вопрос",
-    answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+    answer: applyNbsp(
+      `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.`
+    ),
   },
   {
     question: "Вопрос",
-    answer: "Ответ...",
+    answer: applyNbsp(
+      `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.`
+    ),
   },
   {
     question: "Вопрос",
-    answer: "Ответ...",
+    answer: applyNbsp(
+      `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.`
+    ),
   },
   {
     question: "Вопрос",
-    answer: "Ответ...",
+    answer: applyNbsp(
+      `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.`
+    ),
   },
 ];
 
@@ -57,7 +71,7 @@ const FAQPage: FC = () => {
     <MainLayout>
       <Container>
         <StyledPage>
-          <Header variant="H1-Wide">Ответы на вопросы</Header>
+          <Header variant="H1-Wide">Часто задаваемые вопросы</Header>
           <Faq items={faqItems} />
           <StyledButtonWrapper>
             <Button variant="primary" onClick={handleAskClick}>
