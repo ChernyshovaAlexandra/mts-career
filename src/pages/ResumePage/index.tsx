@@ -11,7 +11,8 @@ import { Card, CardGrid, PageTitle } from "../../shared";
 import { MainLayout } from "../../layouts";
 import {
   TipsGrid,
-  ExpandableSection 
+  ExpandableSection,
+  ResumeGame
 } from "./components";
 import styled from "styled-components";
 
@@ -150,30 +151,11 @@ const ResumePage: FC = () => {
             <ExpandableSection
               id="dos-donts"
               title="Do's & Don'ts"
+              description="Выбирай лучшие варианты резюме в интерактивной игре и получай обратную связь."
               isExpanded={expandedSections.includes("dos-donts")}
               onToggle={() => toggleSection("dos-donts")}
             >
-              <CardGrid columns={2}>
-                <Card title="Do's" titleId="dos-title">
-                  <BulletList>
-                    <li>Используй ключевые слова из вакансии</li>
-                    <li>Указывай конкретные достижения с цифрами</li>
-                    <li>Структурируй информацию логично</li>
-                    <li>Проверяй орфографию и грамматику</li>
-                    <li>Адаптируй резюме под каждую вакансию</li>
-                  </BulletList>
-                </Card>
-                
-                <Card title="Don'ts" titleId="donts-title">
-                  <BulletList>
-                    <li>Не превышай 2 страницы</li>
-                    <li>Не используй слишком креативные шрифты</li>
-                    <li>Не включай личную информацию</li>
-                    <li>Не указывай зарплатные ожидания</li>
-                    <li>Не отправляй одно резюме на все вакансии</li>
-                  </BulletList>
-                </Card>
-              </CardGrid>
+              <ResumeGame />
             </ExpandableSection>
 
             <ExpandableSection
