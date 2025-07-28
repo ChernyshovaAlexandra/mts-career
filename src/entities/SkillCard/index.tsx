@@ -42,7 +42,7 @@ export const SkillCard: FC<SkillCardProps> = ({
         <Header variant="H3-Wide">{title}</Header>
         <Text variant="P4-Regular-Text">{description}</Text>
       </TextBlock>
-      <Button variant="primary" onClick={onClick}>
+      <Button variant="primary" onClick={onClick} aria-label="Перейти в раздел">
         Перейти в раздел
       </Button>
     </Card>
