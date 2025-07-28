@@ -92,13 +92,13 @@ const LoginPage: FC = () => {
                   <></>
                 )}
 
-                <Button type="submit" variant="primary">
+                <Button type="submit" variant="primary" aria-label="Перейти на страницу входа на платформу">
                   Войти
                 </Button>
               </BottomRow>
             ) : (
               <BottomRow>
-                <Button type="submit" variant="primary">
+                <Button type="submit" variant="primary" aria-label="Запросить код на почту">
                   Получить код для входа
                 </Button>
               </BottomRow>
