@@ -1,26 +1,55 @@
 import { Button, Header, Stepper, Tag } from "@chernyshovaalexandra/mtsui";
-import { AnswerItem, AnswersList, QuizQuestionWrapper } from "./style";
-import type { Answer, QuizQuestionProps } from "./types";
-import type { FC } from "react";
-import { applyNbsp } from "../../utils";
 import { Flex } from "antd";
+import type { FC, KeyboardEvent } from "react";
+import { AnswerItem, AnswersList, QuizQuestionWrapper } from "./style";
+import { applyNbsp } from "../../utils";
+import type { Answer, Step } from "../quiz/quiz.types";
 
-export const QuizQuestion: FC<QuizQuestionProps> = ({ question, answers }) => {
+export interface QuizQuestionProps {
+  question: { number: number; text: string };
+  answers: Answer[];
+  steps: Step[];
+  selectedAnswerId?: string;
+  isFirst: boolean;
+  isLast: boolean;
+  onNext: () => void;
+  onPrev: () => void;
+  onSelect: (id: string) => void;
+}
+export const QuizQuestion: FC<QuizQuestionProps> = ({
+  question,
+  answers,
+  steps,
+  selectedAnswerId,
+  isFirst,
+  isLast,
+  onNext,
+  onPrev,
+  onSelect,
+}) => {
   const groupId = `q-${question.number}`;
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLLIElement>, id: string) => {
+    if (event.key === " " || event.key === "Enter") {
+      event.preventDefault();
+      onSelect(id);
+    }
+
+    if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+      event.preventDefault();
+      (event.currentTarget.nextElementSibling as HTMLElement | null)?.focus();
+    }
+
+    if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+      event.preventDefault();
+      (event.currentTarget.previousElementSibling as HTMLElement | null)?.focus();
+    }
+  };
 
   return (
     <QuizQuestionWrapper>
       <Flex align="center" justify="center" vertical gap="32px">
-        <Stepper
-          steps={[
-            { index: 0, status: "answered_true" },
-            { index: 1, status: "answered_true" },
-            { index: 3, status: "answered_false" },
-            { index: 4, status: "answered_true" },
-            { index: 5, status: "active" },
-            { index: 6, status: "not_available" },
-          ]}
-        />
+        <Stepper steps={steps} />
       </Flex>
       <Flex align="center" justify="center" vertical style={{ marginTop: 32 }}>
         <Tag variant="pill" title={`Вопрос №${question.number}`} />
@@ -31,15 +60,27 @@ export const QuizQuestion: FC<QuizQuestionProps> = ({ question, answers }) => {
 
       <AnswersList role="radiogroup" aria-labelledby={groupId}>
         {answers.map((answer: Answer) => (
-          <AnswerItem key={answer.id} role="radio" aria-checked="false">
+          <AnswerItem
+            key={answer.id}
+            role="radio"
+            aria-checked={selectedAnswerId === answer.id}
+            tabIndex={0}
+            onClick={() => onSelect(answer.id)}
+            onKeyDown={(e) => handleKeyDown(e, answer.id)}
+          >
             {answer.text}
           </AnswerItem>
         ))}
       </AnswersList>
 
-      <Button variant="primary" disabled={true} style={{ margin: "auto" }}>
-        Далее
-      </Button>
+      <Flex justify="space-between" style={{ marginTop: 24 }}>
+        <Button variant="secondary" disabled={isFirst} onClick={onPrev}>
+          Назад
+        </Button>
+        <Button variant="primary" disabled={!selectedAnswerId} onClick={onNext}>
+          {isLast ? "Завершить" : "Далее"}
+        </Button>
+      </Flex>
     </QuizQuestionWrapper>
   );
 };
