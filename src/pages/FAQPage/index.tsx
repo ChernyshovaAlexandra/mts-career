@@ -60,7 +60,7 @@ const FAQPage: FC = () => {
         <Text variant="P4-Regular-Text" style={{ marginBottom: 24 }}>
           Задавай вопросы по адресу example@mail.com
         </Text>
-        <Button variant="primary" onClick={close}>
+        <Button variant="primary" onClick={close} aria-label="Закрыть модальное окно">
           Понятно
         </Button>
       </div>
@@ -74,7 +74,7 @@ const FAQPage: FC = () => {
           <Header variant="H1-Wide">Часто задаваемые вопросы</Header>
           <Faq items={faqItems} />
           <StyledButtonWrapper>
-            <Button variant="primary" onClick={handleAskClick}>
+            <Button variant="primary" onClick={handleAskClick} aria-label="Открыть модальное окно">
               Задать вопрос
             </Button>
           </StyledButtonWrapper>

@@ -81,7 +81,12 @@ export const QuizQuestion: FC<QuizQuestionProps> = ({
       </AnswersList>
 
       <Flex justify="center" style={{ marginTop: 24 }}>
-        <Button variant="primary" disabled={!selectedAnswerId} onClick={onNext}>
+        <Button
+          variant="primary"
+          aria-label={"Ответить с выбранным вариантом ответа"}
+          disabled={!selectedAnswerId}
+          onClick={onNext}
+        >
           {isLast ? "Завершить" : "Далее"}
         </Button>
       </Flex>
