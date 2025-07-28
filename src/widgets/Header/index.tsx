@@ -17,6 +17,7 @@ import { Bar, Nav, NavItem, Spacer, Score, IconBtn, Surface } from "./style";
 
 const navLinks = [
   { title: "Правила участия", url: "/rules" },
+  { title: "Трансляция", url: "/stream" },
   { title: "Задать вопрос", url: "/faq" },
   { title: "Рейтинг участников", url: "/tournament-table" },
 ];
