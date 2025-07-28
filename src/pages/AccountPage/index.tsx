@@ -1,7 +1,6 @@
 import type { FC } from "react";
-import { useMemo } from "react";
 import { MainLayout } from "../../layouts";
-import { ACCOUNT_PAGE_DATA } from "./constants";
+import { useUserStore } from "../../store";
 import { useAccountPageHandlers } from "./hooks";
 import {
   AccountPageLayout,
@@ -21,8 +20,7 @@ import {
  */
 const AccountPage: FC = () => {
   const handlers = useAccountPageHandlers();
-
-  const pageData = useMemo(() => ACCOUNT_PAGE_DATA, []);
+  const pageData = useUserStore((s) => s.data);
 
   return (
     <MainLayout>

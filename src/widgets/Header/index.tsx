@@ -11,6 +11,7 @@ import {
 } from "@chernyshovaalexandra/mtsui";
 import type { FC } from "react";
 import { useRef, useState } from "react";
+import { useUserStore } from "../../store";
 import { useNavigate } from "react-router-dom";
 import { Bar, Nav, NavItem, Spacer, Score, IconBtn, Surface } from "./style";
 
@@ -25,10 +26,12 @@ export const Header: FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const anchorRef = useRef<HTMLButtonElement>(null);
 
-  /* TODO: подключить реальное состояние авторизации */
-  const isAuth = false;
-  const userName = "Имя Фамилия";
-  const userScore = 15_083;
+  const isAuth = useUserStore((s) => s.isAuth);
+  const user = useUserStore((s) => s.data);
+  const userName = user
+    ? `${user.personalData.firstName} ${user.personalData.lastName}`
+    : "";
+  const userScore = user?.tablePosition.points ?? 0;
 
   /* handlers */
   const handleLogin = () => navigate("/login");
@@ -116,7 +119,7 @@ export const Header: FC = () => {
             variant="secondary"
             style={{ margin: 12 }}
             onClick={() => {
-              /* TODO logout */
+              useUserStore.getState().logout();
               closeMenu();
             }}
           >

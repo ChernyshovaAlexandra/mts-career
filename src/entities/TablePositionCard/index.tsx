@@ -9,12 +9,12 @@ import { ACCOUNTPAGE_BTN_THEME } from "../../pages/AccountPage/constants";
 /**
  * @typedef {Object} TablePositionCardProps
  * @property {number} position - Позиция в таблице рейтинга
- * @property {string} points - Количество баллов
+ * @property {number} points - Количество баллов
  * @property {() => void} onViewRating - Обработчик клика по кнопке просмотра рейтинга
  */
 interface TablePositionCardProps {
   position: number;
-  points: string;
+  points: number;
   onViewRating: () => void;
 }
 
@@ -61,8 +61,8 @@ const TablePositionCard: FC<TablePositionCardProps> = ({
 
       <DataRow>
         <FieldLabel>Баллы</FieldLabel>
-        <FieldValue aria-label={`Количество баллов: ${points}`}>
-          {points}
+        <FieldValue aria-label={`Количество баллов: ${points.toLocaleString("ru")}`}>
+          {points.toLocaleString("ru")}
         </FieldValue>
       </DataRow>
 
