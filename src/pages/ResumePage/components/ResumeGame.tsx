@@ -9,7 +9,6 @@ import {
 import { Steps } from 'antd';
 import styled from "styled-components";
 
-// SVG Icons
 const CheckIcon: FC = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path 
@@ -19,12 +18,19 @@ const CheckIcon: FC = () => (
   </svg>
 );
 
-const CrossIcon: FC = () => (
+const MinusIcon: FC = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path 
-      d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" 
+      d="M19 13H5v-2h14v2z" 
       fill="currentColor"
     />
+  </svg>
+);
+
+const DownloadIcon: FC = () => (
+  <svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M8.99979 0.5C8.37847 0.5 7.87479 1.00368 7.87479 1.625V11.9667C7.75497 11.8159 7.62388 11.6498 7.47934 11.4665C7.02921 10.8957 6.65644 10.4219 6.34873 10.0187C6.1054 9.69983 5.72922 9.50753 5.32813 9.50753C4.39699 9.50753 3.85651 10.4507 4.41663 11.1945C4.77998 11.677 5.2125 12.2255 5.71242 12.8595C6.92588 14.3985 7.53273 15.168 8.28972 15.3946C8.75738 15.5346 9.25578 15.5346 9.72344 15.3946C10.4804 15.168 11.0872 14.3986 12.3006 12.8597C12.8006 12.2256 13.2332 11.6771 13.5965 11.1945C14.1567 10.4507 13.6162 9.50753 12.685 9.50753C12.2839 9.50753 11.9078 9.69983 11.6644 10.0187C11.3567 10.4219 10.984 10.8957 10.5338 11.4665C10.3838 11.6568 10.2483 11.8284 10.1248 11.9837V1.625C10.1248 1.00368 9.62111 0.5 8.99979 0.5Z" fill="currentColor"/>
+    <path d="M1.125 17.7502C0.50368 17.7502 0 18.2539 0 18.8752C0 19.4965 0.50368 20.0002 1.125 20.0002H16.875C17.4963 20.0002 18 19.4965 18 18.8752C18 18.2539 17.4963 17.7502 16.875 17.7502H1.125Z" fill="currentColor"/>
   </svg>
 );
 
@@ -55,6 +61,10 @@ const InstructionText = styled(Text)`
 `;
 
 const StyledSteps = styled(Steps)`
+  --accent-dark-positive-inverted: #26CD58;
+  --accent-dark-negative-inverted: #F95721;
+  --background-light-stroke: #BCC3D080;
+
   .ant-steps-item {
     padding-bottom: 32px;
     
@@ -69,38 +79,77 @@ const StyledSteps = styled(Steps)`
     font-weight: 500;
     font-size: 20px;
     line-height: 120%;
-    width: 32px;
+    width: 34px;
     height: 48px;
     border-radius: 32px;
     margin-inline-end: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
     
     .ant-steps-icon {
       font-size: 24px;
       font-weight: 500;
       line-height: 120%;
     }
+
+    // Композитная иконка с номером и индикатором
+    .step-icon-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      
+      .step-number {
+        font-size: 24px;
+        font-weight: 500;
+        line-height: 120%;
+        color: var(--text-primary);
+      }
+
+      .success-indicator,
+      .error-indicator {
+        position: absolute;
+        bottom: -6px;
+        right: -12px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        z-index: 2;
+
+        svg {
+          width: 12px;
+          height: 12px;
+        }
+      }
+
+      .success-indicator {
+        background: var(--accent-dark-positive-inverted);
+        color: #ffffff;
+      }
+
+      .error-indicator {
+        background: var(--accent-dark-negative-inverted);
+        color: #ffffff;
+      }
+    }
   }
 
-  // .ant-steps-item-process .ant-steps-item-icon {
-  //   background: ${mts_brand_red};
-  //   border-color: ${mts_brand_red};
-  //   color: #ffffff;
-  // }
-
-  // .ant-steps-item-finish .ant-steps-item-icon {
-  //   background: #28a745;
-  //   border-color: #28a745;
-  //   color: #ffffff;
-  // }
-
-  // .ant-steps-item-error .ant-steps-item-icon {
-  //   background: #dc3545;
-  //   border-color: #dc3545;
-  //   color: #ffffff;
-  // }
+  // Основной кружок остается белым для всех состояний
+  // так как статус показывается через маленький индикатор
+  .ant-steps-item-process .ant-steps-item-icon,
+  .ant-steps-item-finish .ant-steps-item-icon,
+  .ant-steps-item-error .ant-steps-item-icon {
+    background: #ffffff !important;
+    border: 1px solid #e0e6ed !important;
+  }
 
   .ant-steps-item-content {
     min-height: auto;
@@ -133,14 +182,18 @@ const StyledSteps = styled(Steps)`
     padding: 8px 0 8px 24px;
     
     &::after {
-      background-color: #e0e6ed;
+      background-color: var(--background-light-stroke) !important;
       width: 2px;
       left: 24px;
     }
   }
 
-  .ant-steps-item-finish .ant-steps-item-tail::after {
-    background-color: #e0e6ed;
+  // Переопределяем цвет линий для всех состояний
+  .ant-steps-item-wait .ant-steps-item-tail::after,
+  .ant-steps-item-process .ant-steps-item-tail::after,
+  .ant-steps-item-finish .ant-steps-item-tail::after,
+  .ant-steps-item-error .ant-steps-item-tail::after {
+    background-color: var(--background-light-stroke) !important;
   }
 `;
 
@@ -257,7 +310,45 @@ const ActionButtons = styled.div`
   gap: 16px;
   flex-wrap: wrap;
   align-items: center;
-  margin-top: 24px;
+  justify-content: center;
+`;
+
+const CongratulationsCard = styled.div`
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 32px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+const CongratulationsTitle = styled.h3`
+  font-size: 24px;
+  font-weight: 600;
+  color: #212529;
+  margin: 0 0 16px 0;
+`;
+
+const CongratulationsText = styled.p`
+  font-size: 16px;
+  line-height: 140%;
+  color: #6c757d;
+  margin: 0 0 24px 0;
+`;
+
+const DownloadButton = styled(Button)`
+  margin: 0 auto;
+  width: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  
+  svg {
+    flex-shrink: 0;
+  }
 `;
 
 const GAME_QUESTIONS: GameQuestion[] = [
@@ -343,7 +434,6 @@ export const ResumeGame: FC = memo(() => {
     return selectedOption?.isCorrect;
   }).length;
 
-  // Создаем элементы для Steps с карточками в description
   const stepItems = GAME_QUESTIONS.map((question, index) => {
     const selectedOptionId = selectedAnswers[question.id];
     const selectedOption = selectedOptionId 
@@ -357,7 +447,22 @@ export const ResumeGame: FC = memo(() => {
       status = 'process';
     } else if (isRevealed && selectedOption) {
       status = selectedOption.isCorrect ? 'finish' : 'error';
-      icon = selectedOption.isCorrect ? <CheckIcon /> : <CrossIcon />;
+
+      icon = (
+        <div className="step-icon-wrapper">
+          <span className="step-number">{question.questionNumber}</span>
+          {selectedOption.isCorrect && (
+            <div className="success-indicator">
+              <CheckIcon />
+            </div>
+          )}
+          {!selectedOption.isCorrect && (
+            <div className="error-indicator">
+              <MinusIcon />
+            </div>
+          )}
+        </div>
+      );
     }
 
     return {
@@ -408,44 +513,51 @@ export const ResumeGame: FC = memo(() => {
         direction="vertical"
         current={-1}
         items={stepItems}
-      />
-
-      {isRevealed && (
-        <ScoreDisplay>
-          <ScoreText>
-            Правильных ответов: {correctAnswers} из {GAME_QUESTIONS.length}
-          </ScoreText>
-          <ScoreText>
-            Всего отвечено: {answeredQuestions}
-          </ScoreText>
-        </ScoreDisplay>
-      )}
+            />
 
       <ActionButtons>
         {!isRevealed ? (
-          <>
-            <Button
-              variant="primary"
-              onClick={handleSubmit}
-              disabled={answeredQuestions === 0}
-              aria-label="Проверить ответы"
-            >
-              Проверить
-            </Button>
-            <Text style={{ margin: 0 }}>
-              Отвечено: {answeredQuestions} из {GAME_QUESTIONS.length}
-            </Text>
-          </>
+          <Button
+            variant="primary"
+            onClick={handleSubmit}
+            disabled={answeredQuestions === 0}
+            aria-label="Узнать результат"
+            style={{ width: '200px' }}
+          >
+            УЗНАТЬ РЕЗУЛЬТАТ
+          </Button>
         ) : (
           <Button
-            variant="secondary"
+            variant="primary"
             onClick={handleRestart}
-            aria-label="Начать заново"
+            aria-label="Играть ещё"
+            style={{ width: '200px' }}
           >
-            Попробовать еще раз
+            ИГРАТЬ ЕЩЁ
           </Button>
         )}
       </ActionButtons>
+
+      {isRevealed && (
+        <CongratulationsCard>
+          <CongratulationsTitle>Молодец!</CongratulationsTitle>
+          <CongratulationsText>
+            Ты заработал {correctAnswers * 10} баллов.
+            <br />
+            Забирай пример идеального, по нашему мнению, резюме.
+          </CongratulationsText>
+          <DownloadButton
+            variant="primary"
+            onClick={() => {
+              console.log('Скачивание резюме...');
+            }}
+            aria-label="Скачать резюме"
+          >
+            <DownloadIcon />
+            СКАЧАТЬ РЕЗЮМЕ
+          </DownloadButton>
+        </CongratulationsCard>
+      )}
     </GameContainer>
   );
 }); 

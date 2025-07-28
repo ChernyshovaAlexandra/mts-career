@@ -150,8 +150,8 @@ const ResumePage: FC = () => {
 
             <ExpandableSection
               id="dos-donts"
-              title="Do's & Don'ts"
-              description="Выбирай лучшие варианты резюме в интерактивной игре и получай обратную связь."
+              title="Собери резюме"
+              description="Выбирай удачные примеры и избегай ошибок. По кнопке узнай результат, получи баллы и скачай эталон резюме."
               isExpanded={expandedSections.includes("dos-donts")}
               onToggle={() => toggleSection("dos-donts")}
             >
