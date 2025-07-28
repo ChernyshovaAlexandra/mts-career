@@ -56,7 +56,7 @@ const TablePositionCard: FC<TablePositionCardProps> = ({
     <Card title="Место в таблице рейтинга" titleId="table-position-title">
       <DataRow>
         <FieldLabel>Место в таблице</FieldLabel>
-        <Position aria-label={`Позиция в рейтинге: ${position}`}>
+        <Position aria-label={`Позиция в рейтинге: ${user?.position ?? 0}`}>
           {user?.position ?? 0}
         </Position>
       </DataRow>
@@ -64,7 +64,7 @@ const TablePositionCard: FC<TablePositionCardProps> = ({
       <DataRow>
         <FieldLabel>Баллы</FieldLabel>
         <FieldValue
-          aria-label={`Количество баллов: ${points.toLocaleString("ru")}`}
+          aria-label={`Количество баллов: ${user?.points}`}
         >
           {user?.points}
         </FieldValue>
