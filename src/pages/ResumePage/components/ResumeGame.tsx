@@ -50,22 +50,121 @@ const GameContainer = styled.div`
 const InstructionText = styled(Text)`
   font-size: 16px;
   line-height: 140%;
-  margin-bottom: 8px;
+  margin-bottom: 24px;
   color: #495057;
 `;
 
 const StyledSteps = styled(Steps)`
-`;
+  .ant-steps-item {
+    padding-bottom: 32px;
+    
+    &:last-child {
+      padding-bottom: 0;
+    }
+  }
 
-const StepContent = styled.div`
-  padding-bottom: 24px;
-  
-  @media (max-width: 768px) {
-    margin-top: 12px;
+  .ant-steps-item-icon {
+    background: #ffffff !important;
+    border: 1px solid #e0e6ed;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 120%;
+    width: 32px;
+    height: 48px;
+    border-radius: 32px;
+    margin-inline-end: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    .ant-steps-icon {
+      font-size: 24px;
+      font-weight: 500;
+      line-height: 120%;
+    }
+  }
+
+  // .ant-steps-item-process .ant-steps-item-icon {
+  //   background: ${mts_brand_red};
+  //   border-color: ${mts_brand_red};
+  //   color: #ffffff;
+  // }
+
+  // .ant-steps-item-finish .ant-steps-item-icon {
+  //   background: #28a745;
+  //   border-color: #28a745;
+  //   color: #ffffff;
+  // }
+
+  // .ant-steps-item-error .ant-steps-item-icon {
+  //   background: #dc3545;
+  //   border-color: #dc3545;
+  //   color: #ffffff;
+  // }
+
+  .ant-steps-item-content {
+    min-height: auto;
+  }
+
+  .ant-steps-item-icon >.ant-steps-icon {
+    color: var(--text-primary) !important;
+    transform: scale(0.8);
+  }
+
+  .ant-steps-item-title {
+    font-size: 16px;
+    line-height: 140%;
+    color: #212529;
+    font-weight: 400;
+    padding-right: 0;
+    
+    &::after {
+      display: none;
+    }
+  }
+
+  .ant-steps-item-description {
+    color: #6c757d;
+    font-size: 14px;
+    margin-top: 4px;
+  }
+
+  .ant-steps-item-tail {
+    padding: 8px 0 8px 24px;
+    
+    &::after {
+      background-color: #e0e6ed;
+      width: 2px;
+      left: 24px;
+    }
+  }
+
+  .ant-steps-item-finish .ant-steps-item-tail::after {
+    background-color: #e0e6ed;
   }
 `;
 
+const StepContent = styled.div`
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: start;
 
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+`;
+
+const QuestionText = styled.div`
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+  line-height: 140%;
+  color: #212529;
+  font-weight: 400;
+`;
 
 const OptionsContainer = styled.div`
   display: flex;
@@ -143,6 +242,7 @@ const ScoreDisplay = styled.div`
   background: #f8f9fa;
   border-radius: 8px;
   padding: 16px;
+  margin-top: 24px;
   margin-bottom: 24px;
 `;
 
@@ -157,6 +257,7 @@ const ActionButtons = styled.div`
   gap: 16px;
   flex-wrap: wrap;
   align-items: center;
+  margin-top: 24px;
 `;
 
 const GAME_QUESTIONS: GameQuestion[] = [
@@ -242,7 +343,7 @@ export const ResumeGame: FC = memo(() => {
     return selectedOption?.isCorrect;
   }).length;
 
-  // Создаем элементы для Steps
+  // Создаем элементы для Steps с карточками в description
   const stepItems = GAME_QUESTIONS.map((question, index) => {
     const selectedOptionId = selectedAnswers[question.id];
     const selectedOption = selectedOptionId 
@@ -260,11 +361,14 @@ export const ResumeGame: FC = memo(() => {
     }
 
     return {
-      title: question.questionText,
+      title: '',
       status,
       icon,
       description: (
         <StepContent>
+          <QuestionText>
+            {question.questionText}
+          </QuestionText>
           <OptionsContainer>
             {question.options.map((option, optionIndex) => (
               <ImageCard
@@ -302,46 +406,46 @@ export const ResumeGame: FC = memo(() => {
 
       <StyledSteps
         direction="vertical"
-        current={-1} // Не показываем текущий шаг, управляем статусами вручную
+        current={-1}
         items={stepItems}
       />
 
-      {!isRevealed ? (
-        <ActionButtons>
-          <Button
-            variant="primary"
-            onClick={handleSubmit}
-            disabled={answeredQuestions === 0}
-            aria-label="Проверить ответы"
-          >
-            Проверить
-          </Button>
-          <Text style={{ margin: 0 }}>
-            Отвечено: {answeredQuestions} из {GAME_QUESTIONS.length}
-          </Text>
-        </ActionButtons>
-      ) : (
-        <div>
-          <ScoreDisplay>
-            <ScoreText>
-              Правильных ответов: {correctAnswers} из {GAME_QUESTIONS.length}
-            </ScoreText>
-            <ScoreText>
-              Всего отвечено: {answeredQuestions}
-            </ScoreText>
-          </ScoreDisplay>
-
-          <ActionButtons>
-            <Button
-              variant="secondary"
-              onClick={handleRestart}
-              aria-label="Начать заново"
-            >
-              Попробовать еще раз
-            </Button>
-          </ActionButtons>
-        </div>
+      {isRevealed && (
+        <ScoreDisplay>
+          <ScoreText>
+            Правильных ответов: {correctAnswers} из {GAME_QUESTIONS.length}
+          </ScoreText>
+          <ScoreText>
+            Всего отвечено: {answeredQuestions}
+          </ScoreText>
+        </ScoreDisplay>
       )}
+
+      <ActionButtons>
+        {!isRevealed ? (
+          <>
+            <Button
+              variant="primary"
+              onClick={handleSubmit}
+              disabled={answeredQuestions === 0}
+              aria-label="Проверить ответы"
+            >
+              Проверить
+            </Button>
+            <Text style={{ margin: 0 }}>
+              Отвечено: {answeredQuestions} из {GAME_QUESTIONS.length}
+            </Text>
+          </>
+        ) : (
+          <Button
+            variant="secondary"
+            onClick={handleRestart}
+            aria-label="Начать заново"
+          >
+            Попробовать еще раз
+          </Button>
+        )}
+      </ActionButtons>
     </GameContainer>
   );
 }); 
