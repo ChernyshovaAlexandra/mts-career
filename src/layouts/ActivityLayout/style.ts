@@ -5,4 +5,5 @@ export const GrayBlock = styled.div`
   border-radius: 32px;
   background: ${mts_bg_lower};
   padding: 30px;
+  white-space: pre-wrap;
 `;
