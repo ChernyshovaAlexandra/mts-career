@@ -41,9 +41,7 @@ const EmployeeAvatar = styled.div`
   background-color: #f5f6f8;
 
   svg {
-    width: 24px;
-    height: 24px;
-    fill: #666;
+    color: #666;
   }
 `;
 
@@ -107,7 +105,7 @@ const RandomCoffeeCard: FC<RandomCoffeeCardProps> = ({
           {employeeImage ? (
             <EmployeeImage src={employeeImage} alt={`Фото ${employeeName}`} />
           ) : (
-            <IconUser />
+            <IconUser width={48} height={48} />
           )}
         </EmployeeAvatar>
         <EmployeeDetails>

@@ -1,9 +1,12 @@
 import type { FC } from "react";
 import styled from "styled-components";
 import Card from "../../shared/ui/Card";
-import StarIcon from "../../shared/icons/StarIcon";
-import ChevronRight from "../../shared/icons/ChevronRight";
-import { Header, Link } from "@chernyshovaalexandra/mtsui";
+import {
+  Header,
+  IconStar,
+  Link,
+  IconChevronRight,
+} from "@chernyshovaalexandra/mtsui";
 
 /**
  * @typedef {Object} ActivityItem
@@ -125,11 +128,13 @@ const ActivityScaleCard: FC<ActivityScaleCardProps> = ({
           aria-label={`Перейти к активности: ${item.name}. Прогресс: ${item.progress}`}
         >
           {item.name}
-          <ChevronRight size={16} />
+          <IconChevronRight width={20} />
         </Link>
         <ActivityProgress aria-live="polite" aria-atomic="true">
           <TextComponent>{item.progress}</TextComponent>
-          {item.completed && <StarIcon size={20} aria-label="Завершено" />}
+          {item.completed && (
+            <IconStar width={20} height={20} aria-label="Завершено" />
+          )}
         </ActivityProgress>
       </ActivityItem>
     );
