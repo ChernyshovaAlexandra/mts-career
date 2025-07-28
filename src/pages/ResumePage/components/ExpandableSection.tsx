@@ -10,6 +10,7 @@ interface ExpandableSectionProps {
   children: ReactNode;
   isExpanded: boolean;
   onToggle: () => void;
+  noPaddingTop?: boolean;
 }
 
 const SectionContainer = styled.section`
@@ -72,11 +73,14 @@ const SectionTitle = styled(Header)`
 `;
 
 
-const SectionContent = styled.div<{ $isExpanded: boolean }>`
+const SectionContent = styled.div<{ $isExpanded: boolean; $noPaddingTop?: boolean }>`
   max-height: ${({ $isExpanded }) => $isExpanded ? "2000px" : "0"};
   overflow: hidden;
   transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
-  padding: ${({ $isExpanded }) => $isExpanded ? "8px 30px 30px 30px" : "0 30px"};
+  padding: ${({ $isExpanded, $noPaddingTop }) => {
+    if (!$isExpanded) return "0 30px";
+    return $noPaddingTop ? "0 30px 30px 30px" : "8px 30px 30px 30px";
+  }};
   background: var(--background-light-lower);
 `;
 
@@ -86,7 +90,8 @@ export const ExpandableSection: FC<ExpandableSectionProps> = memo(({
   description,
   children,
   isExpanded,
-  onToggle
+  onToggle,
+  noPaddingTop = false
 }) => {
   const headingId = `${id}-heading`;
   const contentId = `${id}-content`;
@@ -120,6 +125,7 @@ export const ExpandableSection: FC<ExpandableSectionProps> = memo(({
       
       <SectionContent
         $isExpanded={isExpanded}
+        $noPaddingTop={noPaddingTop}
         id={contentId}
         role="region"
         aria-labelledby={headingId}

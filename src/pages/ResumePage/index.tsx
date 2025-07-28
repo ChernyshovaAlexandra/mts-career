@@ -12,7 +12,8 @@ import { MainLayout } from "../../layouts";
 import {
   TipsGrid,
   ExpandableSection,
-  ResumeGame
+  ResumeGame,
+  AIResumeChecker
 } from "./components";
 import styled from "styled-components";
 
@@ -158,31 +159,17 @@ const ResumePage: FC = () => {
               <ResumeGame />
             </ExpandableSection>
 
-            <ExpandableSection
-              id="ai-check"
-              title="Проверка резюме с помощью ИИ"
-              isExpanded={expandedSections.includes("ai-check")}
-              onToggle={() => toggleSection("ai-check")}
-            >
-              <Card>
-                <Text variant="P4-Regular-Text">
-                  Загрузи свое резюме и получи персональные рекомендации от ИИ для улучшения:
-                </Text>
-                <BulletList>
-                  <li>Структуры и форматирования</li>
-                  <li>Содержания и ключевых слов</li>
-                  <li>Соответствия требованиям вакансии</li>
-                  <li>Грамматики и стилистики</li>
-                </BulletList>
-                <Button 
-                  variant="secondary" 
-                  style={{ marginTop: 16 }}
-                  aria-label="Загрузить резюме для проверки"
-                >
-                  Загрузить резюме
-                </Button>
-              </Card>
-            </ExpandableSection>
+          <ExpandableSection
+            id="ai-checker"
+            title="Проверка резюме с помощью ИИ"
+            isExpanded={expandedSections.includes("ai-checker")}
+            onToggle={() => toggleSection("ai-checker")}
+            noPaddingTop={true}
+          >
+            <AIResumeChecker attemptsRemaining={3} />
+          </ExpandableSection>
+
+
 
             <ExpandableSection
               id="hr-videos"
