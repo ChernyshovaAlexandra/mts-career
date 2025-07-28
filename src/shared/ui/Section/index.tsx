@@ -52,7 +52,11 @@ export const Section: FC<PropsWithChildren<SectionProps>> = ({
       <Container>
         <HeaderWrapper align={align}>
           <Header
-            style={{ textTransform: "uppercase" }}
+            style={{
+              textTransform: "uppercase",
+              textAlign: "center",
+              whiteSpace: "pre-wrap",
+            }}
             as={headingTag}
             id={headingId}
             variant="H1-Wide"
@@ -61,7 +65,14 @@ export const Section: FC<PropsWithChildren<SectionProps>> = ({
           </Header>
         </HeaderWrapper>
         {subtitle && (
-          <Text variant="P4-Regular-Text" style={{ marginTop: 8 }}>
+          <Text
+            variant="P3-Regular-Comp"
+            style={{
+              margin: "8px auto 0px",
+              textAlign: "center",
+              whiteSpace: "pre-wrap",
+            }}
+          >
             {subtitle}
           </Text>
         )}

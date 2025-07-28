@@ -3,6 +3,7 @@ import { Section } from "../../shared";
 import { MainLayout } from "../MainLayout";
 import { Text } from "@chernyshovaalexandra/mtsui";
 import { GrayBlock } from "./style";
+import { applyNbsp } from "../../utils/applyNbsp";
 
 type ActivityLayoutProps = {
   title: string;
@@ -20,9 +21,7 @@ export const ActivityLayout: FC<ActivityLayoutProps> = ({
       <Section title={title}>
         {/* Короткое описание */}
         <GrayBlock>
-          <Text variant="P1-Regular-Comp" style={{ marginBottom: "32px" }}>
-            {description}
-          </Text>
+          <Text variant="P1-Regular-Comp">{applyNbsp(description)}</Text>
         </GrayBlock>
 
         {/* Основной контент страницы */}
