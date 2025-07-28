@@ -41,6 +41,7 @@ export const AnswersList = styled.ul`
   @media (max-width: 959px) {
     display: flex;
     overflow-x: auto;
+
     gap: 12px;
   }
 `;
