@@ -7,6 +7,7 @@ import {
   Separator,
   Text,
   IconStar,
+  Link,
 } from "@chernyshovaalexandra/mtsui";
 import type { FC } from "react";
 import { useRef, useState } from "react";
@@ -46,8 +47,9 @@ export const Header: FC = () => {
     >
       <Container>
         <Bar>
-          <Logo ariaLabel="MTS" />
-
+          <Link url="/">
+            <Logo ariaLabel="MTS" />
+          </Link>
           {/* десктоп-меню */}
           <Nav aria-label="Основная навигация">
             {navLinks.map(({ title, url }) => (
@@ -116,7 +118,7 @@ export const Header: FC = () => {
             <Button
               width="100%"
               variant="secondary"
-              style={{ marginTop: 12, maxWidth: "100%" }}
+              style={{ marginTop: 12, maxWidth: "100%", color: "#D8400C" }}
               onClick={() => {
                 /* TODO logout */
                 closeMenu();
