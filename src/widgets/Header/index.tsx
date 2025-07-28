@@ -54,7 +54,7 @@ export const Header: FC = () => {
           {/* десктоп-меню */}
           <Nav aria-label="Основная навигация">
             {navLinks.map(({ title, url }) => (
-              <MtsLink underlined url={url}>
+              <MtsLink type="menuItem" url={url}>
                 {title}
               </MtsLink>
             ))}
@@ -103,6 +103,7 @@ export const Header: FC = () => {
               {navLinks.map(({ title, url }) => (
                 <li key={url}>
                   <MtsLink
+                    type="menuItem"
                     role="menuitem"
                     to={url}
                     style={{ display: "block", padding: "8px 12px" }}
