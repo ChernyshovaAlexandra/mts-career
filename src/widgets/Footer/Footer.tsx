@@ -22,6 +22,7 @@ const FooterContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
+  align-items: center;
 
   @media (min-width: 1280px) {
     display: flex;

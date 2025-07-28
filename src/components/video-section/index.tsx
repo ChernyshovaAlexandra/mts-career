@@ -1,16 +1,20 @@
-import { Carousel, IconArrowCircle } from "@chernyshovaalexandra/mtsui";
+import { Carousel, IconArrowCircle, Text } from "@chernyshovaalexandra/mtsui";
 import { videoSlides } from "../video-slide/slides";
 import { Section } from "../../shared";
 import { VideoSlide } from "../video-slide";
 import { CustomArrow, CustomDot, DotWrapper } from "../video-slide/style";
+import { applyNbsp } from "../../utils";
 
 export const VideoSection = () => {
   return (
     <Section
       align="center"
       id="video"
-      title="Заголовок для видео"
+      title="Голоса МТС: истории сотрудников"
       headingLevel={2}
+      subtitle={applyNbsp(
+        `Узнай, как в МТС создают равные возможности для всех:\nрассказы наших коллег с инвалидностью.`
+      )}
     >
       <Carousel
         slidesToShow={1}
@@ -21,7 +25,7 @@ export const VideoSection = () => {
           position: "absolute",
           top: 0,
           bottom: 0,
-          height: 'fit-content',
+          height: "fit-content",
           left: 0,
           zIndex: 3,
           margin: "auto",
@@ -30,7 +34,7 @@ export const VideoSection = () => {
           position: "absolute",
           top: 0,
           bottom: 0,
-          height: 'fit-content',
+          height: "fit-content",
           right: 0,
           zIndex: 3,
           margin: "auto",

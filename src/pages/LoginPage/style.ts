@@ -13,7 +13,7 @@ export const Form = styled.form`
   width: 446px;
   max-width: 100%;
   display: flex;
-  padding: 32px;
+  padding: 20px;
   flex-direction: column;
   align-items: flex-start;
   gap: 24px;
@@ -28,6 +28,10 @@ export const Form = styled.form`
       width: 100%;
       max-width: 100%;
     }
+  }
+
+  @media screen and (min-width: 1240px) {
+    padding: 32px;
   }
 `;
 
