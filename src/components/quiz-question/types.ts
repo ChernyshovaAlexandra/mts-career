@@ -4,7 +4,7 @@ export interface Answer {
 }
 
 export interface QuizQuestionProps {
-  question: string;
+  question: { number: number; text: string };
   answers: Answer[];
   onAnswer?: (id: string) => void;
 }
