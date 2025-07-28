@@ -15,6 +15,7 @@ import { Bar, Nav, Spacer, Score, IconBtn, Surface } from "./style";
 import { Tag } from "@chernyshovaalexandra/mtsui";
 
 const navLinks = [
+  { title: "Личный кабинет", url: "/account" },
   { title: "Правила участия", url: "/rules" },
   { title: "Задать вопрос", url: "/faq" },
   { title: "Рейтинг участников", url: "/tournament-table" },
