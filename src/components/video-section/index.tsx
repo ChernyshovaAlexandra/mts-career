@@ -1,4 +1,4 @@
-import { Carousel, IconArrowCircle } from "@chernyshovaalexandra/mtsui";
+import { Carousel, IconArrowCircle, Text } from "@chernyshovaalexandra/mtsui";
 import { videoSlides } from "../video-slide/slides";
 import { Section } from "../../shared";
 import { VideoSlide } from "../video-slide";
