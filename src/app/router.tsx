@@ -10,6 +10,7 @@ import {
   RulesPage,
   PromptGalleryPage,
   AccountPage,
+  TournamentTablePage,
   AdTechPage,
   FintechPage,
   MediaPage,
@@ -29,6 +30,7 @@ export const router = createBrowserRouter([
   { path: "/interview", element: <InterviewPage /> },
   { path: "/work", element: <WorkAtMtsPage /> },
   { path: "/gallery", element: <PromptGalleryPage /> },
+  { path: "/tournament-table", element: <TournamentTablePage /> },
 
   // --- activities ---
   { path: "/activities/adtech", element: <AdTechPage /> },
