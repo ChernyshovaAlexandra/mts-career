@@ -1,10 +1,11 @@
 import type { FC } from "react";
-import { memo, useState } from "react";
+import { memo, useState, useEffect } from "react";
 import { 
   Button,
   mts_brand_red 
 } from "@chernyshovaalexandra/mtsui";
 import { tips } from "../../constants";
+import { MobileTipsCarousel } from "../MobileTipsCarousel";
 import {
   TipsContainer,
   Grid,
@@ -19,6 +20,18 @@ import {
 
 export const TipsGrid: FC = memo(() => {
   const [flippedCards, setFlippedCards] = useState<Set<string>>(new Set());
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 800);
+    };
+
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
 
   const handleCardClick = (tipId: string) => {
     setFlippedCards(prev => {
@@ -31,6 +44,30 @@ export const TipsGrid: FC = memo(() => {
       return newSet;
     });
   };
+
+  if (isMobile) {
+    return (
+      <TipsContainer>
+        <MobileTipsCarousel />
+        
+        <div style={{ display: "flex", justifyContent: "center", marginTop: 24 }}>
+          <Button 
+            variant="primary"
+            style={{ 
+              backgroundColor: mts_brand_red,
+              border: `1px solid ${mts_brand_red}`,
+              textTransform: "uppercase",
+              borderRadius: "16px",
+              padding: "14px"
+            }}
+            aria-label="Получить баллы за просмотр советов"
+          >
+            Получить баллы
+          </Button>
+        </div>
+      </TipsContainer>
+    );
+  }
 
   return (
     <TipsContainer>
