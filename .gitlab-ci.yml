@@ -30,10 +30,8 @@ deploy_dev:
   only:
     - develop
   before_script:
-    - echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}"
-    - echo "@chernyshovaalexandra:registry=https://npm.pkg.github.com"
-    - echo "always-auth=true"     
-    - apt-get update -y && apt-get install -y openssh-client rsync
+    - npm whoami --registry=https://npm.pkg.github.com || true
+    - apt-get update -yq && apt-get install -yq openssh-client rsync
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
