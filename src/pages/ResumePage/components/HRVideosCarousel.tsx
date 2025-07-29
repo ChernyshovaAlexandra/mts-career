@@ -73,6 +73,13 @@ const VideoCard = styled.div`
     border-radius: 16px;
     padding: 20px;
   }
+  
+  @media (max-width: 500px) {
+    width: 260px;
+    height: 380px;
+    gap: 12px;
+    padding: 16px;
+  }
 `;
 
 const VideoPreview = styled.div`
@@ -86,6 +93,11 @@ const VideoPreview = styled.div`
   justify-content: center;
   overflow: hidden;
   flex-shrink: 0;
+  
+  @media (max-width: 500px) {
+    width: 240px;
+    height: 240px;
+  }
 `;
 
 const EmployeeImage = styled.img`
@@ -155,6 +167,11 @@ const EmployeeName = styled(Header)`
   margin: 0;
   color: #212529;
   text-transform: uppercase;
+
+
+    @media (max-width: 500px) {
+    font-size: 22px;
+  }
 `;
 
 const VideoDescription = styled(Text)`
@@ -166,6 +183,10 @@ const VideoDescription = styled(Text)`
   display: flex;
   align-items: flex-start;
   text-align: left;
+
+      @media (max-width: 500px) {
+    font-size: 16px;
+  }
 `;
 
 const NavigationButton = styled.button<{ $direction: 'prev' | 'next' }>`
