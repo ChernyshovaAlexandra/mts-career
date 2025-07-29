@@ -1,11 +1,6 @@
 import type { FC } from "react";
 import { useState } from "react";
-import { 
-  Text, 
-  Header, 
-  Container,
-  mts_brand_red 
-} from "@chernyshovaalexandra/mtsui";
+import { Container } from "@chernyshovaalexandra/mtsui";
 import { MainLayout } from "../../layouts";
 import {
   TipsGrid,
@@ -15,140 +10,17 @@ import {
   AIResumeChecker,
   HRVideosCarousel
 } from "./components";
-import styled from "styled-components";
-
-const PageContainer = styled.div`
-  padding-top: 44px;
-  max-width: 1264px;
-  margin: 0 auto;
-  width: 100%;
-`;
-
-const HeroSection = styled.div`
-  position: relative;
-  background-image: url('/images/resume-bg.webp');
-  background-repeat: no-repeat;
-  background-position: right top;
-  background-size: auto 400px;
-  min-height: 400px;
-  
-  @media (max-width: 1000px) {
-    background-image: none;
-    min-height: auto;
-  }
-  
-  @media (max-width: 768px) {
-    background-size: auto 300px;
-    min-height: 300px;
-    background-position: right center;
-  }
-  
-  @media (max-width: 480px) {
-    background-image: none;
-  }
-`;
-
-const ContentWrapper = styled.div`
-  position: relative;
-  z-index: 2;
-  max-width: 60%;
-  
-  @media (max-width: 1000px) {
-    max-width: 100%;
-  }
-  
-  @media (max-width: 768px) {
-    max-width: 70%;
-  }
-  
-  @media (max-width: 480px) {
-    max-width: 100%;
-  }
-`;
-
-const CustomPageTitle = styled(Header)`
-  padding: 68px 0 40px;
-  margin: 0 auto;
-  text-align: center;
-  font-size: 56px;
-  font-weight: 500;
-  font-family: "MTS Wide", sans-serif;
-  font-style: normal;
-  text-transform: uppercase;
-  line-height: 140%;
-  
-  @media (max-width: 1000px) {
-    font-size: 30px;
-    text-transform: uppercase;
-  }
-`;
-
-const IntroText = styled(Text)`
-  font-family: 'MTS Text', sans-serif;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 140%;
-  letter-spacing: 0px;
-  margin-bottom: 21px;
-  
-  @media (max-width: 1000px) {
-    display: none;
-  }
-`;
-
-const BulletList = styled.ul`
-  font-family: 'MTS Text', sans-serif;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 140%;
-  letter-spacing: 0px;
-  margin: 0;
-  padding-left: 20px;
-  margin-bottom: 21px;
-  list-style: none;
-
-  li {
-    margin-bottom: 8px;
-    position: relative;
-    
-    &:last-child {
-      margin-bottom: 0;
-    }
-    
-    &::before {
-      content: "•";
-      color: ${mts_brand_red};
-      position: absolute;
-      left: -16px;
-      top: 0;
-      font-size: 26px;
-      line-height: 1;
-    }
-  }
-  
-  @media (max-width: 1000px) {
-    font-size: 16px;
-  }
-`;
-
-const MobileImage = styled.div`
-  display: none;
-  
-  @media (max-width: 1000px) {
-    display: block;
-    width: 100%;
-    height: 300px;
-    background-image: url('/images/resume-bg.webp');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    margin: 24px 0;
-  }
-  
-  @media (max-width: 480px) {
-    height: 200px;
-  }
-`;
+import {
+  PageContainer,
+  HeroSection,
+  ContentWrapper,
+  MainTitle,
+  IntroText,
+  BulletList,
+  MobileHeroImage,
+  ContentSection,
+  GlobalAccessibilityStyles
+} from "./styles";
 
 const ResumePage: FC = () => {
   const [expandedSections, setExpandedSections] = useState<string[]>([]);
@@ -162,81 +34,95 @@ const ResumePage: FC = () => {
   };
 
   return (
-    <MainLayout>
-      <Container>
-        <PageContainer>
-          <HeroSection>
-            <ContentWrapper>
-              <CustomPageTitle variant="H1-Wide">
-                Подготовка резюме
-              </CustomPageTitle>
-              
-              <IntroText variant="P4-Regular-Text">
-                Шаг за шагом научись создавать резюме, которое выделит тебя среди других кандидатов.
-              </IntroText>
+    <>
+      <GlobalAccessibilityStyles />
+      <MainLayout>
+        <Container>
+          <PageContainer>
+            <HeroSection aria-labelledby="main-heading" role="banner">
+              <ContentWrapper>
+                <MainTitle id="main-heading" variant="H1-Wide">
+                  Подготовка резюме
+                </MainTitle>
+                
+                <IntroText variant="P4-Regular-Text" role="text">
+                  Шаг за шагом научись создавать резюме, которое выделит тебя среди других кандидатов.
+                </IntroText>
 
-              <BulletList>
-                <li>Изучи основные советы</li>
-                <li>Сравни хорошие и неудачные примеры</li>
-                <li>Получи обратную связь от HR</li>
-                <li>Познакомься с опытом реальных сотрудников МТС</li>
-                <li>Перейди к следующему этапу</li>
-              </BulletList>
-            </ContentWrapper>
-          </HeroSection>
+                <BulletList 
+                  role="list" 
+                  aria-label="Этапы подготовки резюме"
+                >
+                  <li role="listitem">Изучи основные советы</li>
+                  <li role="listitem">Сравни хорошие и неудачные примеры</li>
+                  <li role="listitem">Получи обратную связь от HR</li>
+                  <li role="listitem">Познакомься с опытом реальных сотрудников МТС</li>
+                  <li role="listitem">Перейди к следующему этапу</li>
+                </BulletList>
+              </ContentWrapper>
+            </HeroSection>
 
-          <MobileImage />
+            <MobileHeroImage 
+              role="img" 
+              aria-label="Иллюстрация подготовки резюме"
+            />
 
-          <section 
-            style={{ marginTop: 48 }}
-            aria-labelledby="additional-resources-heading"
-            role="region"
-          >
-
-          <ExpandableSection
-            id="tips"
-            title="Карточки с советами"
-            description="Нажимай на карточки, читай рекомендации по составлению резюме и получай баллы после просмотра."
-            isExpanded={expandedSections.includes("tips")}
-            onToggle={() => toggleSection("tips")}
-          >            
-            <TipsGrid />
-          </ExpandableSection>
-
-            <ExpandableSection
-              id="dos-donts"
-              title="Собери резюме"
-              description="Выбирай удачные примеры и избегай ошибок. По кнопке узнай результат, получи баллы и скачай эталон резюме."
-              isExpanded={expandedSections.includes("dos-donts")}
-              onToggle={() => toggleSection("dos-donts")}
+            <ContentSection 
+              aria-labelledby="learning-resources-heading"
+              role="main"
             >
-              <ResumeGame />
-              <MobileResumeGame />
-            </ExpandableSection>
+              <h2 
+                id="learning-resources-heading" 
+                className="visually-hidden"
+              >
+                Материалы для обучения
+              </h2>
 
-          <ExpandableSection
-            id="ai-checker"
-            title="Проверка резюме с помощью ИИ"
-            isExpanded={expandedSections.includes("ai-checker")}
-            onToggle={() => toggleSection("ai-checker")}
-            noPaddingTop={true}
-          >
-            <AIResumeChecker attemptsRemaining={3} />
-          </ExpandableSection>
+              <ExpandableSection
+                id="tips"
+                title="Карточки с советами"
+                description="Нажимай на карточки, читай рекомендации по составлению резюме и получай баллы после просмотра."
+                isExpanded={expandedSections.includes("tips")}
+                onToggle={() => toggleSection("tips")}
+              >            
+                <TipsGrid />
+              </ExpandableSection>
 
-            <ExpandableSection
-              id="hr-videos"
-              title="Видео от HR-специалистов"
-              description="Специалисты подут тебе советы по подготовке резюме."
-              isExpanded={expandedSections.includes("hr-videos")}
-              onToggle={() => toggleSection("hr-videos")}
-            >
-              <HRVideosCarousel />
-            </ExpandableSection>
-          </section>
-        </PageContainer>
-      </Container>
-    </MainLayout>
+              <ExpandableSection
+                id="dos-donts"
+                title="Собери резюме"
+                description="Выбирай удачные примеры и избегай ошибок. По кнопке узнай результат, получи баллы и скачай эталон резюме."
+                isExpanded={expandedSections.includes("dos-donts")}
+                onToggle={() => toggleSection("dos-donts")}
+              >
+                <ResumeGame />
+                <MobileResumeGame />
+              </ExpandableSection>
+
+              <ExpandableSection
+                id="ai-checker"
+                title="Проверка резюме с помощью ИИ"
+                isExpanded={expandedSections.includes("ai-checker")}
+                onToggle={() => toggleSection("ai-checker")}
+                noPaddingTop={true}
+              >
+                <AIResumeChecker attemptsRemaining={3} />
+              </ExpandableSection>
+
+              <ExpandableSection
+                id="hr-videos"
+                title="Видео от HR-специалистов"
+                description="Специалисты подут тебе советы по подготовке резюме."
+                isExpanded={expandedSections.includes("hr-videos")}
+                onToggle={() => toggleSection("hr-videos")}
+              >
+                <HRVideosCarousel />
+              </ExpandableSection>
+            </ContentSection>
+          </PageContainer>
+        </Container>
+      </MainLayout>
+    </>
   );
 };
 

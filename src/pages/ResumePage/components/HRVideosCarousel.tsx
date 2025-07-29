@@ -68,8 +68,9 @@ const VideoCard = styled.div`
   box-sizing: border-box;
   
   @media (max-width: 768px) {
-    width: 100%;
-    max-width: 344px;
+    width: 282px;
+    height: 426px;
+    border-radius: 16px;
     padding: 20px;
   }
 `;
@@ -85,6 +86,11 @@ const VideoPreview = styled.div`
   justify-content: center;
   overflow: hidden;
   flex-shrink: 0;
+
+    @media (max-width: 768px) {
+    width: 240px;
+    height: 240px;
+  }
 `;
 
 const EmployeeImage = styled.img`
@@ -145,6 +151,11 @@ const EmployeeName = styled(Header)`
   margin: 0;
   color: #212529;
   text-transform: uppercase;
+
+  
+    @media (max-width: 768px) {
+   font-size: 22px;
+  }
 `;
 
 const VideoDescription = styled(Text)`
@@ -156,6 +167,13 @@ const VideoDescription = styled(Text)`
   display: flex;
   align-items: flex-start;
   text-align: left;
+
+  @media (max-width: 768px) {
+  font-weight: 400;W
+  font-size: 16px;
+  line-height: 140%;
+
+  }
 `;
 
 const NavigationButton = styled.button<{ $direction: 'prev' | 'next' }>`
@@ -233,7 +251,7 @@ const hrVideos: HRVideo[] = [
     id: "video-2", 
     name: "Михаил Сидоров",
     position: "Старший рекрутер",
-    description: "Покажу самые распространенные ошибки в резюме и как их избежать на конкретных примерах.",
+    description: "Покажу распространенные ошибки в резюме и как их избежать на примерах.",
     imageUrl: "/images/hr/mikhail-sidorov.jpg",
     videoUrl: "/videos/hr/mikhail-sidorov.mp4",
     subtitlesUrl: "/videos/hr/mikhail-sidorov.vtt",
@@ -253,7 +271,7 @@ const hrVideos: HRVideo[] = [
     id: "video-4",
     name: "Дмитрий Волков",
     position: "Ведущий рекрутер",
-    description: "Объясню, как правильно описать навыки и достижения, чтобы выделиться среди других кандидатов.",
+    description: "Объясню, как описать навыки, чтобы выделиться среди кандидатов.",
     imageUrl: "/images/hr/dmitry-volkov.jpg",
     videoUrl: "/videos/hr/dmitry-volkov.mp4",
     subtitlesUrl: "/videos/hr/dmitry-volkov.vtt",

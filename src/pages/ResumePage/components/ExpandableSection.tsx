@@ -43,9 +43,13 @@ const SectionHeader = styled.button<{ $isExpanded: boolean; $hasDescription: boo
     background: #e9ecef;
   }
 
-  &:focus {
+  &:focus-visible {
     outline: 2px solid ${mts_brand_red};
     outline-offset: -2px;
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
   }
 `;
 
@@ -71,7 +75,6 @@ const SectionTitle = styled(Header)`
   color: #212529;
   text-align: left;
 `;
-
 
 const SectionContent = styled.div<{ $isExpanded: boolean; $noPaddingTop?: boolean }>`
   max-height: ${({ $isExpanded }) => $isExpanded ? "2000px" : "0"};
