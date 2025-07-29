@@ -1,4 +1,5 @@
 export { TipsGrid } from "./TipsGrid";
+export { MobileTipsCarousel } from "./MobileTipsCarousel";
 export { ExpandableSection } from "./ExpandableSection";
 export { ResumeGame } from "./ResumeGame";
 export { MobileResumeGame } from "./MobileResumeGame";

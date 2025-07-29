@@ -1,0 +1,1 @@
+export { MobileTipsCarousel } from "./MobileTipsCarousel"; 
