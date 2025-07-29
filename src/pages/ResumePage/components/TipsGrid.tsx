@@ -14,30 +14,41 @@ const TipsContainer = styled.section`
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, 370px);
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 20px;
   margin-bottom: 24px;
-  justify-content: start;
+  justify-content: center;
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
-    justify-items: center;
+    padding: 0 20px;
   }
   
-  @media (max-width: 1200px) and (min-width: 769px) {
-    grid-template-columns: repeat(auto-fit, minmax(350px, 370px));
+  @media (max-width: 500px) {
+    padding: 0 10px;
+  }
+  
+  @media (min-width: 769px) and (max-width: 1200px) {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 370px));
+    justify-content: center;
+  }
+  
+  @media (min-width: 1201px) {
+    grid-template-columns: repeat(auto-fit, 370px);
+    justify-content: center;
   }
 `;
 
 const TipCard = styled.article<{ $isFlipped: boolean }>`
   perspective: 1000px;
   height: 296px;
-  width: 370px;
+  width: 100%;
+  max-width: 370px;
   cursor: pointer;
+  margin: 0 auto;
   
   @media (max-width: 768px) {
-    width: 100%;
-    max-width: 370px;
+    max-width: 100%;
   }
   
   &:focus {

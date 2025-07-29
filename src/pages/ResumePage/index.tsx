@@ -3,18 +3,17 @@ import { useState } from "react";
 import { 
   Text, 
   Header, 
-  Button,
   Container,
   mts_brand_red 
 } from "@chernyshovaalexandra/mtsui";
-import { Card, CardGrid } from "../../shared";
 import { MainLayout } from "../../layouts";
 import {
   TipsGrid,
   ExpandableSection,
   ResumeGame,
   MobileResumeGame,
-  AIResumeChecker
+  AIResumeChecker,
+  HRVideosCarousel
 } from "./components";
 import styled from "styled-components";
 
@@ -79,7 +78,6 @@ const CustomPageTitle = styled(Header)`
   line-height: 140%;
   
   @media (max-width: 1000px) {
-    text-align: left;
     font-size: 30px;
     text-transform: uppercase;
   }
@@ -226,47 +224,14 @@ const ResumePage: FC = () => {
             <AIResumeChecker attemptsRemaining={3} />
           </ExpandableSection>
 
-
-
             <ExpandableSection
               id="hr-videos"
               title="Видео от HR-специалистов"
+              description="Специалисты подут тебе советы по подготовке резюме."
               isExpanded={expandedSections.includes("hr-videos")}
               onToggle={() => toggleSection("hr-videos")}
             >
-              <CardGrid columns={3}>
-                {[
-                  "Как составить идеальное резюме",
-                  "Топ-5 ошибок в резюме",
-                  "Резюме для IT-сферы"
-                ].map((title, index) => (
-                  <Card key={index}>
-                    <div 
-                      style={{
-                        width: "100%",
-                        height: 120,
-                        backgroundColor: "#f5f5f5",
-                        borderRadius: 8,
-                        marginBottom: 12,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center"
-                      }}
-                      aria-label={`Превью видео: ${title}`}
-                    >
-                      <Text variant="P4-Regular-Text" style={{ opacity: 0.6 }}>
-                        Видео
-                      </Text>
-                    </div>
-                    <Header variant="H4-Wide" style={{ fontSize: 16, marginBottom: 8 }}>
-                      {title}
-                    </Header>
-                    <Text variant="P4-Regular-Text" style={{ fontSize: 14, opacity: 0.7 }}>
-                      Длительность: 5-7 мин
-                    </Text>
-                  </Card>
-                ))}
-              </CardGrid>
+              <HRVideosCarousel />
             </ExpandableSection>
           </section>
         </PageContainer>
