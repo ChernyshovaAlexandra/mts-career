@@ -7,12 +7,13 @@ import {
   Container,
   mts_brand_red 
 } from "@chernyshovaalexandra/mtsui";
-import { Card, CardGrid, PageTitle } from "../../shared";
+import { Card, CardGrid } from "../../shared";
 import { MainLayout } from "../../layouts";
 import {
   TipsGrid,
   ExpandableSection,
   ResumeGame,
+  MobileResumeGame,
   AIResumeChecker
 } from "./components";
 import styled from "styled-components";
@@ -32,6 +33,11 @@ const HeroSection = styled.div`
   background-size: auto 400px;
   min-height: 400px;
   
+  @media (max-width: 1000px) {
+    background-image: none;
+    min-height: auto;
+  }
+  
   @media (max-width: 768px) {
     background-size: auto 300px;
     min-height: 300px;
@@ -48,12 +54,34 @@ const ContentWrapper = styled.div`
   z-index: 2;
   max-width: 60%;
   
+  @media (max-width: 1000px) {
+    max-width: 100%;
+  }
+  
   @media (max-width: 768px) {
     max-width: 70%;
   }
   
   @media (max-width: 480px) {
     max-width: 100%;
+  }
+`;
+
+const CustomPageTitle = styled(Header)`
+  padding: 68px 0 40px;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 56px;
+  font-weight: 500;
+  font-family: "MTS Wide", sans-serif;
+  font-style: normal;
+  text-transform: uppercase;
+  line-height: 140%;
+  
+  @media (max-width: 1000px) {
+    text-align: left;
+    font-size: 30px;
+    text-transform: uppercase;
   }
 `;
 
@@ -64,6 +92,10 @@ const IntroText = styled(Text)`
   line-height: 140%;
   letter-spacing: 0px;
   margin-bottom: 21px;
+  
+  @media (max-width: 1000px) {
+    display: none;
+  }
 `;
 
 const BulletList = styled.ul`
@@ -95,6 +127,29 @@ const BulletList = styled.ul`
       line-height: 1;
     }
   }
+  
+  @media (max-width: 1000px) {
+    font-size: 16px;
+  }
+`;
+
+const MobileImage = styled.div`
+  display: none;
+  
+  @media (max-width: 1000px) {
+    display: block;
+    width: 100%;
+    height: 300px;
+    background-image: url('/images/resume-bg.webp');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    margin: 24px 0;
+  }
+  
+  @media (max-width: 480px) {
+    height: 200px;
+  }
 `;
 
 const ResumePage: FC = () => {
@@ -114,7 +169,9 @@ const ResumePage: FC = () => {
         <PageContainer>
           <HeroSection>
             <ContentWrapper>
-              <PageTitle>Подготовка резюме</PageTitle>
+              <CustomPageTitle variant="H1-Wide">
+                Подготовка резюме
+              </CustomPageTitle>
               
               <IntroText variant="P4-Regular-Text">
                 Шаг за шагом научись создавать резюме, которое выделит тебя среди других кандидатов.
@@ -130,8 +187,7 @@ const ResumePage: FC = () => {
             </ContentWrapper>
           </HeroSection>
 
-
-
+          <MobileImage />
 
           <section 
             style={{ marginTop: 48 }}
@@ -157,6 +213,7 @@ const ResumePage: FC = () => {
               onToggle={() => toggleSection("dos-donts")}
             >
               <ResumeGame />
+              <MobileResumeGame />
             </ExpandableSection>
 
           <ExpandableSection
