@@ -54,7 +54,7 @@ deploy_dev:
         STATUS="${FAIL[$RANDOM % ${#FAIL[@]}]}"
       fi
       curl -s -X POST https://api.telegram.org/bot8181248379:AAE2sk_bmppXN4xZosh4pprYAgc0DGTfx9Y/sendMessage \
-        -d chat_id=-4730879315 \
+        -d chat_id=-4956188913 \
         -d parse_mode=Markdown \
         -d text="$STATUS"
 
