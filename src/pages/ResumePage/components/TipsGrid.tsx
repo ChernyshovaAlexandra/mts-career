@@ -6,6 +6,8 @@ import {
   Button,
   mts_brand_red 
 } from "@chernyshovaalexandra/mtsui";
+import type { Tip } from "../constants";
+import { tips } from "../constants";
 import styled from "styled-components";
 
 const TipsContainer = styled.section`
@@ -138,44 +140,7 @@ const BackContent = styled(Text)`
 
 
 
-const tips = [
-  {
-    id: "key-skills",
-    title: "Сфокусируйся на ключевых навыках",
-    shortDescription: "Выдели самые важные навыки",
-    fullDescription: "Сконцентрируйся на тех навыках, которые напрямую связаны с требованиями вакансии. Используй ключевые слова из описания должности, чтобы твое резюме легче находили HR-специалисты и ATS-системы."
-  },
-  {
-    id: "structure",
-    title: "Структурируй информацию",
-    shortDescription: "Логичная подача информации",
-    fullDescription: "Организуй резюме в логичном порядке: контактная информация, краткое резюме, опыт работы (в обратном хронологическом порядке), образование, навыки и дополнительная информация."
-  },
-  {
-    id: "achievements",
-    title: "Покажи достижения",
-    shortDescription: "Конкретные результаты работы",
-    fullDescription: "Вместо описания обязанностей сосредоточься на конкретных достижениях. Используй цифры и проценты, чтобы продемонстрировать результаты своей работы."
-  },
-  {
-    id: "customization",
-    title: "Адаптируй под вакансию",
-    shortDescription: "Индивидуальный подход",
-    fullDescription: "Настраивай резюме под каждую конкретную вакансию. Подчеркивай те аспекты своего опыта, которые наиболее релевантны для данной позиции."
-  },
-  {
-    id: "format",
-    title: "Выбери правильный формат",
-    shortDescription: "Читаемость и профессионализм",
-    fullDescription: "Используй четкую, читаемую структуру. Избегай слишком креативных шрифтов и ярких цветов. Резюме должно легко сканироваться взглядом."
-  },
-  {
-    id: "proofreading",
-    title: "Проверь на ошибки",
-    shortDescription: "Грамотность - ключ к успеху",
-    fullDescription: "Тщательно проверь резюме на орфографические и грамматические ошибки. Попроси коллег или друзей просмотреть твое резюме свежим взглядом."
-  }
-];
+
 
 export const TipsGrid: FC = memo(() => {
   const [flippedCards, setFlippedCards] = useState<Set<string>>(new Set());
