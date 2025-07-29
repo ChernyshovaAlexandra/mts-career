@@ -82,6 +82,13 @@ const SectionContent = styled.div<{ $isExpanded: boolean; $noPaddingTop?: boolea
     return $noPaddingTop ? "0 30px 30px 30px" : "8px 30px 30px 30px";
   }};
   background: var(--background-light-lower);
+  
+  @media (max-width: 500px) {
+    padding: ${({ $isExpanded, $noPaddingTop }) => {
+      if (!$isExpanded) return "0 10px";
+      return $noPaddingTop ? "0 10px 10px 10px" : "8px 10px 10px 10px";
+    }};
+  }
 `;
 
 export const ExpandableSection: FC<ExpandableSectionProps> = memo(({
