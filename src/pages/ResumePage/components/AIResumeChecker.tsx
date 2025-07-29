@@ -6,6 +6,8 @@ import {
   Select, 
   mts_brand_red 
 } from "@chernyshovaalexandra/mtsui";
+import type { DirectionOption } from "../constants";
+import { directionOptions } from "../constants";
 import styled from "styled-components";
 
 interface AIResumeCheckerProps {
@@ -223,14 +225,7 @@ const StatusMessage = styled.div`
   }
 `;
 
-const directionOptions = [
-  { label: "Выбери направление", value: "", disabled: true },
-  { label: "IT и разработка", value: "it" },
-  { label: "Маркетинг и реклама", value: "marketing" },
-  { label: "Продажи и развитие", value: "sales" },
-  { label: "Финансы и аналитика", value: "finance" },
-  { label: "Дизайн и творчество", value: "design" }
-];
+
 
 export const AIResumeChecker: FC<AIResumeCheckerProps> = memo(({ 
   attemptsRemaining 
