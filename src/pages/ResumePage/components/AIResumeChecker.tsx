@@ -62,7 +62,6 @@ const ResultSection = styled.div`
   @media (max-width: 1200px) {
     width: 100%;
     height: 300px;
-    max-width: 500px;
   }
   
   @media (max-width: 768px) {
@@ -165,8 +164,15 @@ const FileInfo = styled.div`
   color: #26CD58;
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
+
 const SubmitButton = styled(Button)`
   width: 100%;
+  max-width: 300px;
   background-color: ${mts_brand_red} !important;
   border: 1px solid ${mts_brand_red} !important;
   text-transform: uppercase;
@@ -178,6 +184,10 @@ const SubmitButton = styled(Button)`
     background-color: #D0D5DD !important;
     border-color: #D0D5DD !important;
     cursor: not-allowed;
+  }
+  
+  @media (max-width: 768px) {
+    max-width: none;
   }
 `;
 
@@ -320,14 +330,16 @@ export const AIResumeChecker: FC<AIResumeCheckerProps> = memo(({
               </DropZone>
             </FormField>
 
-            <SubmitButton
-              variant="primary"
-              type="submit"
-              disabled={!isFormValid}
-              aria-label="Отправить резюме на проверку через ИИ"
-            >
-              Отправить на проверку
-            </SubmitButton>
+            <ButtonWrapper>
+              <SubmitButton
+                variant="primary"
+                type="submit"
+                disabled={!isFormValid}
+                aria-label="Отправить резюме на проверку через ИИ"
+              >
+                Отправить на проверку
+              </SubmitButton>
+            </ButtonWrapper>
           </form>
         </FormSection>
 

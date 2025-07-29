@@ -52,9 +52,8 @@ const GameContainer = styled.div`
   flex-direction: column;
   gap: 24px;
 
-  @media (max-width: 768px) {
-    gap: 20px;
-    padding: 0 16px;
+  @media (max-width: 1250px) {
+    display: none;
   }
 `;
 
