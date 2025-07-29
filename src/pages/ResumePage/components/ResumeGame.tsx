@@ -279,9 +279,13 @@ const ImageCard = styled.button<{ $isSelected: boolean; $isRevealed: boolean; $i
     background: #f8f9fa;
   }
 
-  &:focus {
+  &:focus-visible {
     outline: 2px solid ${mts_brand_red};
     outline-offset: 2px;
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
   }
 
   &:disabled {
