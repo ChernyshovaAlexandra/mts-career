@@ -24,8 +24,7 @@ import {
   HiddenFileInput,
   FileInfo,
   ButtonWrapper,
-  SubmitButton,
-  StatusMessage
+  SubmitButton
 } from "./styles";
 
 interface AIResumeCheckerProps {
@@ -38,7 +37,7 @@ export const AIResumeChecker: FC<AIResumeCheckerProps> = memo(({
   const [direction, setDirection] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
-  const [statusMessage, setStatusMessage] = useState("");
+  const [, setStatusMessage] = useState("");
 
   const handleDirectionChange = useCallback((value: string) => {
     setDirection(value);
@@ -107,7 +106,6 @@ export const AIResumeChecker: FC<AIResumeCheckerProps> = memo(({
         Проверка резюме с помощью искусственного интеллекта
       </h3>
       
-      {/* Скрытые описания для ARIA */}
       <HiddenDescription id="direction-help">
         Выберите сферу деятельности, чтобы ИИ мог дать наиболее точные рекомендации по составлению резюме
       </HiddenDescription>
