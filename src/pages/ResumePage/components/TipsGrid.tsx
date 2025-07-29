@@ -51,9 +51,13 @@ const TipCard = styled.article<{ $isFlipped: boolean }>`
     max-width: 100%;
   }
   
-  &:focus {
+  &:focus-visible {
     outline: 2px solid ${mts_brand_red};
     outline-offset: 2px;
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
   }
 `;
 
