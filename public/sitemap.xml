@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <!-- Главная страница -->
+  <url>
+    <loc>https://career.mts.ru/</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://career.mts.ru/images/og/main-page.jpg</image:loc>
+      <image:title>МТС Карьера - Платформа профессионального развития</image:title>
+    </image:image>
+  </url>
+
+  <!-- Страница подготовки резюме -->
+  <url>
+    <loc>https://career.mts.ru/resume</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://career.mts.ru/images/og/resume-page.jpg</image:loc>
+      <image:title>Подготовка резюме с ИИ - МТС Карьера</image:title>
+    </image:image>
+  </url>
+
+  <!-- Страница собеседований -->
+  <url>
+    <loc>https://career.mts.ru/interview</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Страница работы в МТС -->
+  <url>
+    <loc>https://career.mts.ru/work</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Страница FAQ -->
+  <url>
+    <loc>https://career.mts.ru/faq</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Страницы профессиональных направлений -->
+  <url>
+    <loc>https://career.mts.ru/it</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://career.mts.ru/marketing</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://career.mts.ru/service</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://career.mts.ru/finance</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Галерея промптов -->
+  <url>
+    <loc>https://career.mts.ru/gallery</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Правила и условия -->
+  <url>
+    <loc>https://career.mts.ru/rules</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+</urlset> 

@@ -2,6 +2,7 @@ import type { FC } from "react";
 import { useState } from "react";
 import { Container } from "@chernyshovaalexandra/mtsui";
 import { MainLayout } from "../../layouts";
+import { useSEO } from "../../shared";
 import {
   TipsGrid,
   ExpandableSection,
@@ -21,9 +22,12 @@ import {
   ContentSection,
   GlobalAccessibilityStyles
 } from "./styles";
+import { resumePageSEO } from "./seo";
 
 const ResumePage: FC = () => {
   const [expandedSections, setExpandedSections] = useState<string[]>([]);
+
+  useSEO(resumePageSEO);
 
   const toggleSection = (sectionId: string) => {
     setExpandedSections(prev => 

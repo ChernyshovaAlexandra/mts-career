@@ -109,6 +109,14 @@ const FieldLabel = styled.label`
   color: #212529;
 `;
 
+const HiddenDescription = styled.div`
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+`;
+
 const DropZone = styled.div<{ $isDragOver: boolean; $hasFile: boolean }>`
   border: 1px solid #D7DBE4;
   border-radius: 16px;
@@ -129,9 +137,13 @@ const DropZone = styled.div<{ $isDragOver: boolean; $hasFile: boolean }>`
     background: #FFF8F8;
   }
 
-  &:focus-within {
+  &:focus-visible {
     outline: 2px solid ${mts_brand_red};
     outline-offset: -2px;
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
   }
 `;
 
@@ -186,8 +198,28 @@ const SubmitButton = styled(Button)`
     cursor: not-allowed;
   }
   
+  &:focus-visible {
+    outline: 2px solid ${mts_brand_red};
+    outline-offset: 2px;
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+  
   @media (max-width: 768px) {
     max-width: none;
+  }
+`;
+
+const StatusMessage = styled.div`
+  margin-top: 16px;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  
+  &[aria-live] {
+    min-height: 1px;
   }
 `;
 
@@ -206,14 +238,19 @@ export const AIResumeChecker: FC<AIResumeCheckerProps> = memo(({
   const [direction, setDirection] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
+  const [statusMessage, setStatusMessage] = useState("");
 
   const handleDirectionChange = useCallback((value: string) => {
     setDirection(value);
+    setStatusMessage(`Выбрано направление: ${directionOptions.find(opt => opt.value === value)?.label}`);
   }, []);
 
   const handleFileSelect = useCallback((file: File) => {
-    if (file && file.name.endsWith('.doc') || file.name.endsWith('.docx')) {
+    if (file && (file.name.endsWith('.doc') || file.name.endsWith('.docx'))) {
       setSelectedFile(file);
+      setStatusMessage(`Файл загружен: ${file.name}`);
+    } else {
+      setStatusMessage("Ошибка: файл должен быть в формате .doc или .docx");
     }
   }, []);
 
@@ -228,6 +265,8 @@ export const AIResumeChecker: FC<AIResumeCheckerProps> = memo(({
     
     if (docFile) {
       handleFileSelect(docFile);
+    } else {
+      setStatusMessage("Ошибка: поддерживаются только файлы .doc и .docx");
     }
   }, [handleFileSelect]);
 
@@ -249,32 +288,69 @@ export const AIResumeChecker: FC<AIResumeCheckerProps> = memo(({
 
   const handleSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault();
+    setStatusMessage("Отправляем резюме на проверку...");
     console.log('Отправка резюме на проверку:', { direction, file: selectedFile?.name });
   }, [direction, selectedFile]);
+
+  const handleDropZoneKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      document.getElementById('file-input')?.click();
+    }
+  }, []);
 
   const isFormValid = direction && selectedFile && attemptsRemaining > 0;
 
   return (
-    <CheckerContainer>
+    <CheckerContainer role="region" aria-labelledby="ai-checker-heading">
+      <h3 id="ai-checker-heading" className="visually-hidden">
+        Проверка резюме с помощью искусственного интеллекта
+      </h3>
+      
+      {/* Скрытые описания для ARIA */}
+      <HiddenDescription id="direction-help">
+        Выберите сферу деятельности, чтобы ИИ мог дать наиболее точные рекомендации по составлению резюме
+      </HiddenDescription>
+      
+      <HiddenDescription id="file-upload-help">
+        Нажмите на область или перетащите файл резюме в формате Word. Поддерживаются только файлы .doc и .docx
+      </HiddenDescription>
+      
+      <HiddenDescription id="submit-help">
+        {!isFormValid ? "Заполните все обязательные поля для активации кнопки отправки" : "Отправить резюме на проверку искусственным интеллектом"}
+        {attemptsRemaining === 0 && " У вас закончились попытки проверки"}
+      </HiddenDescription>
+      
       <TopSection>
         <FormSection>
-          <FormDescription variant="P4-Regular-Text">
+          <FormDescription 
+            id="form-description" 
+            variant="P4-Regular-Text"
+          >
             Выбирай направление, в котором хочешь работать, загружай 
             своё резюме и получай от ИИ советы по его улучшению — 
             доступно три попытки для экспериментов.
           </FormDescription>
 
-          <AttemptsInfo>
+          <AttemptsInfo 
+            role="status" 
+            aria-label={`У вас осталось ${attemptsRemaining} попыток для проверки резюме`}
+          >
             <AttemptsText variant="P4-Regular-Text">
               Попытки:
             </AttemptsText>
             <AttemptsCount>{attemptsRemaining}</AttemptsCount>
           </AttemptsInfo>
 
-          <form onSubmit={handleSubmit}>
+          <form 
+            onSubmit={handleSubmit}
+            aria-describedby="form-description"
+            role="form"
+            aria-label="Форма загрузки резюме для ИИ-проверки"
+          >
             <FormField>
               <FieldLabel htmlFor="direction-select">
-                Направление
+                Направление *
               </FieldLabel>
               <Select
                 id="direction-select"
@@ -284,12 +360,14 @@ export const AIResumeChecker: FC<AIResumeCheckerProps> = memo(({
                 value={direction}
                 onChange={handleDirectionChange}
                 aria-label="Выберите направление для проверки резюме"
+                aria-describedby="direction-help"
+                aria-required="true"
               />
             </FormField>
 
             <FormField>
-              <FieldLabel>
-                Документ в формате .doc
+              <FieldLabel id="file-upload-label">
+                Документ в формате .doc или .docx *
               </FieldLabel>
               <DropZone
                 $isDragOver={isDragOver}
@@ -298,34 +376,39 @@ export const AIResumeChecker: FC<AIResumeCheckerProps> = memo(({
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onClick={() => document.getElementById('file-input')?.click()}
+                onKeyDown={handleDropZoneKeyDown}
                 role="button"
                 tabIndex={0}
-                aria-label="Перетащи или загрузи файл резюме"
+                aria-labelledby="file-upload-label"
+                aria-describedby="file-upload-help"
+                aria-pressed={!!selectedFile}
+                title="Нажмите для выбора файла или перетащите файл резюме сюда"
               >
-                                                  {selectedFile ? (
-                   <FileInfo>
-                     <DropZoneIcon $hasFile={!!selectedFile}>
-                       ✓
-                     </DropZoneIcon>
-                     <DropZoneText variant="P4-Regular-Text">
-                       {selectedFile.name}
-                     </DropZoneText>
-                   </FileInfo>
-                 ) : (
-                   <>
-                     <DropZoneText variant="P4-Regular-Text">
-                       Перетащи или загрузи файл
-                     </DropZoneText>
-                     <DropZoneSubtext variant="P4-Regular-Text">
-                       Максимальный вес файла XXX МБ
-                     </DropZoneSubtext>
-                   </>
-                 )}
+                {selectedFile ? (
+                  <FileInfo>
+                    <DropZoneIcon $hasFile={!!selectedFile} aria-hidden="true">
+                      ✓
+                    </DropZoneIcon>
+                    <DropZoneText variant="P4-Regular-Text">
+                      {selectedFile.name}
+                    </DropZoneText>
+                  </FileInfo>
+                ) : (
+                  <>
+                    <DropZoneText variant="P4-Regular-Text">
+                      Перетащи или загрузи файл
+                    </DropZoneText>
+                    <DropZoneSubtext variant="P4-Regular-Text">
+                      Поддерживаются форматы .doc и .docx
+                    </DropZoneSubtext>
+                  </>
+                )}
                 <HiddenFileInput
                   id="file-input"
                   type="file"
                   accept=".doc,.docx"
                   onChange={handleFileInputChange}
+                  aria-label="Выберите файл резюме"
                 />
               </DropZone>
             </FormField>
@@ -335,16 +418,29 @@ export const AIResumeChecker: FC<AIResumeCheckerProps> = memo(({
                 variant="primary"
                 type="submit"
                 disabled={!isFormValid}
-                aria-label="Отправить резюме на проверку через ИИ"
+                aria-describedby="submit-help"
+                title={isFormValid ? "Отправить резюме на проверку" : "Заполните все поля для активации"}
               >
                 Отправить на проверку
               </SubmitButton>
             </ButtonWrapper>
           </form>
+
+          <StatusMessage 
+            role="status" 
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            {statusMessage}
+          </StatusMessage>
         </FormSection>
 
-        <ResultSection>
-          <Text variant="P4-Regular-Text">
+        <ResultSection 
+          role="complementary"
+          aria-label="Область для отображения результатов проверки резюме"
+          aria-describedby="result-placeholder"
+        >
+          <Text id="result-placeholder" variant="P4-Regular-Text">
             Здесь будет результат<br />
             проверки резюме
           </Text>

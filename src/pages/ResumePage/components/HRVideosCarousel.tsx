@@ -86,11 +86,6 @@ const VideoPreview = styled.div`
   justify-content: center;
   overflow: hidden;
   flex-shrink: 0;
-
-    @media (max-width: 768px) {
-    width: 240px;
-    height: 240px;
-  }
 `;
 
 const EmployeeImage = styled.img`
@@ -119,6 +114,15 @@ const PlayButton = styled.button`
   &:hover {
     background: white;
     transform: translate(-50%, -50%) scale(1.1);
+  }
+
+  &:focus-visible {
+    outline: 2px solid #E31E24;
+    outline-offset: 2px;
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
   }
   
   &::after {
@@ -151,11 +155,6 @@ const EmployeeName = styled(Header)`
   margin: 0;
   color: #212529;
   text-transform: uppercase;
-
-  
-    @media (max-width: 768px) {
-   font-size: 22px;
-  }
 `;
 
 const VideoDescription = styled(Text)`
@@ -167,13 +166,6 @@ const VideoDescription = styled(Text)`
   display: flex;
   align-items: flex-start;
   text-align: left;
-
-  @media (max-width: 768px) {
-  font-weight: 400;W
-  font-size: 16px;
-  line-height: 140%;
-
-  }
 `;
 
 const NavigationButton = styled.button<{ $direction: 'prev' | 'next' }>`
@@ -198,6 +190,15 @@ const NavigationButton = styled.button<{ $direction: 'prev' | 'next' }>`
     background: #f8f9fa;
     border-color: #adb5bd;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &:focus-visible {
+    outline: 2px solid #E31E24;
+    outline-offset: 2px;
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
   }
   
   &:disabled {
@@ -230,10 +231,28 @@ const Dot = styled.button<{ $isActive: boolean }>`
     ? 'background: #E31E24;'
     : 'background: #dee2e6;'
   }
+
+  &:focus-visible {
+    outline: 2px solid #E31E24;
+    outline-offset: 2px;
+    transform: scale(1.2);
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
   
   &:hover {
     ${({ $isActive }) => !$isActive && 'background: #adb5bd;'}
   }
+`;
+
+const CarouselStatus = styled.div`
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 `;
 
 const hrVideos: HRVideo[] = [
@@ -251,7 +270,7 @@ const hrVideos: HRVideo[] = [
     id: "video-2", 
     name: "Михаил Сидоров",
     position: "Старший рекрутер",
-    description: "Покажу распространенные ошибки в резюме и как их избежать на примерах.",
+    description: "Покажу самые распространенные ошибки в резюме и как их избежать на конкретных примерах.",
     imageUrl: "/images/hr/mikhail-sidorov.jpg",
     videoUrl: "/videos/hr/mikhail-sidorov.mp4",
     subtitlesUrl: "/videos/hr/mikhail-sidorov.vtt",
@@ -271,7 +290,7 @@ const hrVideos: HRVideo[] = [
     id: "video-4",
     name: "Дмитрий Волков",
     position: "Ведущий рекрутер",
-    description: "Объясню, как описать навыки, чтобы выделиться среди кандидатов.",
+    description: "Объясню, как правильно описать навыки и достижения, чтобы выделиться среди других кандидатов.",
     imageUrl: "/images/hr/dmitry-volkov.jpg",
     videoUrl: "/videos/hr/dmitry-volkov.mp4",
     subtitlesUrl: "/videos/hr/dmitry-volkov.vtt",
@@ -328,35 +347,80 @@ export const HRVideosCarousel: FC = memo(() => {
     setPlayingVideo(null);
   };
 
+  const getCurrentVideos = () => {
+    const startIndex = currentIndex;
+    const endIndex = Math.min(startIndex + itemsPerView, hrVideos.length);
+    return hrVideos.slice(startIndex, endIndex);
+  };
+
+  const currentVideos = getCurrentVideos();
+  const totalSlides = maxIndex + 1;
+
   return (
     <>
-      <CarouselContainer>
+      <CarouselContainer 
+        role="region" 
+        aria-label="Карусель видео от HR-специалистов"
+        aria-describedby="carousel-instructions"
+      >
+        <CarouselStatus
+          id="carousel-instructions"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          Показаны видео {currentIndex + 1}-{currentIndex + currentVideos.length} из {hrVideos.length}. 
+          Используйте кнопки навигации или клавиши влево/вправо для перемещения.
+        </CarouselStatus>
+
         <CarouselWrapper>
-          <CarouselTrack $currentIndex={currentIndex} $itemsPerView={itemsPerView}>
-            {hrVideos.map((video) => (
-              <CarouselCard key={video.id}>
+          <CarouselTrack 
+            $currentIndex={currentIndex} 
+            $itemsPerView={itemsPerView}
+            role="group"
+            aria-label={`Видео группа ${currentIndex + 1} из ${totalSlides}`}
+          >
+            {hrVideos.map((video, index) => (
+              <CarouselCard 
+                key={video.id}
+                role="group"
+                aria-labelledby={`video-${video.id}-name`}
+                aria-describedby={`video-${video.id}-description`}
+              >
                 <VideoCard>
                   <VideoPreview>
                     <EmployeeImage 
                       src={video.imageUrl}
-                      alt={`Фото сотрудника ${video.name}`}
+                      alt={`Фотография ${video.name}, ${video.position}`}
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
                         target.style.display = 'none';
                       }}
                     />
                     <PlayButton 
-                      aria-label={`Воспроизвести видео: ${video.name}`}
+                      aria-label={`Воспроизвести видео: ${video.name} - ${video.position}. Продолжительность: ${video.duration}`}
+                      aria-describedby={`video-${video.id}-description`}
                       onClick={() => handleVideoPlay(video)}
+                      title={`Воспроизвести видео: ${video.description}`}
                     />
-                    <SubtitlesOverlay>Субтитры субтитры</SubtitlesOverlay>
+                    <SubtitlesOverlay aria-hidden="true">
+                      Субтитры
+                    </SubtitlesOverlay>
                   </VideoPreview>
                   
-                  <EmployeeName variant="H4-Wide">
+                  <EmployeeName 
+                    variant="H4-Wide"
+                    id={`video-${video.id}-name`}
+                    role="heading"
+                    aria-level={4}
+                  >
                     {video.name}
                   </EmployeeName>
                   
-                  <VideoDescription variant="P4-Regular-Text">
+                  <VideoDescription 
+                    variant="P4-Regular-Text"
+                    id={`video-${video.id}-description`}
+                  >
                     {video.description}
                   </VideoDescription>
                 </VideoCard>
@@ -368,12 +432,14 @@ export const HRVideosCarousel: FC = memo(() => {
             $direction="prev"
             onClick={handlePrevClick}
             disabled={currentIndex === 0}
-            aria-label="Предыдущие видео"
+            aria-label={`Предыдущие видео. ${currentIndex === 0 ? 'Недоступно - вы находитесь в начале' : `Показать видео ${Math.max(1, currentIndex)}-${currentIndex + itemsPerView - 1}`}`}
+            title="Предыдущая группа видео"
           >
             <IconArrowCircle
               outlined={false}
               direction="left"
               color="#1D2023"
+              aria-hidden="true"
             />
           </NavigationButton>
           
@@ -381,26 +447,38 @@ export const HRVideosCarousel: FC = memo(() => {
             $direction="next" 
             onClick={handleNextClick}
             disabled={currentIndex >= maxIndex}
-            aria-label="Следующие видео"
+            aria-label={`Следующие видео. ${currentIndex >= maxIndex ? 'Недоступно - вы находитесь в конце' : `Показать видео ${currentIndex + itemsPerView + 1}-${Math.min(hrVideos.length, currentIndex + itemsPerView * 2)}`}`}
+            title="Следующая группа видео"
           >
             <IconArrowCircle
               outlined={false}
               direction="right"
               color="#1D2023"
+              aria-hidden="true"
             />
           </NavigationButton>
         </CarouselWrapper>
         
-        <DotsContainer>
-          {Array.from({ length: maxIndex + 1 }, (_, index) => (
-            <Dot
-              key={index}
-              $isActive={index === currentIndex}
-              onClick={() => handleDotClick(index)}
-              aria-label={`Перейти к слайду ${index + 1}`}
-            />
-          ))}
-        </DotsContainer>
+        {totalSlides > 1 && (
+          <DotsContainer 
+            role="tablist" 
+            aria-label="Навигация по группам видео"
+          >
+            {Array.from({ length: totalSlides }, (_, index) => (
+              <Dot
+                key={index}
+                $isActive={index === currentIndex}
+                onClick={() => handleDotClick(index)}
+                role="tab"
+                aria-selected={index === currentIndex}
+                aria-label={`Перейти к группе видео ${index + 1} из ${totalSlides}`}
+                aria-controls={`carousel-panel-${index}`}
+                tabIndex={index === currentIndex ? 0 : -1}
+                title={`Группа видео ${index + 1}`}
+              />
+            ))}
+          </DotsContainer>
+        )}
       </CarouselContainer>
 
       {playingVideo && (

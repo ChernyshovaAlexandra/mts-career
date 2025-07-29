@@ -1,0 +1,38 @@
+User-agent: *
+Allow: /
+
+# Основные страницы для индексации
+Allow: /resume
+Allow: /interview
+Allow: /work
+Allow: /it
+Allow: /marketing
+Allow: /service
+Allow: /finance
+Allow: /faq
+Allow: /gallery
+
+# Заблокированные пути
+Disallow: /account
+Disallow: /login
+Disallow: /register
+Disallow: /api/
+Disallow: /*.json$
+Disallow: /src/
+Disallow: /node_modules/
+
+# Карты сайта
+Sitemap: https://career.mts.ru/sitemap.xml
+
+# Время ожидания между запросами
+Crawl-delay: 1
+
+# Особые правила для Яндекса
+User-agent: YandexBot
+Crawl-delay: 2
+Allow: /
+
+# Особые правила для Google
+User-agent: Googlebot
+Crawl-delay: 1
+Allow: / 
