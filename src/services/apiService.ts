@@ -67,10 +67,6 @@ export class ApiService {
     return this.http.post<void>("/api/resetPassword", payload);
   }
 
-  checkNickname(nickname: string) {
-    return this.http.post<void>("/api/checkNickname", { nickname });
-  }
-
   /* ------------------------------------------------------------------ */
   /*                              2. GAMES                              */
   /* ------------------------------------------------------------------ */
@@ -209,8 +205,8 @@ export interface SystemInfo {
 }
 
 export interface UserStatus {
-  email: string;
-  points: number;
+  user: UserData;
+  position: number | null;
 }
 
 export interface StandingItem {

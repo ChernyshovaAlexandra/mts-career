@@ -12,24 +12,17 @@ import { BottomRow, PageWrapper, Form } from "./style";
 import { useOtpLogin } from "./hooks";
 import { apiService, ApiService } from "../../services/apiService";
 import { useNavigate } from "react-router-dom";
-import { useUserStore } from "../../store";
+import { useUserStore, type UserData } from "../../store";
+
 interface FieldErrors {
   email?: string;
   password?: string;
 }
-/**
- * Login page with *maximal* accessibility support (WCAG 2.2 AA):
- *  – Semantic landmarks & heading
- *  – Proper label↔input association via id/aria-labelledby
- *  – aria-invalid / aria-describedby when errors present
- *  – role="alert" + aria-live="assertive" for error message, focus on appearance
- *  – Loading state communicated via aria-busy
- */
+
 const LoginPage: FC = () => {
   const { email, setEmail, password, setPassword, sent } = useOtpLogin();
   const [generalError, setGeneralError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
-
   const [loading, setLoading] = useState(false);
   const errorRef = useRef<HTMLParagraphElement | null>(null);
   const navigate = useNavigate();
@@ -52,34 +45,34 @@ const LoginPage: FC = () => {
     setLoading(true);
 
     try {
-      const { data } = await apiService.login(email.trim(), password);
-      ApiService.setAccessToken(data.access_token);
-      setUser(data.user);
-      navigate("/");
+      const loginResp = await apiService.login(email.trim(), password);
+      const token = loginResp.data.access_token;
+      ApiService.setAccessToken(token);
 
-      // TODO: navigate/update store
+      const statusResp = await apiService.getStatus();
+      const userData: UserData = statusResp.data.user;
+      setUser(userData);
+
+      navigate("/");
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.data) {
         const resp = err.response.data as any;
-        // 1. Field-level errors
         if (resp.errors) {
           const fe: FieldErrors = {};
           for (const key of Object.keys(resp.errors)) {
             const arr: string[] = resp.errors[key];
-            if (arr && arr.length) fe[key as keyof FieldErrors] = arr[0];
+            if (arr?.length) fe[key as keyof FieldErrors] = arr[0];
           }
           setFieldErrors(fe);
-          // если есть общий message
-          if (resp.message && typeof resp.message === "string") {
+          if (typeof resp.message === "string") {
             setGeneralError(resp.message);
           }
         } else {
-          // 2. Fallback to message or error property
-          const msg =
+          setGeneralError(
             resp.message ??
-            resp.error ??
-            "Ошибка авторизации. Попробуйте ещё раз.";
-          setGeneralError(msg);
+              resp.error ??
+              "Ошибка авторизации. Попробуйте ещё раз."
+          );
         }
       } else {
         setGeneralError("Не удалось подключиться к серверу. Попробуйте позже.");
@@ -91,9 +84,7 @@ const LoginPage: FC = () => {
 
   return (
     <MainLayout>
-      {/* <main> landmark is implied by MainLayout; ensure only one H1 on page */}
       <Container aria-busy={loading}>
-        {/* communicates loading state */}
         <PageWrapper>
           <Header
             id="login-heading"
@@ -102,7 +93,6 @@ const LoginPage: FC = () => {
           >
             Вход
           </Header>
-
           <Form
             as="form"
             onSubmit={handleSubmit}
@@ -129,7 +119,6 @@ const LoginPage: FC = () => {
               aria-invalid={!!fieldErrors.email}
               onChange={(e) => setEmail(e.target.value)}
             />
-
             <Input
               id={passwordId}
               name="password"
@@ -151,23 +140,18 @@ const LoginPage: FC = () => {
               aria-invalid={!!fieldErrors.password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            {/* {generalError && (
-              <Text
+            {generalError && (
+              <p
                 id={generalErrorId}
-                // ref={errorRef}
                 role="alert"
                 aria-live="assertive"
                 tabIndex={-1}
-                variant="P3-Regular-Comp"
-                style={{
-                  textAlign: "center",
-                  color: mts_brand_red,
-                  marginTop: 12,
-                }}
+                ref={errorRef}
+                style={{ color: "#D8400C" }}
               >
                 {generalError}
-              </Text>
-            )} */}
+              </p>
+            )}
             <BottomRow>
               <Button
                 disabled={!email || !password || loading}
@@ -178,17 +162,15 @@ const LoginPage: FC = () => {
               >
                 Войти
               </Button>
-
               <Button
                 link="/register"
-                style={{ display: "block", width: "100%", maxWidth: "100%" }}
                 btn_type="link"
                 variant="tetriary"
                 aria-label="Перейти к регистрации"
+                style={{ display: "block", width: "100%", maxWidth: "100%" }}
               >
                 Зарегистрироваться
               </Button>
-
               <Link url="/password-recovery" type="link">
                 Не помню пароль
               </Link>
