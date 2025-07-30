@@ -11,42 +11,42 @@ export const ActivitiesSection = () => {
     {
       title: "Финтех",
       description: applyNbsp(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        `Исследуй цифровые сервисы МТС. Они делают работу с деньгами удобной, быстрой и безопасной для пользователей.`
       ),
       route: "/activities/fintech",
     },
     {
       title: "MTC Медиа",
       description: applyNbsp(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        `Изучи сервисы KION, МТС Музыка и Строки. Получи знания о современных технологиях для успешной карьеры в медиаиндустрии.`
       ),
       route: "/activities/media",
     },
     {
       title: "Рекламные технологии AdTech",
       description: applyNbsp(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        `Разберись, как МТС использует передовые технологии в рекламе. Бренды находят своих клиентов среди миллионов.`
       ),
       route: "/activities/adtech",
     },
     {
       title: "IT-направление MTS Web Services",
       description: applyNbsp(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        `Погрузись в мир IT-продуктов МТС — от облаков и кибербезопасности до сервисов, которые используют искусственный интеллект.`
       ),
       route: "/activities/web",
     },
     {
       title: "Кикшеринг МТС Юрент",
       description: applyNbsp(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        `Стартуй с Юрент: как МТС создаёт транспорт будущего с помощью мобильных сервисов аренды самокатов и велосипедов.`
       ),
       route: "/activities/urent",
     },
     {
       title: "Телеком",
       description: applyNbsp(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        `Открой зону доступа без границ — как МТС соединяет миллионы людей по всей стране и за её пределами.`
       ),
       route: "/activities/telecom",
     },
@@ -57,7 +57,9 @@ export const ActivitiesSection = () => {
       <Section
         id="activities"
         title="Участвуй в активностях"
-        subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        subtitle={applyNbsp(
+          `Познакомься с цифровыми направлениями МТС — от финтеха и медиа до рекламы и городского транспорта — и проверь свои знания в тестах.`
+        )}
         headingLevel={2}
       >
         <ActivitiesGrid>

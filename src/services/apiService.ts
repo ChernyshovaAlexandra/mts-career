@@ -48,7 +48,10 @@ export class ApiService {
   /* ------------------------------------------------------------------ */
 
   checkEmail(email: string) {
-    return this.http.post<void>("/api/check-email", { email });
+    return this.http.post<{ status: boolean; message?: string }>(
+      "/api/check-email",
+      { email }
+    );
   }
 
   register(payload: RegisterPayload) {

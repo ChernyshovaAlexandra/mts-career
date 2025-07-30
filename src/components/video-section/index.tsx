@@ -10,7 +10,7 @@ export const VideoSection = () => {
     <Section
       align="center"
       id="video"
-      title="Голоса МТС: истории сотрудников"
+      title={`Голоса МТС:\nистории сотрудников`}
       headingLevel={2}
       subtitle={applyNbsp(
         `Узнай, как в МТС создают равные возможности для всех:\nрассказы наших коллег с инвалидностью.`
