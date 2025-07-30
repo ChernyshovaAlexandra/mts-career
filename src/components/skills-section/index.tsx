@@ -11,27 +11,27 @@ export const SkillsSection = () => {
     <Section
       id="skills"
       title="Общие навыки для будущей работы"
-      subtitle={applyNbsp("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")}
+      subtitle={applyNbsp(`Сделай первые шаги к карьере в МТС: оттачивай мастерство самопрезентации, совершенствуй деловое общение и знакомься с командой.`)}
       headingLevel={2}
     >
       <CardGrid>
         <SkillCard
           title={`Подготовка\nрезюме`}
-          description={applyNbsp("Научись создавать резюме, которое выделит тебя среди других кандидатов. Узнай, что ценит работодатель, получи персональные советы и обратную связь от ИИ.")}
+          description={applyNbsp("Создай резюме, которое заметят: проверенные рекомендации, реальные примеры, проверка ИИ и лайфхаки от HR-экспертов МТС для успешного старта карьеры.")}
           img="/images/skills/resume.png"
           onClick={() => navigate("/resume")}
         />
 
         <SkillCard
           title={`Подготовка\nк собеседованию`}
-          description={applyNbsp("Попробуй себя в роли кандидата: отработай собеседование в симуляции, получи советы и будь готов к настоящему интервью.")}
+          description={applyNbsp("Пройди путь от теории к практике: работающие советы, симуляция интервью и конструктивная обратная связь помогут чувствовать себя уверенно.")}
           img="/images/skills/interview.png"
           onClick={() => navigate("/interview")}
         />
 
         <SkillCard
           title="Работа в МТС"
-          description={applyNbsp("Узнай, как устроена работа в МТС из первых уст. Читай реальные истории, открывай вакансии и знакомься с командой.")}
+          description={applyNbsp("Узнай, как устроена работа в МТС: выбери интересующую область, изучи доступные вакансии и пообщайся с командой напрямую.")}
           img="/images/skills/work.png"
           onClick={() => navigate("/work")}
         />
