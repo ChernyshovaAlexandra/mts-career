@@ -35,10 +35,10 @@ export interface Activity {
 }
 
 export interface AccountPageData {
-  personalData?: PersonalData;
-  tablePosition?: TablePosition;
-  interviewSimulation?: InterviewSimulation;
-  randomCoffee?: RandomCoffee;
-  generalSkills?: Skill[];
-  activities?: Activity[];
+  personalData: PersonalData;
+  tablePosition: TablePosition;
+  interviewSimulation: InterviewSimulation;
+  randomCoffee: RandomCoffee;
+  generalSkills: Skill[];
+  activities: Activity[];
 }
