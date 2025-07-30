@@ -21,6 +21,6 @@ export const useUserStore = create<UserState>((set) => ({
   isAuth: true,
   data: ACCOUNT_PAGE_DATA,
   user: null,
-  setUser: (user) => set({ user, isAuth: true }),
+  setUser: (user) => set({ user, isAuth: false }),
   logout: () => set({ isAuth: false, data: ACCOUNT_PAGE_DATA }),
 }));
