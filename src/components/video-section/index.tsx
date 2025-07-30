@@ -65,7 +65,7 @@ export const VideoSection = () => {
             />
           </CustomArrow>
         }
-        customDots={(activeIndex, goTo) => (
+        customDots={(activeIndex: number, goTo: (arg: number) => void) => (
           <DotWrapper>
             {videoSlides.map((_, idx) => (
               <CustomDot
