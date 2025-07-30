@@ -104,7 +104,7 @@ export const HRVideosCarousel: FC = memo(() => {
             role="group"
             aria-label={`Видео группа ${currentIndex + 1} из ${totalSlides}`}
           >
-            {hrVideos.map((video, index) => (
+            {hrVideos.map((video) => (
               <CarouselCard 
                 key={video.id}
                 role="group"
