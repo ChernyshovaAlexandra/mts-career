@@ -29,11 +29,11 @@ export const Header: FC = () => {
   const anchorRef = useRef<HTMLButtonElement>(null);
 
   const isAuth = useUserStore((s) => s.isAuth);
-  const user = useUserStore((s) => s.data);
+  const user = useUserStore((s) => s.user);
   const userName = user
-    ? `${user.personalData.firstName} ${user.personalData.lastName}`
+    ? `${user.name}`
     : "";
-  const userScore = user?.tablePosition.points ?? 0;
+  const userScore = user?.points ?? 0;
 
   /* handlers */
   const handleLogin = () => navigate("/login");
