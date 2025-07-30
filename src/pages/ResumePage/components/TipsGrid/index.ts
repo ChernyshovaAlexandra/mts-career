@@ -1,0 +1,1 @@
+export { TipsGrid } from "./TipsGrid"; 

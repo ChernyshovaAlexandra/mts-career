@@ -22,6 +22,7 @@ const GlobalStyles = createGlobalStyle`
     --text-light-primary-link: #0070E5;
     --text-light-accent: #007CFF;  
     --accent-positive: #26CD58;
+    --background-light-lower: #F2F3F7;
     
     /* Размеры шрифтов */
     --font-size-xs: 12px;
@@ -161,6 +162,7 @@ const GlobalStyles = createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    border: none;
   }
 
   body {
@@ -171,7 +173,22 @@ const GlobalStyles = createGlobalStyle`
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.6;
     color: var(--text-primary);
-    
+    transition: margin-left 0.3s ease;
+  }
+  
+  body.drawer-open {
+    margin-left: 0 !important;
+  }
+  
+  .ant-drawer-open body,
+  .drawer-open body {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+  }
+  
+  .ant-drawer-mask,
+  .ant-drawer-content-wrapper {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   @media (max-width: 768px) {
