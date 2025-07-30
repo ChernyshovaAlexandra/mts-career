@@ -4,7 +4,6 @@ import { GAME_QUESTIONS } from "../../constants";
 import { CheckIcon, MinusIcon, DownloadIcon } from "./icons";
 import {
   GameContainer,
-  InstructionText,
   StyledSteps,
   StepContent,
   QuestionText,
@@ -17,19 +16,21 @@ import {
   CongratulationsTitle,
   CongratulationsText,
   DownloadButton,
-  ActionButton
+  ActionButton,
 } from "./styles";
 
 export const ResumeGame: FC = memo(() => {
-  const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string>>({});
+  const [selectedAnswers, setSelectedAnswers] = useState<
+    Record<string, string>
+  >({});
   const [isRevealed, setIsRevealed] = useState(false);
 
   const handleOptionSelect = (questionId: string, optionId: string) => {
     if (isRevealed) return;
-    
-    setSelectedAnswers(prev => ({
+
+    setSelectedAnswers((prev) => ({
       ...prev,
-      [questionId]: optionId
+      [questionId]: optionId,
     }));
   };
 
@@ -43,25 +44,27 @@ export const ResumeGame: FC = memo(() => {
   };
 
   const answeredQuestions = Object.keys(selectedAnswers).length;
-  const correctAnswers = GAME_QUESTIONS.filter(question => {
+  const correctAnswers = GAME_QUESTIONS.filter((question) => {
     const selectedOptionId = selectedAnswers[question.id];
-    const selectedOption = question.options.find(opt => opt.id === selectedOptionId);
+    const selectedOption = question.options.find(
+      (opt) => opt.id === selectedOptionId
+    );
     return selectedOption?.isCorrect;
   }).length;
 
-  const stepItems = GAME_QUESTIONS.map((question, index) => {
+  const stepItems = GAME_QUESTIONS.map((question) => {
     const selectedOptionId = selectedAnswers[question.id];
-    const selectedOption = selectedOptionId 
-      ? question.options.find(opt => opt.id === selectedOptionId)
+    const selectedOption = selectedOptionId
+      ? question.options.find((opt) => opt.id === selectedOptionId)
       : null;
 
-    let status: 'wait' | 'process' | 'finish' | 'error' = 'wait';
+    let status: "wait" | "process" | "finish" | "error" = "wait";
     let icon: React.ReactNode = question.questionNumber;
 
     if (selectedOptionId && !isRevealed) {
-      status = 'process';
+      status = "process";
     } else if (isRevealed && selectedOption) {
-      status = selectedOption.isCorrect ? 'finish' : 'error';
+      status = selectedOption.isCorrect ? "finish" : "error";
 
       icon = (
         <div className="step-icon-wrapper">
@@ -81,14 +84,12 @@ export const ResumeGame: FC = memo(() => {
     }
 
     return {
-      title: '',
+      title: "",
       status,
       icon,
       description: (
         <StepContent>
-          <QuestionText>
-            {question.questionText}
-          </QuestionText>
+          <QuestionText>{question.questionText}</QuestionText>
           <OptionsContainer>
             {question.options.map((option, optionIndex) => (
               <ImageCard
@@ -99,12 +100,12 @@ export const ResumeGame: FC = memo(() => {
                 onClick={() => handleOptionSelect(question.id, option.id)}
                 disabled={isRevealed}
                 aria-pressed={selectedOptionId === option.id}
-                aria-label={`Вариант ${optionIndex + 1} для вопроса ${question.questionNumber}`}
+                aria-label={`Вариант ${optionIndex + 1} для вопроса ${
+                  question.questionNumber
+                }`}
               >
-                <PlaceholderText>
-                  Изображение
-                </PlaceholderText>
-                
+                <PlaceholderText>Изображение</PlaceholderText>
+
                 {isRevealed && selectedOptionId === option.id && (
                   <ResultBadge $isCorrect={option.isCorrect}>
                     {option.isCorrect ? "Да" : "Нет"}
@@ -114,18 +115,13 @@ export const ResumeGame: FC = memo(() => {
             ))}
           </OptionsContainer>
         </StepContent>
-      )
+      ),
     };
   });
 
   return (
     <GameContainer>
-
-      <StyledSteps
-        direction="vertical"
-        current={-1}
-        items={stepItems}
-            />
+      <StyledSteps direction="vertical" current={-1} items={stepItems} />
 
       <ActionButtons>
         {!isRevealed ? (
@@ -159,7 +155,7 @@ export const ResumeGame: FC = memo(() => {
           <DownloadButton
             variant="primary"
             onClick={() => {
-              console.log('Скачивание резюме...');
+              console.log("Скачивание резюме...");
             }}
             aria-label="Скачать резюме"
           >
@@ -170,4 +166,4 @@ export const ResumeGame: FC = memo(() => {
       )}
     </GameContainer>
   );
-}); 
+});
