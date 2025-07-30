@@ -140,18 +140,7 @@ const LoginPage: FC = () => {
               aria-invalid={!!fieldErrors.password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            {generalError && (
-              <p
-                id={generalErrorId}
-                role="alert"
-                aria-live="assertive"
-                tabIndex={-1}
-                ref={errorRef}
-                style={{ color: "#D8400C" }}
-              >
-                {generalError}
-              </p>
-            )}
+
             <BottomRow>
               <Button
                 disabled={!email || !password || loading}
