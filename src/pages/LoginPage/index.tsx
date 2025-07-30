@@ -1,43 +1,53 @@
-import { type FC, useRef } from "react";
-import { Container, Header, Button, Input } from "@chernyshovaalexandra/mtsui";
+import { useState, type FC } from "react";
+import {
+  Container,
+  Header,
+  Button,
+  Input,
+  Link,
+  Text,
+  mts_brand_red,
+} from "@chernyshovaalexandra/mtsui";
 import { MainLayout } from "../../layouts";
-import { BottomRow, LinkButton, PageWrapper, Form } from "./style";
+import { BottomRow, PageWrapper, Form } from "./style";
 import { useOtpLogin } from "./hooks";
-import { OtpTimer } from "./components";
+import { apiService } from "../../services/apiService";
+import axios from "axios";
 
 const LoginPage: FC = () => {
-  const {
-    email,
-    setEmail,
-    code,
-    setCode,
-    sent,
-    setSent,
-    timeLeft,
-    startTimer,
-    expired,
-  } = useOtpLogin();
-
-  const codeInputRef = useRef<HTMLInputElement>(null);
-
-  /* --- callbacks --- */
-  const requestOtp = () => {
-    // TODO: запросить код на backend
-    setSent(true);
-    startTimer();
-    /* Переводим фокус на появившееся поле */
-    queueMicrotask(() => codeInputRef.current?.focus());
-  };
-
-  const resendOtp = () => {
-    // TODO: повторный запрос кода
-    startTimer();
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    console.info(111);
+  const { email, setEmail, password, setPassword, sent } = useOtpLogin();
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    sent ? /* TODO: отправить email+code */ null : requestOtp();
+    setError(null);
+    setLoading(true);
+
+    try {
+      const { data } = await apiService.login(email.trim(), password);
+      /**
+       * предполагаем, что backend вернёт:
+       * { access_token: string }
+       */
+      // apiService.setAccessToken(data.access_token);
+
+      // TODO: здесь – навигация на главную или обновление стора
+      console.info(data, "Успешный логин");
+    } catch (err) {
+      // Axios-ошибка с телом `{ message: string }`
+      if (axios.isAxiosError(err) && err.response?.data) {
+        const message =
+          // many backends кладут текст в разных полях
+          (err.response.data as { message?: string; error?: string }).message ??
+          (err.response.data as { error?: string }).error ??
+          "Ошибка авторизации";
+        setError(message);
+      } else {
+        setError("Не удалось подключиться к серверу. Попробуйте позже.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -45,13 +55,12 @@ const LoginPage: FC = () => {
       <Container>
         <PageWrapper>
           <Header variant="H1-Wide" style={{ textAlign: "center" }}>
-            Авторизация
+            Вход
           </Header>
-
-          {sent && <OtpTimer seconds={timeLeft} />}
 
           <Form onSubmit={handleSubmit}>
             <Input
+              required
               autoComplete="email"
               label="E-mail"
               disabled={sent}
@@ -61,48 +70,49 @@ const LoginPage: FC = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
 
-            {sent && (
-              <Input
-                ref={codeInputRef}
-                autoComplete="one-time-code"
-                inputMode="numeric"
-                pattern="\d{6}"
-                aria-describedby="code-timer"
-                type="password"
-                label="Код"
-                placeholder="6-значный код"
-                value={code}
-                onChange={(e) => setCode(e.target.value)}
-              />
+            <Input
+              required
+              label="Пароль"
+              placeholder="Введи пароль"
+              value={password}
+              type="password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {error && (
+              <Text
+                role="alert"
+                variant="P3-Regular-Comp"
+                style={{
+                  textAlign: "center",
+                  color: mts_brand_red,
+                }}
+              >
+                {error}
+              </Text>
             )}
-
-            {sent ? (
-              <BottomRow>
-                {expired ? (
-                  <LinkButton
-                    as="button"
-                    type="button"
-                    onClick={resendOtp}
-                    aria-disabled={!expired}
-                    tabIndex={expired ? 0 : -1}
-                  >
-                    Отправить код повторно
-                  </LinkButton>
-                ) : (
-                  <></>
-                )}
-
-                <Button type="submit" variant="primary" aria-label="Перейти на страницу входа на платформу">
-                  Войти
-                </Button>
-              </BottomRow>
-            ) : (
-              <BottomRow>
-                <Button type="submit" variant="primary" aria-label="Запросить код на почту">
-                  Получить код для входа
-                </Button>
-              </BottomRow>
-            )}
+            <BottomRow>
+              <Button
+                disabled={!email || !password}
+                loading={loading}
+                type="submit"
+                variant="primary"
+                aria-label="Перейти на страницу входа на платформу"
+              >
+                Войти
+              </Button>
+              <Button
+                style={{ display: "block", width: "100%", maxWidth: "100%" }}
+                link="/register"
+                btn_type="link"
+                variant="tetriary"
+                aria-label="Перейти на страницу входа на платформу"
+              >
+                Зарегистрироваться
+              </Button>
+              <Link url="/password-recovery" type="link">
+                Не помню пароль
+              </Link>
+            </BottomRow>
           </Form>
         </PageWrapper>
       </Container>

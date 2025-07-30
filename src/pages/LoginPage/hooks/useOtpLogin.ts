@@ -5,6 +5,7 @@ const OTP_TTL_SEC = 600; // 10 минут
 export function useOtpLogin() {
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
+  const [password, setPassword] = useState("");
   const [sent, setSent] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
 
@@ -28,7 +29,8 @@ export function useOtpLogin() {
     setSent,
     timeLeft,
     expired,
-
+    password,
+    setPassword,
     /* actions */
     startTimer,
   };
