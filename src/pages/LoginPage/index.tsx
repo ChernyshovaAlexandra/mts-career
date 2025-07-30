@@ -6,14 +6,13 @@ import {
   Button,
   Input,
   Link,
-  Text,
-  mts_brand_red,
 } from "@chernyshovaalexandra/mtsui";
 import { MainLayout } from "../../layouts";
 import { BottomRow, PageWrapper, Form } from "./style";
 import { useOtpLogin } from "./hooks";
 import { apiService, ApiService } from "../../services/apiService";
-
+import { useNavigate } from "react-router-dom";
+import { useUserStore } from "../../store";
 interface FieldErrors {
   email?: string;
   password?: string;
@@ -33,6 +32,8 @@ const LoginPage: FC = () => {
 
   const [loading, setLoading] = useState(false);
   const errorRef = useRef<HTMLParagraphElement | null>(null);
+  const navigate = useNavigate();
+  const setUser = useUserStore((s) => s.setUser);
 
   const emailId = "login-email";
   const passwordId = "login-password";
@@ -53,6 +54,9 @@ const LoginPage: FC = () => {
     try {
       const { data } = await apiService.login(email.trim(), password);
       ApiService.setAccessToken(data.access_token);
+      setUser(data.user);
+      navigate("/");
+
       // TODO: navigate/update store
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.data) {

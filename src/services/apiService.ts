@@ -1,4 +1,5 @@
 import axios, { type AxiosInstance } from "axios";
+import type { UserData } from "../store";
 
 /**
  * Strongly‑typed API client for the backend described in the
@@ -58,8 +59,8 @@ export class ApiService {
     return this.http.post<void>("/api/register", payload);
   }
 
-  login(nickname: string, password: string) {
-    return this.http.post<LoginResponse>("/api/login", { nickname, password });
+  login(email: string, password: string) {
+    return this.http.post<LoginResponse>("/api/login", { email, password });
   }
 
   resetPassword(payload: { email: string; nickname?: string }) {
@@ -160,6 +161,7 @@ export interface RegisterPayload {
 
 export interface LoginResponse {
   access_token: string;
+  user: UserData;
 }
 
 export interface GameStartResponse {
@@ -207,12 +209,12 @@ export interface SystemInfo {
 }
 
 export interface UserStatus {
-  nickname: string;
+  email: string;
   points: number;
 }
 
 export interface StandingItem {
-  nickname: string;
+  email: string;
   points: number;
 }
 
