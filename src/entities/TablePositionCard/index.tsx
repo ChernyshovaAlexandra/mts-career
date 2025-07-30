@@ -5,6 +5,7 @@ import FieldLabel from "../../shared/ui/FieldLabel";
 import FieldValue from "../../shared/ui/FieldValue";
 import { Button } from "@chernyshovaalexandra/mtsui";
 import { ACCOUNTPAGE_BTN_THEME } from "../../pages/AccountPage/constants";
+import { useUserStore } from "../../store";
 
 /**
  * @typedef {Object} TablePositionCardProps
@@ -50,19 +51,22 @@ const TablePositionCard: FC<TablePositionCardProps> = ({
   points,
   onViewRating,
 }) => {
+  const user = useUserStore((s) => s.user);
   return (
     <Card title="Место в таблице рейтинга" titleId="table-position-title">
       <DataRow>
         <FieldLabel>Место в таблице</FieldLabel>
         <Position aria-label={`Позиция в рейтинге: ${position}`}>
-          {position}
+          {user?.position ?? 0}
         </Position>
       </DataRow>
 
       <DataRow>
         <FieldLabel>Баллы</FieldLabel>
-        <FieldValue aria-label={`Количество баллов: ${points.toLocaleString("ru")}`}>
-          {points.toLocaleString("ru")}
+        <FieldValue
+          aria-label={`Количество баллов: ${points.toLocaleString("ru")}`}
+        >
+          {user?.points}
         </FieldValue>
       </DataRow>
 

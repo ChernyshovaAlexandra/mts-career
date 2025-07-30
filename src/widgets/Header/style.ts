@@ -1,3 +1,4 @@
+import { mts_greyscale_300 } from "@chernyshovaalexandra/mtsui";
 import styled from "styled-components";
 
 /* вся белая панель */
@@ -40,17 +41,25 @@ export const Score = styled.div`
 `;
 
 /* «бургер» или аватар */
-export const IconBtn = styled.button`
+export const IconBtn = styled.button<{ $status: string }>`
   all: unset;
   cursor: pointer;
   display: grid;
   place-items: center;
-
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #ff0028; /* красный круг как в макете */
   color: #fff;
+
+  svg {
+    color: ${mts_greyscale_300};
+    > rect:first-child {
+      stroke-width: 4px;
+      stroke-opacity: 1;
+      stroke: ${({ $status }) => ($status === "new" ? "#26CD58" : "#000")};
+      & + rect {
+        stroke: white;
+        stroke-width: 1px;
+      }
+    }
+  }
 `;
 
 export const Surface = styled.div<{ elevation?: number }>`
@@ -63,6 +72,4 @@ export const Surface = styled.div<{ elevation?: number }>`
   border-radius: 16px;
   box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12),
     0px 12px 20px 0px rgba(0, 0, 0, 0.14);
-
- 
 `;
