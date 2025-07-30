@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Card from "../../shared/ui/Card";
 import FieldLabel from "../../shared/ui/FieldLabel";
 import FieldValue from "../../shared/ui/FieldValue";
+import { useUserStore } from "../../store";
 
 /**
  * @typedef {Object} PersonalDataCardProps
@@ -66,13 +67,10 @@ const StatusBadge = styled.span`
  * @returns JSX элемент карточки персональных данных
  */
 const PersonalDataCard: FC<PersonalDataCardProps> = ({
-  firstName,
-  lastName,
   personalCode,
-  city,
   status,
 }) => {
-  const displayName = `${firstName} ${lastName}`;
+  const user = useUserStore((s) => s.user);
 
   return (
     <Card title="Персональные данные" titleId="personal-data-title">
@@ -80,9 +78,15 @@ const PersonalDataCard: FC<PersonalDataCardProps> = ({
         <FieldLabel id="name-label">Имя и фамилия</FieldLabel>
         <NameContainer>
           <Name id="name-value" aria-labelledby="name-label">
-            {displayName}
+            {user?.name}
           </Name>
-          <StatusBadge aria-label={`Статус: ${status}`}>{status}</StatusBadge>
+          <StatusBadge aria-label={`Статус: ${status}`}>
+            {user?.status === "new"
+              ? "Новичок"
+              : user?.status === "special"
+              ? "Специалист"
+              : "Профи"}
+          </StatusBadge>
         </NameContainer>
       </DataRow>
 
@@ -96,7 +100,7 @@ const PersonalDataCard: FC<PersonalDataCardProps> = ({
       <DataRow>
         <FieldLabel id="city-label">Город</FieldLabel>
         <FieldValue id="city-value" aria-labelledby="city-label">
-          {city}
+          {user?.region}
         </FieldValue>
       </DataRow>
     </Card>
