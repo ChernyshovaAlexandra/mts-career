@@ -22,10 +22,10 @@ const FooterContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
-  align-items: center;
 
   @media (min-width: 1280px) {
     display: flex;
+    align-items: center;
     flex-direction: row-reverse;
     justify-content: space-between;
   }
@@ -34,7 +34,6 @@ const FooterContent = styled.div`
 export const Footer: FC = () => (
   <FooterWrapper aria-label="Основной футер сайта">
     <Container>
-      {/* внутренний flex: теперь обычный div, landmarks здесь не нужны */}
       <FooterContent>
         <Link href="/faq">Задать вопрос</Link>
         <Link href="/rules">Правила проведения акции</Link>
