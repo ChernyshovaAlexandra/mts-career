@@ -1,5 +1,5 @@
-import styled from "styled-components";
 import { Text } from "@chernyshovaalexandra/mtsui";
+import styled from "styled-components";
 
 export const CarouselContainer = styled.div`
   position: relative;
@@ -23,6 +23,10 @@ export const CarouselWrapper = styled.div`
   
   @media (max-width: 768px) {
     padding: 0 50px;
+  }
+
+    @media (max-width: 500px) {
+    padding: 0px;
   }
 `;
 
@@ -63,6 +67,14 @@ export const InterviewCardElement = styled.div`
     border-radius: 20px;
     margin: 0 auto;
   }
+  
+  @media (max-width: 500px) {
+    width: 282px;
+    height: 470px;
+    padding: 20px;
+    border-radius: 20px;
+    margin: 0 auto;
+  }  
   
   @media (max-width: 1024px) {
     max-width: 480px;

@@ -2,6 +2,7 @@ import type { FC } from "react";
 import { Text, Header, Button } from "@chernyshovaalexandra/mtsui";
 import { MainLayout } from "../../layouts";
 import { InterviewCarousel } from "./components/InterviewCarousel";
+import { InterviewSimulation } from "../../components";
 // import { interviewPageSEO } from "./seo";
 import styled, { css } from "styled-components";
 import { mts_brand_red } from "@chernyshovaalexandra/mtsui";
@@ -117,6 +118,10 @@ const BulletList = styled.ul`
   ${mediaQuery('desktop')} {
     font-size: 16px;
   }
+  
+  @media (max-width: 500px) {
+    margin: 0;
+  }
 `;
 
 const ContentSection = styled.section`
@@ -169,6 +174,10 @@ const CarouselWrapper = styled.div`
     min-height: 400px;
     padding: 20px;
     border-radius: 24px;
+  }
+  
+  @media (max-width: 500px) {
+    padding: 20px;
   }
 `;
 
@@ -244,12 +253,6 @@ const InterviewPage: FC = () => {
                 <MainTitle id="main-heading">
                   Подготовка к собеседованию
                 </MainTitle>
-                
-                <CarouselImage 
-                  role="img" 
-                  aria-label="Иллюстрация подготовки к собеседованию"
-                  className="mobile-header-image"
-                />
 
                 <BulletList 
                   role="list" 
@@ -259,6 +262,12 @@ const InterviewPage: FC = () => {
                   <li role="listitem">Пройди тренировку интервью онлайн</li>
                   <li role="listitem">Получи обратную связь и двигайся дальше</li>
                 </BulletList>
+                
+                <CarouselImage 
+                  role="img" 
+                  aria-label="Иллюстрация подготовки к собеседованию"
+                  className="mobile-header-image"
+                />
               </ContentWrapper>
 
             <ContentSection 
@@ -294,6 +303,8 @@ const InterviewPage: FC = () => {
 
               </CarouselContainer>
             </ContentSection>
+
+            <InterviewSimulation />
             
           </ContentContainer>
         </PageContainer>
