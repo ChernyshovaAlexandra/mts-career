@@ -5,3 +5,4 @@ export * from "./activities-section";
 export * from "./video-section";
 export * from "./quiz-question";
 export * from "./quiz";
+export * from "./interview-simulation";
