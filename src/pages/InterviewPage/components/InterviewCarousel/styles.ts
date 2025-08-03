@@ -19,13 +19,13 @@ export const CarouselStatus = styled.div`
 export const CarouselWrapper = styled.div`
   position: relative;
   overflow: hidden;
-  padding: 0 60px;
+  padding: 0 80px;
   
   @media (max-width: 768px) {
-    padding: 0 50px;
+    padding: 0 60px;
   }
 
-    @media (max-width: 500px) {
+  @media (max-width: 500px) {
     padding: 0px;
   }
 `;
@@ -38,13 +38,17 @@ export const CarouselTrack = styled.div<{
   transition: transform 0.3s ease-in-out;
   transform: translateX(-${({ $currentIndex, $itemsPerView }) => 
     ($currentIndex * (100 / $itemsPerView))}%);
-  gap: 20px;
+  gap: 30px;
+  width: 100%;
+  max-width: calc(100vw - 160px);
 `;
 
 export const CarouselCard = styled.div`
   flex: 0 0 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
+  width: 100%;
 `;
 
 export const InterviewCardElement = styled.div`
@@ -55,10 +59,9 @@ export const InterviewCardElement = styled.div`
   border-radius: 20px;
   padding: 30px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
   display: flex;
   flex-direction: column;
+  margin: 0 auto;
   
   @media (max-width: 768px) {
     width: 282px;
@@ -80,11 +83,6 @@ export const InterviewCardElement = styled.div`
     max-width: 480px;
     height: 380px;
     padding: 24px;
-  }
-  
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
   }
 `;
 
@@ -204,7 +202,7 @@ export const NavigationButton = styled.button<{ $direction: 'prev' | 'next' }>`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  ${({ $direction }) => $direction === 'prev' ? 'left: 0;' : 'right: 0;'}
+  ${({ $direction }) => $direction === 'prev' ? 'left: 20px;' : 'right: 20px;'}
   
   width: 48px;
   height: 48px;
@@ -216,26 +214,11 @@ export const NavigationButton = styled.button<{ $direction: 'prev' | 'next' }>`
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-  z-index: 2;
-  
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
-  
-  &:hover {
-    background: #FFFFFF;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    transform: translateY(-50%) scale(1.05);
-  }
+  z-index: 5;
   
   &:disabled {
     opacity: 0.4;
     cursor: not-allowed;
-    transform: translateY(-50%);
-    
-    &:hover {
-      background: rgba(255, 255, 255, 0.9);
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
-      transform: translateY(-50%);
-    }
   }
   
   @media (max-width: 768px) {
