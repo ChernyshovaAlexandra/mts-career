@@ -1,16 +1,18 @@
 import type { FC } from "react";
-import { memo, useState, useEffect } from "react";
+import { memo, useState, useEffect, useRef, useCallback } from "react";
 import { IconArrowCircle } from "@chernyshovaalexandra/mtsui";
-import type { InterviewCard } from "../../constants";
 import { interviewCards } from "../../constants";
 import * as S from "./styles";
 
 export const InterviewCarousel: FC = memo(() => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerView, setItemsPerView] = useState(1);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [currentX, setCurrentX] = useState(0);
+  const trackRef = useRef<HTMLDivElement>(null);
   
   const getItemsPerView = () => {
-    // Всегда показываем только одну карточку на слайд
     return 1;
   };
   
@@ -41,6 +43,39 @@ export const InterviewCarousel: FC = memo(() => {
     setCurrentIndex(Math.min(index, maxIndex));
   };
 
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    setIsDragging(true);
+    setStartX(e.touches[0].clientX);
+    setCurrentX(e.touches[0].clientX);
+  }, []);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    setCurrentX(e.touches[0].clientX);
+  }, [isDragging]);
+
+  const handleTouchEnd = useCallback(() => {
+    if (!isDragging) return;
+    
+    const diff = startX - currentX;
+    const threshold = 50; // Минимальное расстояние для свайпа
+    
+    if (Math.abs(diff) > threshold) {
+      if (diff > 0 && currentIndex < maxIndex) {
+        // Свайп влево - следующая карточка
+        setCurrentIndex(prev => Math.min(maxIndex, prev + 1));
+      } else if (diff < 0 && currentIndex > 0) {
+        // Свайп вправо - предыдущая карточка
+        setCurrentIndex(prev => Math.max(0, prev - 1));
+      }
+    }
+    
+    setIsDragging(false);
+    setStartX(0);
+    setCurrentX(0);
+  }, [isDragging, startX, currentX, currentIndex, maxIndex]);
+
   const getCurrentCards = () => {
     const startIndex = currentIndex;
     const endIndex = Math.min(startIndex + itemsPerView, interviewCards.length);
@@ -68,10 +103,18 @@ export const InterviewCarousel: FC = memo(() => {
 
       <S.CarouselWrapper>
         <S.CarouselTrack 
+          ref={trackRef}
           $currentIndex={currentIndex} 
           $itemsPerView={itemsPerView}
           role="group"
           aria-label={`Группа карточек ${currentIndex + 1} из ${totalSlides}`}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          style={{ 
+            cursor: isDragging ? 'grabbing' : 'grab',
+            userSelect: isDragging ? 'none' : 'auto'
+          }}
         >
           {interviewCards.map((card) => (
             <S.CarouselCard 
@@ -88,7 +131,6 @@ export const InterviewCarousel: FC = memo(() => {
                 
                 <S.CardContent>
                   <S.CardTitle 
-                    variant="H4-Wide"
                     id={`card-${card.id}-title`}
                     role="heading"
                     aria-level={4}
@@ -97,7 +139,6 @@ export const InterviewCarousel: FC = memo(() => {
                   </S.CardTitle>
                   
                   <S.CardDescription 
-                    variant="P4-Regular-Text"
                     id={`card-${card.id}-description`}
                   >
                     {card.description}

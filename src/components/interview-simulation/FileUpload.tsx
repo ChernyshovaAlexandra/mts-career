@@ -36,12 +36,13 @@ const FileInfo = styled.div`
   border-radius: 16px;
   background: white;
   transition: all 0.2s ease;
+  cursor: pointer;
   
   &:hover {
     border-color: ${mts_brand_red};
   }
   
-  &:focus-within {
+  &:focus-visible {
     border-color: ${mts_brand_red};
     outline: 2px solid ${mts_brand_red};
     outline-offset: 2px;
@@ -70,29 +71,7 @@ const FileSize = styled.div`
   margin-top: 2px;
 `;
 
-const UploadButton = styled.button`
-  padding: 4px 8px;
-  border: none;
-  border-radius: 4px;
-  background: #f9fafb;
-  color: #6B7280;
-  font-family: 'MTS Text', sans-serif;
-  font-size: 12px;
-  font-weight: 400;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-  
-  &:hover {
-    background: #f3f4f6;
-    color: #374151;
-  }
-  
-  &:focus-visible {
-    outline: 2px solid ${mts_brand_red};
-    outline-offset: 2px;
-  }
-`;
+// UploadButton component removed - no longer needed
 
 const HiddenInput = styled.input`
   position: absolute;
@@ -130,7 +109,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleButtonClick = () => {
+  const handleContainerClick = () => {
     fileInputRef.current?.click();
   };
 
@@ -170,7 +149,18 @@ export const FileUpload: React.FC<FileUploadProps> = ({
   return (
     <UploadContainer>
       {label && <UploadLabel>{label}</UploadLabel>}
-      <FileInfo>
+      <FileInfo
+        onClick={handleContainerClick}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleContainerClick();
+          }
+        }}
+        role="button"
+        tabIndex={0}
+        aria-label="Выбрать файл резюме"
+      >
         <FileIcon>
           {getFileIcon()}
         </FileIcon>
@@ -178,13 +168,6 @@ export const FileUpload: React.FC<FileUploadProps> = ({
           <FileName>{fileName}</FileName>
           <FileSize>{fileSize}</FileSize>
         </FileNameContainer>
-        <UploadButton
-          type="button"
-          onClick={handleButtonClick}
-          aria-label="Выбрать файл резюме"
-        >
-          Выбрать файл
-        </UploadButton>
       </FileInfo>
       
       <HiddenInput

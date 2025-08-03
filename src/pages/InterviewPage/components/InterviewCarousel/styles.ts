@@ -26,7 +26,7 @@ export const CarouselWrapper = styled.div`
   }
 
   @media (max-width: 500px) {
-    padding: 0px;
+    padding: 0 20px;
   }
 `;
 
@@ -41,6 +41,11 @@ export const CarouselTrack = styled.div<{
   gap: 30px;
   width: 100%;
   max-width: calc(100vw - 160px);
+  
+  @media (max-width: 500px) {
+    max-width: calc(100vw - 40px);
+    gap: 20px;
+  }
 `;
 
 export const CarouselCard = styled.div`
@@ -49,6 +54,7 @@ export const CarouselCard = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+  min-width: 0;
 `;
 
 export const InterviewCardElement = styled.div`
@@ -62,6 +68,7 @@ export const InterviewCardElement = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0 auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   
   @media (max-width: 768px) {
     width: 282px;
