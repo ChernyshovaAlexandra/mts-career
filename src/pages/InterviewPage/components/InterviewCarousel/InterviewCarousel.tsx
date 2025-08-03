@@ -11,6 +11,7 @@ export const InterviewCarousel: FC = memo(() => {
   const [startX, setStartX] = useState(0);
   const [currentX, setCurrentX] = useState(0);
   const trackRef = useRef<HTMLDivElement>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
   
   const getItemsPerView = () => {
     return 1;
@@ -31,6 +32,39 @@ export const InterviewCarousel: FC = memo(() => {
   
   const maxIndex = Math.max(0, interviewCards.length - itemsPerView);
   
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    // Проверяем, что событие произошло на кнопках навигации или точках
+    const target = e.target as HTMLElement;
+    const isNavigationButton = target.closest('[role="button"]') || 
+                              target.closest('[role="tab"]') ||
+                              target.closest('button');
+    
+    if (!isNavigationButton) return;
+    
+    switch (e.key) {
+      case 'ArrowLeft':
+        e.preventDefault();
+        if (currentIndex > 0) {
+          setCurrentIndex(prev => Math.max(0, prev - 1));
+        }
+        break;
+      case 'ArrowRight':
+        e.preventDefault();
+        if (currentIndex < maxIndex) {
+          setCurrentIndex(prev => Math.min(maxIndex, prev + 1));
+        }
+        break;
+      case 'Home':
+        e.preventDefault();
+        setCurrentIndex(0);
+        break;
+      case 'End':
+        e.preventDefault();
+        setCurrentIndex(maxIndex);
+        break;
+    }
+  }, [currentIndex, maxIndex]);
+  
   const handlePrevClick = () => {
     setCurrentIndex(prev => Math.max(0, prev - 1));
   };
@@ -42,6 +76,11 @@ export const InterviewCarousel: FC = memo(() => {
   const handleDotClick = (index: number) => {
     setCurrentIndex(Math.min(index, maxIndex));
   };
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [handleKeyDown]);
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     setIsDragging(true);
@@ -87,6 +126,7 @@ export const InterviewCarousel: FC = memo(() => {
 
   return (
     <S.CarouselContainer 
+      ref={carouselRef}
       role="region" 
       aria-label="Карусель карточек с советами для интервью"
       aria-describedby="carousel-instructions"
@@ -112,8 +152,7 @@ export const InterviewCarousel: FC = memo(() => {
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
           style={{ 
-            cursor: isDragging ? 'grabbing' : 'grab',
-            userSelect: isDragging ? 'none' : 'auto'
+            cursor: isDragging ? 'grabbing' : 'grab'
           }}
         >
           {interviewCards.map((card) => (

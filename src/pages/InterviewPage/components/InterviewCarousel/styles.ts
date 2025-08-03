@@ -42,6 +42,12 @@ export const CarouselTrack = styled.div<{
   width: 100%;
   max-width: calc(100vw - 160px);
   
+  user-select: none;
+  
+  &:focus {
+    outline: none;
+  }
+  
   @media (max-width: 500px) {
     max-width: calc(100vw - 40px);
     gap: 20px;
@@ -55,6 +61,14 @@ export const CarouselCard = styled.div`
   align-items: center;
   width: 100%;
   min-width: 0;
+  
+  /* Убираем возможность выделения при клике */
+  user-select: none;
+  
+  /* Убираем возможность фокуса */
+  &:focus {
+    outline: none;
+  }
 `;
 
 export const InterviewCardElement = styled.div`
@@ -69,6 +83,14 @@ export const InterviewCardElement = styled.div`
   flex-direction: column;
   margin: 0 auto;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  
+  /* Убираем возможность выделения при клике */
+  user-select: none;
+  
+  /* Убираем возможность фокуса */
+  &:focus {
+    outline: none;
+  }
   
   @media (max-width: 768px) {
     width: 282px;
