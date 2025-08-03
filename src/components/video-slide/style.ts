@@ -45,7 +45,6 @@ export const CustomArrow = styled.button<{
   height: 40px;
   border-radius: 100px;
   background: #fff;
-  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.08), 0px 4px 16px rgba(0, 0, 0, 0.08);
   border: none;
   cursor: pointer;
 

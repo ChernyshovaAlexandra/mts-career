@@ -28,22 +28,22 @@ const SimulationContainer = styled.section<{ isConfirmed?: boolean }>`
   margin-right: ${props => props.isConfirmed ? 'auto' : '0'};
   
   @media (max-width: 768px) {
-    padding: 20px;
+    padding: 8px;
     border-radius: 16px;
     margin: 20px 0;
     width: ${props => props.isConfirmed ? 'calc(100% - 40px)' : 'auto'};
     max-width: ${props => props.isConfirmed ? '654px' : 'none'};
-    margin-left: ${props => props.isConfirmed ? 'auto' : '0'};
-    margin-right: ${props => props.isConfirmed ? 'auto' : '0'};
+    margin-left: ${props => props.isConfirmed ? 'auto' : '0px'};
+    margin-right: ${props => props.isConfirmed ? 'auto' : '0px'};
   }
   
   @media (max-width: 480px) {
-    padding: 16px;
-    margin: 16px 0;
+    padding: 8px;
+    margin: 8px 0;
     border-radius: 12px;
     width: ${props => props.isConfirmed ? 'calc(100% - 32px)' : 'auto'};
-    margin-left: ${props => props.isConfirmed ? 'auto' : '16px'};
-    margin-right: ${props => props.isConfirmed ? 'auto' : '16px'};
+    margin-left: ${props => props.isConfirmed ? 'auto' : '0px'};
+    margin-right: ${props => props.isConfirmed ? 'auto' : '0px'};
   }
 `;
 
@@ -277,6 +277,8 @@ const CalendarGrid = styled.div`
 `;
 
 const DayCard = styled.div`
+margin-left: 10px;
+margin-right: 10px;
   background: white;
   border-radius: 16px;
   padding: 8px;
@@ -292,22 +294,15 @@ const DayCard = styled.div`
     max-width: 280px;
     height: auto;
     min-height: 180px;
-    margin-right: 20px;
+    margin-right: 10px;
+    margin-left: 10px;
     padding: 6px;
   }
-  
-  @media (max-width: 500px) {
-    width: 245px;
-    height: 150px;
-    max-width: 245px;
-    min-height: 150px;
-    margin-right: 15px;
-    padding: 5px;
-  }
+
   
   @media (max-width: 480px) {
     width: calc(100vw - 100px);
-    max-width: 260px;
+    max-width: 200px;
     margin-right: 15px;
     padding: 5px;
     min-height: 160px;
