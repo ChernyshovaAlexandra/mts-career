@@ -561,13 +561,18 @@ export const InterviewSimulation: React.FC = () => {
   };
 
       return (
-    <SimulationContainer aria-labelledby="simulation-title" isConfirmed={isScheduleConfirmed}>
+    <SimulationContainer 
+      aria-labelledby="simulation-title" 
+      isConfirmed={isScheduleConfirmed}
+      role="region"
+      aria-describedby="simulation-description"
+    >
       <SimulationHeader>
         <Title id="simulation-title">
           Симуляция собеседования
         </Title>
         {!isScheduleConfirmed && (
-          <Description>
+          <Description id="simulation-description">
             Выбери направление, в котором хочешь работать. Затем проверенное ИИ резюме. Зарезервируй подходящее время и пройди пробное 
             интервью для начисления баллов. После выбора слота на твою почту придёт письмо со ссылкой на встречу. Если не сможешь прийти, заранее 
             отмени собеседование в личном кабинете
@@ -585,35 +590,42 @@ export const InterviewSimulation: React.FC = () => {
         />
       ) : (
         <>
-          <FormSection>
+          <FormSection role="group" aria-labelledby="form-section-title">
+            <h3 id="form-section-title" style={{ display: 'none' }}>Форма выбора параметров</h3>
+            
             <DirectionField>
-              <FieldLabel>Направление</FieldLabel>
+              <FieldLabel id="direction-label">Направление</FieldLabel>
               <DirectionSelect
                 value={selectedDirection}
                 onChange={setSelectedDirection}
+                aria-labelledby="direction-label"
               />
             </DirectionField>
             
             <FileField>
-              <FieldLabel>Резюме в формате .doc</FieldLabel>
+              <FieldLabel id="file-label">Резюме в формате .doc</FieldLabel>
               <FileUpload
                 fileName={resumeFile}
                 fileSize={fileSize}
                 onFileChange={handleFileChange}
                 acceptedFormats=".doc,.docx,.pdf"
                 label=""
+                aria-labelledby="file-label"
               />
             </FileField>
           </FormSection>
 
-          <ScheduleSection>
+          <ScheduleSection role="group" aria-labelledby="schedule-section-title">
+            <h3 id="schedule-section-title" style={{ display: 'none' }}>Выбор времени встречи</h3>
+            
             <ScheduleHeader>
               <NavigationButton
                 type="button"
                 aria-label="Предыдущая неделя"
                 onClick={() => scrollCarousel('left')}
+                title="Предыдущая неделя"
               >
-                <svg viewBox="0 0 16 16" fill="currentColor">
+                <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
                   <path fillRule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
                 </svg>
               </NavigationButton>
@@ -654,19 +666,25 @@ export const InterviewSimulation: React.FC = () => {
                 type="button"
                 aria-label="Следующая неделя"
                 onClick={() => scrollCarousel('right')}
+                title="Следующая неделя"
               >
-                <svg viewBox="0 0 16 16" fill="currentColor">
+                <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
                   <path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
                 </svg>
               </NavigationButton>
             </ScheduleHeader>
           </ScheduleSection>
 
-          <ActionSection>
+          <ActionSection role="group" aria-labelledby="action-section-title">
+            <h3 id="action-section-title" style={{ display: 'none' }}>Действия</h3>
+            
             <Button
               variant="primary"
               type="button"
-              aria-label="Назначить встречу на выбранное время"
+              aria-label={selectedSlot 
+                ? `Назначить встречу на ${selectedSlot.day} в ${selectedSlot.time}` 
+                : "Выберите время для назначения встречи"
+              }
               disabled={!selectedSlot}
               onClick={handleScheduleMeeting}
             >
