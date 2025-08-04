@@ -26,9 +26,9 @@ export const MarathonSteps = memo(() => {
         </HiddenHeading>
         <StyledOl aria-label="Этапы участия в марафоне">
           {[
-            { num: "01", text: "Осваивай навыки" },
-            { num: "02", text: "Участвуй в активностях" },
-            { num: "03", text: "Выиграй приглашение" },
+            { num: "01", text: "Осваивай навыки\nи пробуй себя в разных\nактивностях" },
+            { num: "02", text: "Получай за это баллы,\nчтобы стать участником\nрозыгрыша призов" },
+            { num: "03", text: "Выиграй приглашение\nв Москву на карьерное\nмероприятие МТС" },
           ].map((step) => (
             <GrayBlock key={step.num}>
               <Text style={{ color: mts_brand_red }} variant="P1-Regular-Comp">
@@ -46,14 +46,14 @@ export const MarathonSteps = memo(() => {
         >
           <GrayBlockDiv>
             <dl>
-              <dt>XX августа — XX сентября</dt>
+              <dt>11 августа — 1 сентября</dt>
               <dd>Дни проведения марафона</dd>
             </dl>
           </GrayBlockDiv>
 
           <GrayBlockDiv>
             <dl>
-              <dt>XX сентября</dt>
+              <dt>1—8 сентября</dt>
               <dd>Объявление победителей</dd>
             </dl>
           </GrayBlockDiv>

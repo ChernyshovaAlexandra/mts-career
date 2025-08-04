@@ -12,7 +12,9 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     const token = ApiService.getAccessToken();
-    if (token ) { //&& !useUserStore.getState().user
+    if (token) {
+      //&& !useUserStore.getState().user
+      
       apiService.getStatus().then((resp) => {
         const { user, position } = resp.data;
         const updUser: UserData = {

@@ -14,6 +14,7 @@ export const ActivitiesSection = () => {
         `Исследуй цифровые сервисы МТС. Они делают работу с деньгами удобной, быстрой и безопасной для пользователей.`
       ),
       route: "/activities/fintech",
+      bg: "/images/main/1.webp",
     },
     {
       title: "MTC Медиа",
@@ -21,6 +22,7 @@ export const ActivitiesSection = () => {
         `Изучи сервисы KION, МТС Музыка и Строки. Получи знания о современных технологиях для успешной карьеры в медиаиндустрии.`
       ),
       route: "/activities/media",
+      bg: "/images/main/2.webp",
     },
     {
       title: "Рекламные технологии AdTech",
@@ -28,6 +30,7 @@ export const ActivitiesSection = () => {
         `Разберись, как МТС использует передовые технологии в рекламе. Бренды находят своих клиентов среди миллионов.`
       ),
       route: "/activities/adtech",
+      bg: "/images/main/3.webp",
     },
     {
       title: "IT-направление MTS Web Services",
@@ -35,6 +38,7 @@ export const ActivitiesSection = () => {
         `Погрузись в мир IT-продуктов МТС — от облаков и кибербезопасности до сервисов, которые используют искусственный интеллект.`
       ),
       route: "/activities/web",
+      bg: "/images/main/4.webp",
     },
     {
       title: "Кикшеринг МТС Юрент",
@@ -42,6 +46,7 @@ export const ActivitiesSection = () => {
         `Стартуй с Юрент: как МТС создаёт транспорт будущего с помощью мобильных сервисов аренды самокатов и велосипедов.`
       ),
       route: "/activities/urent",
+      bg: "/images/main/5.webp",
     },
     {
       title: "Телеком",
@@ -49,6 +54,7 @@ export const ActivitiesSection = () => {
         `Открой зону доступа без границ — как МТС соединяет миллионы людей по всей стране и за её пределами.`
       ),
       route: "/activities/telecom",
+      bg: "/images/main/6.webp",
     },
   ];
 
@@ -65,6 +71,7 @@ export const ActivitiesSection = () => {
         <ActivitiesGrid>
           {activities.map((item) => (
             <ActivityCard
+              bg={item.bg}
               key={item.title}
               title={item.title}
               description={item.description}
