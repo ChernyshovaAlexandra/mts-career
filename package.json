@@ -11,7 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@chernyshovaalexandra/mtsui": "^1.4.73",
+    "@chernyshovaalexandra/mtsui": "^1.4.75",
     "antd": "^5.26.2",
     "axios": "^1.11.0",
     "clsx": "^2.1.1",

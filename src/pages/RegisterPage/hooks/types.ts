@@ -16,6 +16,8 @@ export interface UseRegisterFormProps {
   lastName: string;
   setLastName: (v: string) => void;
   city?: City;
+  expired: boolean;
+  timeLeft: number;
   setCity: (v: City) => void;
   email: string;
   setEmail: (v: string) => void;
@@ -25,8 +27,10 @@ export interface UseRegisterFormProps {
   setPassword2: (v: string) => void;
   code: string;
   setCode: (v: string) => void;
+  setInval: (v: string) => void;
   codeSent: boolean;
   loading: boolean;
+  inval: string;
   sendingCode: boolean;
   error: string | null;
   sendCode: () => Promise<void>;
