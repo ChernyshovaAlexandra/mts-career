@@ -4,7 +4,7 @@ export { default as FAQPage } from "./FAQPage";
 export { default as LoginPage } from "./LoginPage";
 export { default as RegisterPage } from "./RegisterPage";
 export { default as WorkPage } from "./WorkPage";
-export { default as WorkAtMtsPage } from "./WorkAtMtsPage";
+export { default as WorkAtMtsPage } from "./WorkAtMts";
 export { default as RulesPage } from "./RulesPage";
 export { default as PromptGalleryPage } from "./PromptGalleryPage";
 export { default as InterviewPage } from "./InterviewPage";
