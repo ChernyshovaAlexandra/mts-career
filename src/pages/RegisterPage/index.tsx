@@ -58,9 +58,9 @@ const RegisterPage: FC = () => {
     sendCode,
     submit,
     timeLeft,
-    expired,
-    inval,
-    setInval,
+    // expired,
+    disability,
+    setDisability,
   } = useRegisterForm();
   const { showSnackbar } = useSnackbar();
 
@@ -84,7 +84,7 @@ const RegisterPage: FC = () => {
         autoHideDuration: 5000,
       });
       setTimeout(() => {
-        navigate("/login");
+        navigate("/");
       }, 2000);
     } catch (err) {
       showSnackbar({
@@ -158,11 +158,11 @@ const RegisterPage: FC = () => {
               name="inval"
               direction="horizontal"
               options={[
-                { label: "Да", value: "true" },
-                { label: "Нет", value: "false" },
+                { label: "Да", value: 'true' },
+                { label: "Нет", value: 'false' },
               ]}
-              value={inval}
-              onChange={setInval}
+              value={disability}
+              onChange={setDisability}
               label="Имеется ли у вас установленная инвалидность?"
             />
             <Input

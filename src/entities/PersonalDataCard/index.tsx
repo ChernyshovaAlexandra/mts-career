@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Card from "../../shared/ui/Card";
 import FieldLabel from "../../shared/ui/FieldLabel";
 import FieldValue from "../../shared/ui/FieldValue";
-import { useUserStore } from "../../store";
 
 /**
  * @typedef {Object} PersonalDataCardProps
@@ -67,26 +66,21 @@ const StatusBadge = styled.span`
  * @returns JSX элемент карточки персональных данных
  */
 const PersonalDataCard: FC<PersonalDataCardProps> = ({
+  firstName,
+  lastName,
   personalCode,
+  city,
   status,
 }) => {
-  const user = useUserStore((s) => s.user);
-
   return (
     <Card title="Персональные данные" titleId="personal-data-title">
       <DataRow>
         <FieldLabel id="name-label">Имя и фамилия</FieldLabel>
         <NameContainer>
           <Name id="name-value" aria-labelledby="name-label">
-            {user?.name}
+            {firstName + " " + lastName}
           </Name>
-          <StatusBadge aria-label={`Статус: ${status}`}>
-            {user?.status === "new"
-              ? "Новичок"
-              : user?.status === "special"
-              ? "Специалист"
-              : "Профи"}
-          </StatusBadge>
+          <StatusBadge aria-label={`Статус: ${status}`}>{status}</StatusBadge>
         </NameContainer>
       </DataRow>
 
@@ -100,7 +94,7 @@ const PersonalDataCard: FC<PersonalDataCardProps> = ({
       <DataRow>
         <FieldLabel id="city-label">Город</FieldLabel>
         <FieldValue id="city-value" aria-labelledby="city-label">
-          {user?.region}
+          {city}
         </FieldValue>
       </DataRow>
     </Card>

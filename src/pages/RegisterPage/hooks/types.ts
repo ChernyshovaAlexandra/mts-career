@@ -27,10 +27,10 @@ export interface UseRegisterFormProps {
   setPassword2: (v: string) => void;
   code: string;
   setCode: (v: string) => void;
-  setInval: (v: string) => void;
+  setDisability: (v: string) => void;
   codeSent: boolean;
   loading: boolean;
-  inval: string;
+  disability: string;
   sendingCode: boolean;
   error: string | null;
   sendCode: () => Promise<void>;
