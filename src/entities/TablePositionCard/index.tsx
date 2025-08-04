@@ -46,21 +46,24 @@ const Position = styled.div`
  * @param props - Свойства компонента
  * @returns JSX элемент карточки места в таблице
  */
-const TablePositionCard: FC<TablePositionCardProps> = ({ onViewRating }) => {
-  const user = useUserStore((s) => s.user);
+const TablePositionCard: FC<TablePositionCardProps> = ({
+  position,
+  points,
+  onViewRating,
+}) => {
   return (
     <Card title="Место в таблице рейтинга" titleId="table-position-title">
       <DataRow>
         <FieldLabel>Место в таблице</FieldLabel>
-        <Position aria-label={`Позиция в рейтинге: ${user?.position ?? 0}`}>
-          {user?.position ?? 0}
+        <Position aria-label={`Позиция в рейтинге: ${position}`}>
+          {position}
         </Position>
       </DataRow>
 
       <DataRow>
         <FieldLabel>Баллы</FieldLabel>
-        <FieldValue aria-label={`Количество баллов: ${user?.points}`}>
-          {user?.points}
+        <FieldValue aria-label={`Количество баллов: ${points}`}>
+          {points}
         </FieldValue>
       </DataRow>
 

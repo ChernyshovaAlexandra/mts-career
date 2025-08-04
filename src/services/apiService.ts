@@ -153,6 +153,7 @@ export interface RegisterPayload {
   last_name: string;
   code: string;
   business?: string;
+  disability: boolean;
 }
 
 export interface LoginResponse {
@@ -205,7 +206,17 @@ export interface SystemInfo {
 }
 
 export interface UserStatus {
-  user: UserData;
+  user: {
+    nickname: string;
+    name: string;
+    position: string;
+    kofe: unknown;
+    games: [unknown];
+    points: number;
+    region: string;
+    sobes: unknown;
+    status: string;
+  };
   position: number | null;
 }
 

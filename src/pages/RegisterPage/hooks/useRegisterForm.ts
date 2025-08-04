@@ -24,9 +24,10 @@ export const useRegisterForm = (): UseRegisterFormProps => {
   const [loading, setLoading] = useState(false);
   const [sendingCode, setSendingCode] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [inval, setInval] = useState<string>("");
+  const [disability, setDisability] = useState<string>("false");
   const [fieldErrors, setFieldErrors] = useState<ValidationErrors>({});
   const expired = codeSent && timeLeft <= 0;
+
   const sendCode = useCallback(async () => {
     if (!email.trim()) {
       setError("Сначала укажите e-mail");
@@ -61,7 +62,7 @@ export const useRegisterForm = (): UseRegisterFormProps => {
 
   const submit = useCallback(async () => {
     setFieldErrors({});
-    if (!inval) {
+    if (disability !== "true" && disability !== "false") {
       setError("Пожалуйста, укажите, есть ли у вас инвалидность");
       return null;
     }
@@ -83,6 +84,7 @@ export const useRegisterForm = (): UseRegisterFormProps => {
         name: firstName.trim(),
         last_name: lastName.trim(),
         code,
+        disability: disability === "true" ? true : false,
       });
 
       if ((data as any).status === false && (data as any).errors) {
@@ -134,8 +136,8 @@ export const useRegisterForm = (): UseRegisterFormProps => {
     error,
     sendCode,
     submit,
-    inval,
-    setInval,
+    disability,
+    setDisability,
     timeLeft,
     expired,
   };
