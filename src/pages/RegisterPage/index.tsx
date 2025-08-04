@@ -9,6 +9,7 @@ import {
   Link,
   mts_brand_red,
   IconError,
+  RadioGroup,
 } from "@chernyshovaalexandra/mtsui";
 import { MainLayout } from "../../layouts";
 import { Form, PageWrapper } from "../LoginPage/style";
@@ -56,6 +57,10 @@ const RegisterPage: FC = () => {
     error,
     sendCode,
     submit,
+    timeLeft,
+    expired,
+    inval,
+    setInval,
   } = useRegisterForm();
   const { showSnackbar } = useSnackbar();
 
@@ -149,6 +154,17 @@ const RegisterPage: FC = () => {
               errorMessage={fieldErrors.region?.[0]}
             />
 
+            <RadioGroup
+              name="inval"
+              direction="horizontal"
+              options={[
+                { label: "Да", value: "true" },
+                { label: "Нет", value: "false" },
+              ]}
+              value={inval}
+              onChange={setInval}
+              label="Имеется ли у вас установленная инвалидность?"
+            />
             <Input
               id="password"
               name="password"
@@ -215,7 +231,18 @@ const RegisterPage: FC = () => {
               required
               errorMessage={fieldErrors.code?.[0]}
             />
-
+            {codeSent ? (
+              <Flex gap="20px" align="center">
+                <Text variant="P3-Regular-Comp">
+                  Код действует{" "}
+                  {String(Math.floor(timeLeft / 60)).padStart(2, "0")}:
+                  {String(timeLeft % 60).padStart(2, "0")}
+                </Text>
+                <Link onClick={sendCode}>Отправить код повторно</Link>
+              </Flex>
+            ) : (
+              <></>
+            )}
             <Text id="form-description" variant="P3-Regular-Comp">
               Продолжая, ты соглашаешься с{" "}
               <Link style={{ display: "inline", fontSize: "inherit" }}>
@@ -249,14 +276,16 @@ const RegisterPage: FC = () => {
                 {sendingCode ? "Отправляем…" : "Получить код"}
               </Button>
             ) : (
-              <Button
-                style={{ width: "100%", maxWidth: "100%", marginTop: 16 }}
-                variant="tetriary"
-                type="submit"
-                disabled={loading || !passwordsMatch || !emailValid || !code}
-              >
-                {loading ? "Зарегистрируем…" : "Зарегистрироваться"}
-              </Button>
+              <>
+                <Button
+                  style={{ width: "100%", maxWidth: "100%", marginTop: 16 }}
+                  variant="tetriary"
+                  type="submit"
+                  disabled={loading || !passwordsMatch || !emailValid || !code}
+                >
+                  {loading ? "Зарегистрируем…" : "Зарегистрироваться"}
+                </Button>
+              </>
             )}
           </Form>
         </PageWrapper>

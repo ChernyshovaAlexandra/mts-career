@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import axios from "axios";
 import { apiService } from "../../../services/apiService";
 import type {
@@ -9,6 +9,7 @@ import type {
 } from "./types";
 
 export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const OTP_TTL_SEC = 600;
 
 export const useRegisterForm = (): UseRegisterFormProps => {
   const [firstName, setFirstName] = useState("");
@@ -19,13 +20,13 @@ export const useRegisterForm = (): UseRegisterFormProps => {
   const [password2, setPassword2] = useState("");
   const [code, setCode] = useState("");
   const [codeSent, setCodeSent] = useState(false);
-
+  const [timeLeft, setTimeLeft] = useState(0);
   const [loading, setLoading] = useState(false);
   const [sendingCode, setSendingCode] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
+  const [inval, setInval] = useState<string>("");
   const [fieldErrors, setFieldErrors] = useState<ValidationErrors>({});
-
+  const expired = codeSent && timeLeft <= 0;
   const sendCode = useCallback(async () => {
     if (!email.trim()) {
       setError("Сначала укажите e-mail");
@@ -41,6 +42,7 @@ export const useRegisterForm = (): UseRegisterFormProps => {
         setCodeSent(false);
       } else {
         setCodeSent(true);
+        setTimeLeft(OTP_TTL_SEC);
       }
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.data) {
@@ -59,7 +61,10 @@ export const useRegisterForm = (): UseRegisterFormProps => {
 
   const submit = useCallback(async () => {
     setFieldErrors({});
-
+    if (!inval) {
+      setError("Пожалуйста, укажите, есть ли у вас инвалидность");
+      return null;
+    }
     if (password !== password2) {
       setError("Пароли не совпадают");
       return null;
@@ -101,6 +106,12 @@ export const useRegisterForm = (): UseRegisterFormProps => {
     }
   }, [email, password, password2, city, firstName, lastName, code]);
 
+  useEffect(() => {
+    if (!codeSent || timeLeft <= 0) return;
+    const id = setInterval(() => setTimeLeft((t) => t - 1), 1000);
+    return () => clearInterval(id);
+  }, [codeSent, timeLeft]);
+
   return {
     firstName,
     fieldErrors,
@@ -123,5 +134,9 @@ export const useRegisterForm = (): UseRegisterFormProps => {
     error,
     sendCode,
     submit,
+    inval,
+    setInval,
+    timeLeft,
+    expired,
   };
 };
