@@ -78,7 +78,7 @@ export const Header: FC = () => {
                 </Text>
               </Score>
               <IconBtn
-                $status={user?.status || "new"}
+                $status={user?.status === "Новичок" ? "new" : ""}
                 ref={anchorRef}
                 aria-haspopup="menu"
                 aria-controls="user-menu"

@@ -18,21 +18,21 @@ export const SkillsSection = () => {
         <SkillCard
           title={`Подготовка\nрезюме`}
           description={applyNbsp("Создай резюме, которое заметят: проверенные рекомендации, реальные примеры, проверка ИИ и лайфхаки от HR-экспертов МТС для успешного старта карьеры.")}
-          img="/images/skills/resume.png"
+          img="/images/main/7.webp"
           onClick={() => navigate("/resume")}
         />
 
         <SkillCard
           title={`Подготовка\nк собеседованию`}
           description={applyNbsp("Пройди путь от теории к практике: работающие советы, симуляция интервью и конструктивная обратная связь помогут чувствовать себя уверенно.")}
-          img="/images/skills/interview.png"
+           img="/images/main/8.webp"
           onClick={() => navigate("/interview")}
         />
 
         <SkillCard
           title="Работа в МТС"
           description={applyNbsp("Узнай, как устроена работа в МТС: выбери интересующую область, изучи доступные вакансии и пообщайся с командой напрямую.")}
-          img="/images/skills/work.png"
+           img="/images/main/9.webp"
           onClick={() => navigate("/work")}
         />
       </CardGrid>

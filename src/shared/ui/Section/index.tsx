@@ -17,7 +17,7 @@ interface SectionProps {
 }
 
 const Wrapper = styled.section`
-  margin: 120px 0;
+  padding: 60px 0;
 `;
 
 const HeaderWrapper = styled.div<{ align?: "left" | "center" }>`
@@ -54,7 +54,7 @@ export const Section: FC<PropsWithChildren<SectionProps>> = ({
           <Header
             style={{
               textTransform: "uppercase",
-              textAlign: "center",
+              textAlign: align,
               whiteSpace: "pre-wrap",
             }}
             as={headingTag}

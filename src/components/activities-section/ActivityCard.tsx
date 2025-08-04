@@ -6,15 +6,17 @@ interface ActivityCardProps {
   title: string;
   description: string;
   onClick: () => void;
+  bg: string;
 }
 
 export const ActivityCard: FC<ActivityCardProps> = ({
   title,
   description,
   onClick,
+  bg,
 }) => {
   return (
-    <ActivityCardWrapper>
+    <ActivityCardWrapper $bg={bg}>
       <ActivityContent>
         <div>
           <Header as="h3" variant="H3-Wide">

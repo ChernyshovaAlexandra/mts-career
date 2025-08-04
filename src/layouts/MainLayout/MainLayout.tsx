@@ -1,14 +1,14 @@
-import type { FC, PropsWithChildren } from "react";
+import type { FC } from "react";
 import styled from "styled-components";
 import { Footer, Header, ModalRoot } from "../../widgets";
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ $bg: string }>`
   display: flex;
   flex-direction: column;
   min-height: calc(100vh - 20px);
   position: relative;
   transition: margin-left 0.3s ease;
-  
+  background: ${({ $bg }) => `url(${$bg}) no-repeat right top`};
   margin-left: 0 !important;
   width: 100% !important;
 `;
@@ -22,9 +22,12 @@ const Main = styled.main`
   overflow-x: hidden;
 `;
 
-export const MainLayout: FC<PropsWithChildren> = ({ children }) => {
+export const MainLayout: FC<{
+  children?: React.ReactNode | undefined;
+  bg: string;
+}> = ({ children, bg = "" }) => {
   return (
-    <Wrapper role="presentation">
+    <Wrapper role="presentation" $bg={bg}>
       <a
         href="#main-content"
         style={{

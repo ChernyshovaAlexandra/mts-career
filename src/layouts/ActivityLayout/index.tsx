@@ -8,6 +8,7 @@ import { applyNbsp } from "../../utils/applyNbsp";
 type ActivityLayoutProps = {
   title: string;
   description: string;
+  bg: string;
   children?: ReactNode;
 };
 
@@ -15,10 +16,11 @@ export const ActivityLayout: FC<ActivityLayoutProps> = ({
   title,
   description,
   children,
+  bg,
 }) => {
   return (
-    <MainLayout>
-      <Section title={title}>
+    <MainLayout bg={bg}>
+      <Section title={title} align="left">
         {/* Короткое описание */}
         <GrayBlock>
           <Text variant="P1-Regular-Comp">{applyNbsp(description)}</Text>

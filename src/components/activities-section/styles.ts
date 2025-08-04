@@ -1,8 +1,6 @@
 import styled from "styled-components";
 
-export const ActivitiesWrapper = styled.section`
-  margin: 48px 0;
-`;
+export const ActivitiesWrapper = styled.section``;
 
 export const ActivitiesGrid = styled.div`
   display: grid;
@@ -15,12 +13,13 @@ export const ActivitiesGrid = styled.div`
   }
 `;
 
-export const ActivityCardWrapper = styled.article`
+export const ActivityCardWrapper = styled.article<{ $bg: string }>`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
-  background: url("/images/activities/bg.png") no-repeat, #f6f7f9;
+  background: ${({ $bg }) =>
+    $bg ? `url('${$bg}') no-repeat, #f6f7f9` : "#f6f7f9"};
   background-position: 100% 100%, 0 0;
   background-size: 40%, 100%;
   border-radius: 24px;
