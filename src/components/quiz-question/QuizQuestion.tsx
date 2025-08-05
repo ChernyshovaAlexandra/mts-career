@@ -3,28 +3,20 @@ import { Flex } from "antd";
 import type { FC, KeyboardEvent } from "react";
 import { AnswerItem, AnswersList, QuizQuestionWrapper } from "./style";
 import { applyNbsp } from "../../utils";
-import type { Answer, Step } from "../quiz/quiz.types";
+import type { Answer, QuizQuestionProps } from "../quiz/quiz.types";
+import { QuizStartScreen } from "./QuizStartScreen";
 
-export interface QuizQuestionProps {
-  question: { number: number; text: string };
-  answers: Answer[];
-  steps: Step[];
-  selectedAnswerId?: string;
-  isFirst: boolean;
-  isLast: boolean;
-  onNext: () => void;
-  onPrev: () => void;
-  onSelect: (id: string) => void;
-}
 export const QuizQuestion: FC<QuizQuestionProps> = ({
   question,
   answers,
+  answerCorrect,
   steps,
   selectedAnswerId,
   // isFirst,
+  stage,
   isLast,
   onNext,
-  // onPrev,
+  setStage,
   onSelect,
 }) => {
   const groupId = `q-${question.number}`;
@@ -53,43 +45,58 @@ export const QuizQuestion: FC<QuizQuestionProps> = ({
       <Flex align="center" justify="center" vertical gap="32px">
         <Stepper steps={steps} />
       </Flex>
-      <Flex align="center" justify="center" vertical style={{ marginTop: 32 }}>
-        <Tag variant="pill" title={`Вопрос №${question.number}`} />
-      </Flex>
-      <Header as="h2" variant="H4-Wide">
-        {applyNbsp(question.text)}
-      </Header>
-
-      <AnswersList
-        role="radiogroup"
-        aria-labelledby={groupId}
-        data-has-selection={!!selectedAnswerId}
-      >
-        {answers.map((answer: Answer, i: number) => (
-          <AnswerItem
-            data-index={i + 1}
-            key={answer.id}
-            role="radio"
-            aria-checked={selectedAnswerId === answer.id}
-            tabIndex={0}
-            onClick={() => onSelect(answer.id)}
-            onKeyDown={(e) => handleKeyDown(e, answer.id)}
+      {stage === "loading" ? (
+        <QuizStartScreen onStart={() => setStage("in_progress")} />
+      ) : stage === "in_progress" ? (
+        <>
+          <Flex
+            align="center"
+            justify="center"
+            vertical
+            style={{ marginTop: 32 }}
           >
-            {answer.text}
-          </AnswerItem>
-        ))}
-      </AnswersList>
+            <Tag variant="pill" title={`Вопрос №${question.number}`} />
+          </Flex>
+          <Header as="h2" variant="H4-Wide">
+            {applyNbsp(question.text)}
+          </Header>
 
-      <Flex justify="center" style={{ marginTop: 24 }}>
-        <Button
-          variant="primary"
-          aria-label={"Ответить с выбранным вариантом ответа"}
-          disabled={!selectedAnswerId}
-          onClick={onNext}
-        >
-          {isLast ? "Завершить" : "Далее"}
-        </Button>
-      </Flex>
+          <AnswersList
+            role="radiogroup"
+            aria-labelledby={groupId}
+            data-has-selection={!!selectedAnswerId}
+          >
+            {answers.map((answer: Answer, i: number) => (
+              <>
+                <AnswerItem
+                  data-index={i + 1}
+                  key={answer.id}
+                  role="radio"
+                  aria-checked={selectedAnswerId === answer.id}
+                  tabIndex={0}
+                  onClick={() => onSelect(answer.id)}
+                  onKeyDown={(e) => handleKeyDown(e, answer.id)}
+                >
+                  {answer.text}
+                </AnswerItem>
+              </>
+            ))}
+          </AnswersList>
+
+          <Flex justify="center" style={{ marginTop: 24 }}>
+            <Button
+              variant="primary"
+              aria-label={"Ответить с выбранным вариантом ответа"}
+              disabled={!selectedAnswerId}
+              onClick={onNext}
+            >
+              {isLast ? "Завершить" : "Далее"}
+            </Button>
+          </Flex>
+        </>
+      ) : (
+        <>Finish</>
+      )}
     </QuizQuestionWrapper>
   );
 };
