@@ -1,0 +1,1 @@
+export { EmployeeCarousel } from './EmployeeCarousel'; 
