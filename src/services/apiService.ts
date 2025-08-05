@@ -85,7 +85,7 @@ export class ApiService {
   }
 
   sendGameResult(payload: GameResultPayload) {
-    return this.http.post<void>("/api/game/result", payload);
+    return this.http.post<GameStartResponse>("/api/game/result", payload);
   }
 
   /* ------------------------------------------------------------------ */
@@ -184,19 +184,54 @@ export interface LoginResponse {
   user: UserData;
 }
 
+// Описание вложенного объекта игры
+export interface GameInfo {
+  name: string;
+  type: string; // например "quiz"
+  days: number[]; // например [1,2,3…]
+  max_attempts: number;
+  max_points: number;
+}
+
+export interface AnswerOption {
+  full_img: string;
+  id: number;
+  test_points: number | null;
+  text: string;
+  thumb_img: string;
+}
+
+export interface QuestionData {
+  day: number;
+  full_img: string;
+  id: number;
+  points: number;
+  text: string;
+  thumb_img: string;
+  answers: AnswerOption[];
+}
+
 export interface GameStartResponse {
-  session_id: string;
+  status: boolean;
+  day: number;
+  user_game_day: number;
+  answered_questions: number;
+  total_questions: number;
+  game: GameInfo;
+  next_day: string;
+  question: QuestionData;
+  user_questions: any[];
 }
 
 export interface GameResultPayload {
   game: string;
-  result: string;
-  prompt: string;
-  points: number;
-  question: string;
-  answer: string;
-  answerId: string;
-  answers: unknown;
+  result?: string;
+  prompt?: string;
+  points?: number;
+  question?: string;
+  answer?: string;
+  answerId?: string;
+  answers?: unknown;
 }
 
 export interface GalleryParams {

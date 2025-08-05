@@ -12,6 +12,7 @@ export const QuizQuestionWrapper = styled.div`
   background: ${mts_bg_secondary_elevated};
   padding: 32px;
   margin-top: 12px;
+  min-height: 500px;
 
   h2 {
     text-align: center;
