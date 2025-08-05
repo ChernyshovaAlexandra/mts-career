@@ -2,9 +2,9 @@ import type { FC } from "react";
 import { Container } from "@chernyshovaalexandra/mtsui";
 import { MainLayout } from "../../layouts";
 import { VacancyGrid } from "../../widgets";
+import { RandomCoffeeSection } from "./components/RandomCoffeeSection";
 import {
   PageContainer,
-  ContentWrapper,
   MainTitle,
   BulletList,
   ContentSection,
@@ -57,6 +57,8 @@ const WorkAtMtsPage: FC = () => {
               <VacancyGrid />
             </VacancySection>
           </ContentSection>
+
+          <RandomCoffeeSection />
         </Container>
       </PageContainer>
     </MainLayout>
