@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Text, Button, mts_brand_red } from "@chernyshovaalexandra/mtsui";
 import type React from 'react';
 
@@ -210,5 +210,108 @@ export const StatusMessage = styled.div`
   
   &[aria-live] {
     min-height: 1px;
+  }
+`;
+
+// Анимация для спиннера загрузки
+const spin = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+`;
+
+export const LoadingSpinner = styled.div`
+  width: 20px;
+  height: 20px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid ${mts_brand_red};
+  border-radius: 50%;
+  animation: ${spin} 1s linear infinite;
+  margin-right: 8px;
+  display: inline-block;
+`;
+
+export const ErrorMessage = styled(Text)`
+  background: #FEF2F2;
+  border: 1px solid #FECACA;
+  color: #DC2626;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 140%;
+  
+  &[role="alert"] {
+    min-height: 1px;
+  }
+`;
+
+export const SuccessMessage = styled(Text)`
+  background: #F0F9F4;
+  border: 1px solid #BBF7D0;
+  color: #16A34A;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 140%;
+  
+  &[role="status"] {
+    min-height: 1px;
+  }
+`;
+
+export const ResultContent = styled.div`
+  width: 100%;
+  height: 100%;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: left;
+  overflow-y: auto;
+  
+  @media (max-width: 768px) {
+    padding: 16px;
+  }
+`;
+
+export const ResultTitle = styled(Text)`
+  color: #212529;
+  margin-bottom: 16px;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 140%;
+`;
+
+export const ResultSummary = styled(Text)`
+  color: #212529;
+  margin-bottom: 20px;
+  font-size: 15px;
+  line-height: 150%;
+  text-align: left;
+`;
+
+export const ResultTags = styled.div`
+  width: 100%;
+  
+  h4 {
+    color: #212529;
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 12px;
+    line-height: 140%;
+  }
+`;
+
+export const TagItem = styled(Text)`
+  color: #212529;
+  margin-bottom: 8px;
+  font-size: 14px;
+  line-height: 140%;
+  text-align: left;
+  
+  &:last-child {
+    margin-bottom: 0;
   }
 `; 

@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Button, Header, Text } from '@chernyshovaalexandra/mtsui';
 import styled from 'styled-components';
 import { mts_brand_red } from '@chernyshovaalexandra/mtsui';
 import { DirectionSelect } from './DirectionSelect';
 import { FileUpload } from './FileUpload';
 import { ScheduleConfirmation } from './ScheduleConfirmation';
+import { apiService } from '../../services/apiService';
+import type { MeetSlot } from '../../services/apiService';
 
 interface TimeSlot {
   time: string;
@@ -415,78 +417,124 @@ const ActionSection = styled.div`
   justify-content: center;
 `;
 
-const mockSchedule: DaySchedule[] = [
-  {
-    day: 'Вторник',
-    date: '29 июля',
-    timeSlots: [
-      { time: '11:00', available: true },
-      { time: '12:00', available: true },
-      { time: '13:00', available: true },
-      { time: '–', available: false },
-      { time: '15:00', available: true },
-      { time: '16:00', available: true },
-      { time: '17:00', available: true },
-      { time: '18:00', available: true },
-    ]
-  },
-  {
-    day: 'Среда', 
-    date: '30 июля',
-    timeSlots: [
-      { time: '11:00', available: true },
-      { time: '12:00', available: true },
-      { time: '13:00', available: true },
-      { time: '–', available: false },
-      { time: '15:00', available: true },
-      { time: '16:00', available: true },
-      { time: '17:00', available: true },
-      { time: '18:00', available: true },
-    ]
-  },
-  {
-    day: 'Четверг',
-    date: '31 июля', 
-    timeSlots: [
-      { time: '11:00', available: true },
-      { time: '12:00', available: true },
-      { time: '13:00', available: true },
-      { time: '–', available: false },
-      { time: '15:00', available: true },
-      { time: '16:00', available: true },
-      { time: '17:00', available: true },
-      { time: '18:00', available: false },
-    ]
-  },
-  {
-    day: 'Четверг',
-    date: '32 июля', 
-    timeSlots: [
-      { time: '11:00', available: true },
-      { time: '12:00', available: true },
-      { time: '13:00', available: true },
-      { time: '–', available: false },
-      { time: '15:00', available: true },
-      { time: '16:00', available: true },
-      { time: '17:00', available: true },
-      { time: '18:00', available: false },
-    ]
-  },
-  {
-    day: 'Четверг',
-    date: '33 июля', 
-    timeSlots: [
-      { time: '11:00', available: true },
-      { time: '12:00', available: true },
-      { time: '13:00', available: true },
-      { time: '–', available: false },
-      { time: '15:00', available: true },
-      { time: '16:00', available: true },
-      { time: '17:00', available: true },
-      { time: '18:00', available: false },
-    ]
+const LoadingSpinner = styled.div`
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid ${mts_brand_red};
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
-];
+`;
+
+const ErrorMessage = styled.div`
+  background: #FEF2F2;
+  border: 1px solid #FECACA;
+  color: #DC2626;
+  padding: 16px;
+  border-radius: 8px;
+  margin: 20px 0;
+  text-align: center;
+  font-size: 14px;
+`;
+
+const EmptyMessage = styled.div`
+  background: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  color: #6B7280;
+  padding: 32px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 16px;
+`;
+
+// Функция для преобразования API данных в формат компонента
+const transformMeetSlotsToSchedule = (meetSlots: MeetSlot[]): DaySchedule[] => {
+  const scheduleMap = new Map<string, DaySchedule>();
+  
+  meetSlots.forEach(slot => {
+    // Парсим дату и время из API
+    const dateStr = slot.date; // "2025-08-18"
+    const timeStr = slot.time; // "10:00:00"
+    
+    // Создаем объект Date для получения дня недели
+    const dateObj = new Date(dateStr);
+    
+    // Форматируем дату для отображения
+    const dayName = dateObj.toLocaleDateString('ru-RU', { weekday: 'long' });
+    const displayDate = dateObj.toLocaleDateString('ru-RU', { 
+      day: 'numeric', 
+      month: 'long' 
+    });
+    
+    const displayTime = timeStr.substring(0, 5); 
+    
+    const key = `${dayName}-${displayDate}`;
+    
+    if (!scheduleMap.has(key)) {
+      scheduleMap.set(key, {
+        day: dayName.charAt(0).toUpperCase() + dayName.slice(1),
+        date: displayDate,
+        timeSlots: []
+      });
+    }
+    
+    const schedule = scheduleMap.get(key)!;
+    
+    if (slot.status === 'available') {
+      schedule.timeSlots.push({
+        time: displayTime,
+        available: true
+      });
+    }
+  });
+  
+  const result: DaySchedule[] = [];
+  
+  scheduleMap.forEach((schedule) => {
+    schedule.timeSlots.sort((a, b) => {
+      const timeA = new Date(`2000-01-01 ${a.time}`);
+      const timeB = new Date(`2000-01-01 ${b.time}`);
+      return timeA.getTime() - timeB.getTime();
+    });
+    
+    const fixedSlots = [
+      { time: '10:00', available: false },
+      { time: '11:00', available: false },
+      { time: '12:00', available: false },
+      { time: '13:00', available: false },
+      { time: '–', available: false },
+      { time: '14:00', available: false },
+      { time: '15:00', available: false },
+      { time: '16:00', available: false },
+    ];
+    
+    fixedSlots.forEach((fixedSlot, index) => {
+      const availableSlot = schedule.timeSlots.find(slot => 
+        slot.time === fixedSlot.time && slot.available
+      );
+      if (availableSlot) {
+        fixedSlots[index] = availableSlot;
+      }
+    });
+    
+    schedule.timeSlots = fixedSlots;
+    result.push(schedule);
+  });
+  
+  result.sort((a, b) => {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+    return dateA.getTime() - dateB.getTime();
+  });
+  
+  return result;
+};
 
 export const InterviewSimulation: React.FC = () => {
   const [selectedSlot, setSelectedSlot] = useState<{ day: string; time: string; date: string } | null>(null);
@@ -495,7 +543,48 @@ export const InterviewSimulation: React.FC = () => {
   const [selectedDirection, setSelectedDirection] = useState<string>('frontend');
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [isScheduleConfirmed, setIsScheduleConfirmed] = useState<boolean>(false);
+  const [schedule, setSchedule] = useState<DaySchedule[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   const calendarRef = React.useRef<HTMLDivElement>(null);
+
+  // Загрузка доступных слотов
+  const loadMeetSlots = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      
+      console.log('Загружаем доступные слоты...');
+      const response = await apiService.listMeets();
+      
+      console.log('Получены слоты:', response.data);
+      
+      if (response.data.status && response.data.meets && response.data.meets.length > 0) {
+        const transformedSchedule = transformMeetSlotsToSchedule(response.data.meets);
+        setSchedule(transformedSchedule);
+        console.log('Преобразованный график:', transformedSchedule);
+      } else {
+        setSchedule([]);
+        console.log('Нет доступных слотов');
+      }
+    } catch (err: any) {
+      console.error('Ошибка при загрузке слотов:', err);
+      
+      if (err.response?.status === 401) {
+        setError("Ошибка авторизации. Пожалуйста, войдите в систему заново.");
+      } else if (err.response?.data?.message) {
+        setError(err.response.data.message);
+      } else {
+        setError("Произошла ошибка при загрузке доступных слотов. Попробуйте позже.");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadMeetSlots();
+  }, [loadMeetSlots]);
 
   const handleTimeSlotClick = (day: string, time: string, date: string, available: boolean) => {
     if (!available) return;
@@ -560,7 +649,7 @@ export const InterviewSimulation: React.FC = () => {
     }
   };
 
-      return (
+  return (
     <SimulationContainer 
       aria-labelledby="simulation-title" 
       isConfirmed={isScheduleConfirmed}
@@ -618,61 +707,88 @@ export const InterviewSimulation: React.FC = () => {
           <ScheduleSection role="group" aria-labelledby="schedule-section-title">
             <h3 id="schedule-section-title" style={{ display: 'none' }}>Выбор времени встречи</h3>
             
-            <ScheduleHeader>
-              <NavigationButton
-                type="button"
-                aria-label="Предыдущая неделя"
-                onClick={() => scrollCarousel('left')}
-                title="Предыдущая неделя"
-              >
-                <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-                  <path fillRule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
-                </svg>
-              </NavigationButton>
-              
-              <CarouselWrapper>
-                <CalendarGrid ref={calendarRef}>
-                  {mockSchedule.map((daySchedule) => (
-                    <DayCard key={`${daySchedule.day}-${daySchedule.date}`}>
-                      <DayHeader>
-                        <DayName>{daySchedule.day}</DayName>
-                        <DayDate>{daySchedule.date}</DayDate>
-                      </DayHeader>
-                      <TimeSlotsGrid>
-                        {daySchedule.timeSlots.map((slot, index) => (
-                          <TimeSlotButton
-                            key={`${daySchedule.day}-${slot.time}-${index}`}
-                            type="button"
-                            available={slot.available}
-                            selected={isSlotSelected(daySchedule.day, slot.time)}
-                            onClick={() => handleTimeSlotClick(daySchedule.day, slot.time, daySchedule.date, slot.available)}
-                            aria-label={
-                              slot.available 
-                                ? `Выбрать время ${slot.time} в ${daySchedule.day.toLowerCase()}`
-                                : `Время ${slot.time} недоступно`
-                            }
-                            disabled={!slot.available}
-                          >
-                            {slot.time}
-                          </TimeSlotButton>
-                        ))}
-                      </TimeSlotsGrid>
-                    </DayCard>
-                  ))}
-                </CalendarGrid>
-              </CarouselWrapper>
-              
-              <NavigationButton
-                type="button"
-                aria-label="Следующая неделя"
-                onClick={() => scrollCarousel('right')}
-                title="Следующая неделя"
-              >
-                <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-                  <path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-                </svg>
-              </NavigationButton>
-            </ScheduleHeader>
+            {isLoading ? (
+              <div role="status" aria-live="polite">
+                <LoadingSpinner aria-hidden="true" />
+                <Text variant="P4-Regular-Text" style={{ textAlign: 'center' }}>
+                  Загружаем доступные слоты...
+                </Text>
+              </div>
+            ) : error ? (
+              <ErrorMessage role="alert" aria-live="assertive">
+                {error}
+                <br />
+                <Button 
+                  variant="secondary" 
+                  onClick={loadMeetSlots}
+                  style={{ marginTop: '12px' }}
+                >
+                  Попробовать снова
+                </Button>
+              </ErrorMessage>
+            ) : schedule.length === 0 ? (
+              <EmptyMessage>
+                В данный момент нет доступных слотов для записи на собеседование.
+                <br />
+                Попробуйте позже или обратитесь к администратору.
+              </EmptyMessage>
+            ) : (
+              <ScheduleHeader>
+                <NavigationButton
+                  type="button"
+                  aria-label="Предыдущая неделя"
+                  onClick={() => scrollCarousel('left')}
+                  title="Предыдущая неделя"
+                >
+                  <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                    <path fillRule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                  </svg>
+                </NavigationButton>
+                
+                <CarouselWrapper>
+                  <CalendarGrid ref={calendarRef}>
+                    {schedule.map((daySchedule) => (
+                      <DayCard key={`${daySchedule.day}-${daySchedule.date}`}>
+                        <DayHeader>
+                          <DayName>{daySchedule.day}</DayName>
+                          <DayDate>{daySchedule.date}</DayDate>
+                        </DayHeader>
+                        <TimeSlotsGrid>
+                          {daySchedule.timeSlots.map((slot, index) => (
+                            <TimeSlotButton
+                              key={`${daySchedule.day}-${slot.time}-${index}`}
+                              type="button"
+                              available={slot.available}
+                              selected={isSlotSelected(daySchedule.day, slot.time)}
+                              onClick={() => handleTimeSlotClick(daySchedule.day, slot.time, daySchedule.date, slot.available)}
+                              aria-label={
+                                slot.available 
+                                  ? `Выбрать время ${slot.time} в ${daySchedule.day.toLowerCase()}`
+                                  : `Время ${slot.time} недоступно`
+                              }
+                              disabled={!slot.available}
+                            >
+                              {slot.time}
+                            </TimeSlotButton>
+                          ))}
+                        </TimeSlotsGrid>
+                      </DayCard>
+                    ))}
+                  </CalendarGrid>
+                </CarouselWrapper>
+                
+                <NavigationButton
+                  type="button"
+                  aria-label="Следующая неделя"
+                  onClick={() => scrollCarousel('right')}
+                  title="Следующая неделя"
+                >
+                  <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                    <path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                  </svg>
+                </NavigationButton>
+              </ScheduleHeader>
+            )}
           </ScheduleSection>
 
           <ActionSection role="group" aria-labelledby="action-section-title">
@@ -685,7 +801,7 @@ export const InterviewSimulation: React.FC = () => {
                 ? `Назначить встречу на ${selectedSlot.day} в ${selectedSlot.time}` 
                 : "Выберите время для назначения встречи"
               }
-              disabled={!selectedSlot}
+              disabled={!selectedSlot || isLoading || !!error || schedule.length === 0}
               onClick={handleScheduleMeeting}
             >
               НАЗНАЧИТЬ ВСТРЕЧУ
