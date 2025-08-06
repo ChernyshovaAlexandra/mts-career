@@ -127,6 +127,23 @@ const DateValue = styled.div`
   }
 `;
 
+const SuccessMessage = styled.div`
+  font-family: 'MTS Text', sans-serif;
+  font-size: 14px;
+  color: #059669;
+  margin-bottom: 24px;
+  padding: 12px 16px;
+  background: #F0FDF4;
+  border: 1px solid #BBF7D0;
+  border-radius: 8px;
+  
+  @media (max-width: 768px) {
+    font-size: 13px;
+    margin-bottom: 16px;
+    padding: 10px 12px;
+  }
+`;
+
 const ActionWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -177,6 +194,10 @@ export const ScheduleConfirmation: React.FC<ScheduleConfirmationProps> = ({
       <BackgroundImage />
       
       <ContentWrapper>
+        <SuccessMessage>
+          ✓ Собеседование успешно создано! На вашу почту отправлено письмо со ссылкой на встречу.
+        </SuccessMessage>
+        
         <DirectionLabel>Направление</DirectionLabel>
         <DirectionValue>{directionLabel}</DirectionValue>
         
@@ -186,12 +207,12 @@ export const ScheduleConfirmation: React.FC<ScheduleConfirmationProps> = ({
       
       <ActionWrapper>
         <CancelButton
-          variant="primary"
+          variant="secondary"
           type="button"
           onClick={onCancel}
-          aria-label="Отменить запись на собеседование"
+          aria-label="Вернуться к выбору времени"
         >
-          Отменить запись
+          Выбрать другое время
         </CancelButton>
       </ActionWrapper>
     </ConfirmationContainer>
