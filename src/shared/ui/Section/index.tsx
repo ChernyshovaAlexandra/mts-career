@@ -1,10 +1,5 @@
 import type { FC, PropsWithChildren } from "react";
-import {
-  Container,
-  Text,
-  Separator,
-  Header,
-} from "@chernyshovaalexandra/mtsui";
+import { Container, Text, Header } from "@chernyshovaalexandra/mtsui";
 import styled, { css } from "styled-components";
 
 interface SectionProps {
@@ -39,7 +34,6 @@ export const Section: FC<PropsWithChildren<SectionProps>> = ({
   title,
   subtitle,
   children,
-  withSeparator = false,
   headingLevel = 2,
   align = "left",
 }) => {
@@ -76,9 +70,6 @@ export const Section: FC<PropsWithChildren<SectionProps>> = ({
             {subtitle}
           </Text>
         )}
-
-        {withSeparator && <Separator style={{ margin: "24px 0" }} />}
-
         <div style={{ marginTop: 24 }}>{children}</div>
       </Container>
     </Wrapper>

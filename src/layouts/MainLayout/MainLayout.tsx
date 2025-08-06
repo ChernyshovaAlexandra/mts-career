@@ -24,7 +24,7 @@ const Main = styled.main`
 
 export const MainLayout: FC<{
   children?: React.ReactNode | undefined;
-  bg: string;
+  bg?: string;
 }> = ({ children, bg = "" }) => {
   return (
     <Wrapper role="presentation" $bg={bg}>

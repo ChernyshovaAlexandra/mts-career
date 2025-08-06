@@ -64,9 +64,9 @@ export function useQuiz(gameId: string) {
         game: gameId,
         question: curQ.id,
         answer: answerId,
-        result: '1',
+        result: "1",
       };
-      console.info(questions[currentIndex]);
+
       const resp = await apiService.sendGameResult(payload);
       const data = resp.data as GameStartResponse;
 
@@ -109,7 +109,7 @@ export function useQuiz(gameId: string) {
       const stepNumber = idx + 1;
       let status: Step["status"];
       if (idx < answeredCount) status = "not_available";
-      else if (idx === answeredCount && stage === "in_progress")
+      else if (idx === answeredCount )
         status = stage === "in_progress" ? "active" : "not_available";
       else status = "not_available";
       return { index: stepNumber, status };

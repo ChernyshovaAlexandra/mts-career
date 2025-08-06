@@ -9,7 +9,6 @@ import { QuizStartScreen } from "./QuizStartScreen";
 export const QuizQuestion: FC<QuizQuestionProps> = ({
   question,
   answers,
-  answerCorrect,
   steps,
   selectedAnswerId,
   // isFirst,

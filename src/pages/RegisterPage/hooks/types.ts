@@ -27,10 +27,9 @@ export interface UseRegisterFormProps {
   setPassword2: (v: string) => void;
   code: string;
   setCode: (v: string) => void;
-  setDisability: (v: string) => void;
   codeSent: boolean;
   loading: boolean;
-  disability: string;
+
   sendingCode: boolean;
   error: string | null;
   sendCode: () => Promise<void>;

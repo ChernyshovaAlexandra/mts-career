@@ -5,7 +5,6 @@ import FieldLabel from "../../shared/ui/FieldLabel";
 import FieldValue from "../../shared/ui/FieldValue";
 import { Button } from "@chernyshovaalexandra/mtsui";
 import { ACCOUNTPAGE_BTN_THEME } from "../../pages/AccountPage/constants";
-import { useUserStore } from "../../store";
 
 /**
  * @typedef {Object} TablePositionCardProps

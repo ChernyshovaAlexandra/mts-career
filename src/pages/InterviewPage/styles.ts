@@ -1,26 +1,15 @@
-import styled, { css, createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import { Text, mts_brand_red } from "@chernyshovaalexandra/mtsui";
 
 const breakpoints = {
   mobile: 480,
   tablet: 768,
   desktop: 1000,
-  large: 1264
+  large: 1264,
 } as const;
 
-const mediaQuery = (breakpoint: keyof typeof breakpoints) => 
+const mediaQuery = (breakpoint: keyof typeof breakpoints) =>
   `@media (max-width: ${breakpoints[breakpoint]}px)`;
-
-const hideRedOutlineOnClick = css`
-  &:focus-visible {
-    outline: 2px solid ${mts_brand_red};
-    outline-offset: 2px;
-  }
-  
-  &:focus:not(:focus-visible) {
-    outline: none;
-  }
-`;
 
 export const GlobalAccessibilityStyles = createGlobalStyle`
   .visually-hidden {
@@ -38,10 +27,10 @@ export const GlobalAccessibilityStyles = createGlobalStyle`
 
 export const PageContainer = styled.div`
   min-height: 100vh;
-  background: #FFFFFF;
+  background: #ffffff;
   position: relative;
   overflow-x: hidden;
-  
+
   @media (max-width: 768px) {
     padding-bottom: 40px;
   }
@@ -54,13 +43,13 @@ export const HeroSection = styled.section`
   align-items: center;
   padding: 60px 0;
   position: relative;
-  
+
   @media (max-width: 1024px) {
     grid-template-columns: 1fr 250px;
     gap: 30px;
     padding: 50px 0;
   }
-  
+
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     gap: 20px;
@@ -74,7 +63,7 @@ export const ContentWrapper = styled.div`
   flex-direction: column;
   gap: 24px;
   max-width: 600px;
-  
+
   @media (max-width: 768px) {
     gap: 20px;
     max-width: 100%;
@@ -82,9 +71,9 @@ export const ContentWrapper = styled.div`
 `;
 
 export const MainTitle = styled(Text)`
-  color: #1D2023;
+  color: #1d2023;
   line-height: 1.2;
-  
+
   @media (max-width: 768px) {
     font-size: 32px;
     line-height: 1.25;
@@ -92,16 +81,16 @@ export const MainTitle = styled(Text)`
 `;
 
 export const IntroText = styled(Text)`
-  color: #6B7280;
+  color: #6b7280;
   line-height: 1.5;
-  
+
   @media (max-width: 768px) {
     font-size: 16px;
   }
 `;
 
 export const BulletList = styled.ul`
-  font-family: 'MTS Text', sans-serif;
+  font-family: "MTS Text", sans-serif;
   font-weight: 400;
   font-size: 20px;
   line-height: 140%;
@@ -113,11 +102,11 @@ export const BulletList = styled.ul`
   li {
     margin-bottom: 8px;
     position: relative;
-    
+
     &:last-child {
       margin-bottom: 0;
     }
-    
+
     &::before {
       content: "•";
       color: ${mts_brand_red};
@@ -128,8 +117,8 @@ export const BulletList = styled.ul`
       line-height: 1;
     }
   }
-  
-  ${mediaQuery('desktop')} {
+
+  ${mediaQuery("desktop")} {
     font-size: 16px;
   }
 `;
@@ -137,15 +126,15 @@ export const BulletList = styled.ul`
 export const MobileHeroImage = styled.div`
   width: 300px;
   height: 300px;
-  background: url('/images/interview-hero.svg') no-repeat center;
+  background: url("/images/interview-hero.svg") no-repeat center;
   background-size: contain;
   justify-self: center;
-  
+
   @media (max-width: 1024px) {
     width: 250px;
     height: 250px;
   }
-  
+
   @media (max-width: 768px) {
     width: 200px;
     height: 200px;
@@ -155,8 +144,8 @@ export const MobileHeroImage = styled.div`
 
 export const ContentSection = styled.section`
   padding: 40px 0 80px;
-  
+
   @media (max-width: 768px) {
     padding: 30px 0 60px;
   }
-`; 
+`;

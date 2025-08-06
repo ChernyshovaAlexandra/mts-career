@@ -155,7 +155,7 @@ const getDirectionLabel = (value: string): string => {
 };
 
 const formatDate = (day: string, date: string, time: string): string => {
-  const dayName = day.toLowerCase();
+  console.info(day)
   const dateFormatted = date.replace(' ', ' ').toUpperCase();
   const timeFormatted = time;
   
