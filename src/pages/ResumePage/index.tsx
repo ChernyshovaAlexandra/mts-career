@@ -41,31 +41,33 @@ const ResumePage: FC = () => {
     <>
       <GlobalAccessibilityStyles />
       <MainLayout>
+        <HeroSection aria-labelledby="main-heading" role="banner">
+          <Container>
+            <ContentWrapper>
+              <MainTitle id="main-heading" variant="H1-Wide">
+                Подготовка резюме
+              </MainTitle>
+              
+              <IntroText variant="P4-Regular-Text" role="text">
+                Шаг за шагом научись создавать резюме, которое выделит тебя среди других кандидатов.
+              </IntroText>
+
+              <BulletList 
+                role="list" 
+                aria-label="Этапы подготовки резюме"
+              >
+                <li role="listitem">Изучи основные советы</li>
+                <li role="listitem">Сравни хорошие и неудачные примеры</li>
+                <li role="listitem">Получи обратную связь от HR</li>
+                <li role="listitem">Познакомься с опытом реальных сотрудников МТС</li>
+                <li role="listitem">Перейди к следующему этапу</li>
+              </BulletList>
+            </ContentWrapper>
+          </Container>
+        </HeroSection>
+
         <Container>
           <PageContainer>
-            <HeroSection aria-labelledby="main-heading" role="banner">
-              <ContentWrapper>
-                <MainTitle id="main-heading" variant="H1-Wide">
-                  Подготовка резюме
-                </MainTitle>
-                
-                <IntroText variant="P4-Regular-Text" role="text">
-                  Шаг за шагом научись создавать резюме, которое выделит тебя среди других кандидатов.
-                </IntroText>
-
-                <BulletList 
-                  role="list" 
-                  aria-label="Этапы подготовки резюме"
-                >
-                  <li role="listitem">Изучи основные советы</li>
-                  <li role="listitem">Сравни хорошие и неудачные примеры</li>
-                  <li role="listitem">Получи обратную связь от HR</li>
-                  <li role="listitem">Познакомься с опытом реальных сотрудников МТС</li>
-                  <li role="listitem">Перейди к следующему этапу</li>
-                </BulletList>
-              </ContentWrapper>
-            </HeroSection>
-
             <MobileHeroImage 
               role="img" 
               aria-label="Иллюстрация подготовки резюме"
