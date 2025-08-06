@@ -136,7 +136,7 @@ export class ApiService {
     const formData = new FormData();
     formData.append("resume", resume);
     formData.append("meet_id", String(meet_id));
-    return this.http.post<void>("/api/sobes", formData);
+    return this.http.post<InterviewBookingResponse>("/api/sobes", formData);
   }
 
   bookCoffee(meet_id: number) {
@@ -269,6 +269,11 @@ export interface MeetsResponse {
 export interface ResumeAnalyseResponse {
   summary: string;
   tags: string[];
+}
+
+export interface InterviewBookingResponse {
+  status: boolean;
+  message?: string;
 }
 
 export interface SystemInfo {

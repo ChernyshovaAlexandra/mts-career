@@ -343,4 +343,68 @@ export const CarouselImage = styled.div`
       z-index: 1;
     }
   }
+`;
+
+export const CreateInterviewButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 32px;
+  background: ${mts_brand_red};
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-family: 'MTS Text', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  max-width: 300px;
+  margin: 24px 0;
+  
+  &:hover {
+    background: #d32f2f;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+  }
+  
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.2);
+  }
+  
+  &:focus-visible {
+    outline: 2px solid ${mts_brand_red};
+    outline-offset: 4px;
+    border-radius: 12px;
+  }
+  
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  
+  @media (max-width: 768px) {
+    padding: 14px 24px;
+    font-size: 14px;
+    max-width: 250px;
+    margin: 20px 0;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 12px 20px;
+    font-size: 13px;
+    max-width: 200px;
+    margin: 16px 0;
+  }
+  
+  ${accessibilityStyles}
 `; 

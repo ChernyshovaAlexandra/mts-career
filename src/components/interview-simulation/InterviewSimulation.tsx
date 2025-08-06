@@ -11,6 +11,7 @@ import type { MeetSlot } from '../../services/apiService';
 interface TimeSlot {
   time: string;
   available: boolean;
+  meetId?: number;
 }
 
 interface DaySchedule {
@@ -19,7 +20,7 @@ interface DaySchedule {
   timeSlots: TimeSlot[];
 }
 
-const SimulationContainer = styled.section<{ isConfirmed?: boolean }>`
+const SimulationContainer = styled.section<{ isConfirmed?: boolean; hasError?: boolean }>`
   background: #f8f9fa;
   border-radius: 24px;
   padding: 32px;
@@ -28,6 +29,8 @@ const SimulationContainer = styled.section<{ isConfirmed?: boolean }>`
   max-width: ${props => props.isConfirmed ? '654px' : 'none'};
   margin-left: ${props => props.isConfirmed ? 'auto' : '0'};
   margin-right: ${props => props.isConfirmed ? 'auto' : '0'};
+  border: ${props => props.hasError ? '2px solid #DC2626' : 'none'};
+  box-shadow: ${props => props.hasError ? '0 0 0 4px rgba(220, 38, 38, 0.1)' : 'none'};
   
   @media (max-width: 768px) {
     padding: 8px;
@@ -441,6 +444,30 @@ const ErrorMessage = styled.div`
   margin: 20px 0;
   text-align: center;
   font-size: 14px;
+  font-family: 'MTS Text', sans-serif;
+  line-height: 1.4;
+  
+  /* Улучшенная видимость для важных сообщений */
+  box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);
+  
+  /* Специальные стили для сообщений о проверке резюме */
+  &.resume-check-required {
+    background: #FEF3C7;
+    border-color: #FCD34D;
+    color: #92400E;
+  }
+  
+  @media (max-width: 768px) {
+    padding: 14px;
+    font-size: 13px;
+    margin: 16px 0;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 12px;
+    font-size: 12px;
+    margin: 12px 0;
+  }
 `;
 
 const EmptyMessage = styled.div`
@@ -451,6 +478,39 @@ const EmptyMessage = styled.div`
   border-radius: 8px;
   text-align: center;
   font-size: 16px;
+`;
+
+const ButtonsContainer = styled.div`
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  
+  button {
+    min-height: 48px;
+    white-space: nowrap;
+  }
+  
+  @media (max-width: 768px) {
+    gap: 10px;
+    flex-direction: column;
+    width: 100%;
+    
+    button {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    gap: 8px;
+    
+    button {
+      min-height: 44px;
+      font-size: 14px;
+    }
+  }
 `;
 
 // Функция для преобразования API данных в формат компонента
@@ -489,7 +549,8 @@ const transformMeetSlotsToSchedule = (meetSlots: MeetSlot[]): DaySchedule[] => {
     if (slot.status === 'available') {
       schedule.timeSlots.push({
         time: displayTime,
-        available: true
+        available: true,
+        meetId: slot.id // Сохраняем ID слота
       });
     }
   });
@@ -537,7 +598,7 @@ const transformMeetSlotsToSchedule = (meetSlots: MeetSlot[]): DaySchedule[] => {
 };
 
 export const InterviewSimulation: React.FC = () => {
-  const [selectedSlot, setSelectedSlot] = useState<{ day: string; time: string; date: string } | null>(null);
+  const [selectedSlot, setSelectedSlot] = useState<{ day: string; time: string; date: string; meetId?: number } | null>(null);
   const [resumeFile, setResumeFile] = useState<string>('Название_файла.doc');
   const [fileSize, setFileSize] = useState<string>('xx мб');
   const [selectedDirection, setSelectedDirection] = useState<string>('frontend');
@@ -546,6 +607,9 @@ export const InterviewSimulation: React.FC = () => {
   const [schedule, setSchedule] = useState<DaySchedule[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [isResumeCheckError, setIsResumeCheckError] = useState<boolean>(false);
   const calendarRef = React.useRef<HTMLDivElement>(null);
 
   // Загрузка доступных слотов
@@ -586,13 +650,13 @@ export const InterviewSimulation: React.FC = () => {
     loadMeetSlots();
   }, [loadMeetSlots]);
 
-  const handleTimeSlotClick = (day: string, time: string, date: string, available: boolean) => {
+  const handleTimeSlotClick = (day: string, time: string, date: string, available: boolean, meetId?: number) => {
     if (!available) return;
     
     setSelectedSlot(
       selectedSlot?.day === day && selectedSlot?.time === time 
         ? null 
-        : { day, time, date }
+        : { day, time, date, meetId }
     );
   };
 
@@ -612,12 +676,61 @@ export const InterviewSimulation: React.FC = () => {
     }
   };
 
-  const handleScheduleMeeting = () => {
-    if (selectedSlot) {
+  const handleScheduleMeeting = async () => {
+    if (!selectedSlot || !uploadedFile || !selectedSlot.meetId) {
+      setSubmitError('Пожалуйста, выберите время и загрузите резюме');
+      setIsResumeCheckError(false);
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      setSubmitError(null);
+      setIsResumeCheckError(false);
+      
+      console.log('Отправляем запрос на создание собеседования:', {
+        meetId: selectedSlot.meetId,
+        fileName: uploadedFile.name,
+        fileSize: uploadedFile.size
+      });
+
+      const response = await apiService.bookInterview(selectedSlot.meetId, uploadedFile);
+      
+      // Проверяем статус ответа
+      if (response.data && response.data.status === false) {
+        // Сервер вернул ошибку, но не выбросил исключение
+        const errorMessage = response.data.message || "Произошла ошибка при создании собеседования";
+        setSubmitError(errorMessage);
+        
+        // Проверяем, является ли это ошибкой о проверке резюме
+        const isResumeCheckMessage = errorMessage.includes('3 раза проверить резюме') || 
+                                   errorMessage.includes('проверить резюме');
+        setIsResumeCheckError(isResumeCheckMessage);
+        return;
+      }
+      
+      console.log('Собеседование успешно создано');
       setIsScheduleConfirmed(true);
-      console.log('Встреча назначена:', selectedSlot);
-      console.log('Направление:', selectedDirection);
-      console.log('Файл резюме:', uploadedFile);
+    } catch (err: any) {
+      console.error('Ошибка при создании собеседования:', err);
+      
+      if (err.response?.status === 401) {
+        setSubmitError("Ошибка авторизации. Пожалуйста, войдите в систему заново.");
+        setIsResumeCheckError(false);
+      } else if (err.response?.data?.message) {
+        // Отображаем сообщение от сервера, включая требование о 3 проверках резюме
+        setSubmitError(err.response.data.message);
+        
+        // Проверяем, является ли это ошибкой о проверке резюме
+        const isResumeCheckMessage = err.response.data.message.includes('3 раза проверить резюме') || 
+                                   err.response.data.message.includes('проверить резюме');
+        setIsResumeCheckError(isResumeCheckMessage);
+      } else {
+        setSubmitError("Произошла ошибка при создании собеседования. Попробуйте позже.");
+        setIsResumeCheckError(false);
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -655,6 +768,7 @@ export const InterviewSimulation: React.FC = () => {
       isConfirmed={isScheduleConfirmed}
       role="region"
       aria-describedby="simulation-description"
+      hasError={!!error || !!submitError}
     >
       <SimulationHeader>
         <Title id="simulation-title">
@@ -760,7 +874,7 @@ export const InterviewSimulation: React.FC = () => {
                               type="button"
                               available={slot.available}
                               selected={isSlotSelected(daySchedule.day, slot.time)}
-                              onClick={() => handleTimeSlotClick(daySchedule.day, slot.time, daySchedule.date, slot.available)}
+                              onClick={() => handleTimeSlotClick(daySchedule.day, slot.time, daySchedule.date, slot.available, slot.meetId)}
                               aria-label={
                                 slot.available 
                                   ? `Выбрать время ${slot.time} в ${daySchedule.day.toLowerCase()}`
@@ -794,18 +908,41 @@ export const InterviewSimulation: React.FC = () => {
           <ActionSection role="group" aria-labelledby="action-section-title">
             <h3 id="action-section-title" style={{ display: 'none' }}>Действия</h3>
             
-            <Button
-              variant="primary"
-              type="button"
-              aria-label={selectedSlot 
-                ? `Назначить встречу на ${selectedSlot.day} в ${selectedSlot.time}` 
-                : "Выберите время для назначения встречи"
-              }
-              disabled={!selectedSlot || isLoading || !!error || schedule.length === 0}
-              onClick={handleScheduleMeeting}
-            >
-              НАЗНАЧИТЬ ВСТРЕЧУ
-            </Button>
+            {submitError && (
+              <ErrorMessage 
+                role="alert" 
+                aria-live="assertive" 
+                style={{ marginBottom: '16px' }}
+                className={isResumeCheckError ? 'resume-check-required' : ''}
+              >
+                {submitError}
+              </ErrorMessage>
+            )}
+            
+            <ButtonsContainer>
+              <Button
+                variant="primary"
+                type="button"
+                aria-label={selectedSlot 
+                  ? `Назначить встречу на ${selectedSlot.day} в ${selectedSlot.time}` 
+                  : "Выберите время для назначения встречи"
+                }
+                disabled={!selectedSlot || isLoading || !!error || schedule.length === 0 || isSubmitting || !uploadedFile}
+                onClick={handleScheduleMeeting}
+              >
+                {isSubmitting ? 'СОЗДАНИЕ...' : 'СОЗДАТЬ СОБЕСЕДОВАНИЕ'}
+              </Button>
+              
+              {isResumeCheckError && (
+                <Button
+                  variant="secondary"
+                  onClick={() => window.location.href = '/resume-check'}
+                  aria-label="Перейти к проверке резюме"
+                >
+                  ПЕРЕЙТИ К ПРОВЕРКЕ РЕЗЮМЕ
+                </Button>
+              )}
+            </ButtonsContainer>
           </ActionSection>
         </>
       )}
