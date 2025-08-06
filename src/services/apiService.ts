@@ -13,7 +13,7 @@ export class ApiService {
     this.http = axios.create({
       baseURL,
       timeout: 15000,
-      headers: { "Content-Type": "application/json" },
+      // Убираем Content-Type по умолчанию, чтобы не перезаписывать для FormData
     });
 
     this.http.interceptors.request.use((config) => {
@@ -25,6 +25,15 @@ export class ApiService {
           console.info(config);
         }
       }
+      
+      // Логируем конфигурацию запроса для отладки
+      console.log('Axios Request Config:', {
+        url: config.url,
+        method: config.method,
+        headers: config.headers,
+        dataType: config.data instanceof FormData ? 'FormData' : typeof config.data
+      });
+      
       return config;
     });
   }
@@ -100,12 +109,26 @@ export class ApiService {
   /* ------------------------------------------------------------------ */
 
   listMeets() {
-    return this.http.get<MeetSlot[]>("/api/meets");
+    return this.http.get<MeetsResponse>("/api/meets");
   }
 
   uploadResume(file: File) {
+    console.log('API Service: Начинаем загрузку файла', {
+      fileName: file.name,
+      fileSize: file.size,
+      fileType: file.type
+    });
+
     const formData = new FormData();
     formData.append("resume", file);
+    
+    // Проверяем содержимое FormData
+    console.log('API Service: FormData создан');
+    for (let [key, value] of formData.entries()) {
+      console.log('API Service: FormData entry:', key, value);
+    }
+    
+    // Позволяем браузеру самому установить правильный Content-Type для FormData
     return this.http.post<ResumeAnalyseResponse>("/api/resume", formData);
   }
 
@@ -191,8 +214,22 @@ export interface GalleryItem {
 
 export interface MeetSlot {
   id: number;
-  start: string;
-  end: string;
+  type: string;
+  date: string;
+  time: string;
+  link: string;
+  status: string;
+  staff: {
+    name: string;
+    img: string | null;
+    position: string | null;
+    directions: string[];
+  };
+}
+
+export interface MeetsResponse {
+  status: boolean;
+  meets: MeetSlot[];
 }
 
 export interface ResumeAnalyseResponse {
