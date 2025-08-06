@@ -158,6 +158,7 @@ export const BulletList = styled.ol`
     margin-bottom: 8px;
     position: relative;
     counter-increment: item;
+    padding-left: 4px;
     
     &:last-child {
       margin-bottom: 0;

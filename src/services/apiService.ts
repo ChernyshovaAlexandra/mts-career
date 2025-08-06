@@ -140,7 +140,7 @@ export class ApiService {
   }
 
   bookCoffee(meet_id: number) {
-    return this.http.post<void>("/api/kofe", { meet_id });
+    return this.http.post<InterviewBookingResponse>("/api/kofe", { meet_id });
   }
 
   /* ------------------------------------------------------------------ */
