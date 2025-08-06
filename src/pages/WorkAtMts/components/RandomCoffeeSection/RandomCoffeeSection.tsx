@@ -2,6 +2,7 @@ import type { FC } from "react";
 import { memo, useState, useRef } from "react";
 import { EmployeeCarousel } from "../EmployeeCarousel/EmployeeCarousel";
 import { ARIA_LABELS } from "./accessibility";
+import { apiService } from "../../../../services/apiService";
 import {
   SectionContainer,
   SectionHeader,
@@ -35,6 +36,7 @@ import {
 interface TimeSlot {
   time: string;
   available: boolean;
+  meet_id?: number;
 }
 
 interface DaySchedule {
@@ -48,13 +50,13 @@ const mockSchedule: DaySchedule[] = [
     day: "Вторник",
     date: "29 июля",
     timeSlots: [
-      { time: "11:00", available: true },
-      { time: "12:00", available: true },
-      { time: "13:00", available: true },
+      { time: "11:00", available: true, meet_id: 1 },
+      { time: "12:00", available: true, meet_id: 2 },
+      { time: "13:00", available: true, meet_id: 3 },
       { time: "15:00", available: false },
-      { time: "16:00", available: true },
-      { time: "17:00", available: true },
-      { time: "18:00", available: true }
+      { time: "16:00", available: true, meet_id: 4 },
+      { time: "17:00", available: true, meet_id: 5 },
+      { time: "18:00", available: true, meet_id: 6 }
     ]
   },
   {
@@ -62,42 +64,44 @@ const mockSchedule: DaySchedule[] = [
     date: "30 июля",
     timeSlots: [
       { time: "11:00", available: false },
-      { time: "12:00", available: true },
-      { time: "13:00", available: true },
-      { time: "15:00", available: true },
-      { time: "16:00", available: true },
-      { time: "17:00", available: true },
-      { time: "18:00", available: true }
+      { time: "12:00", available: true, meet_id: 7 },
+      { time: "13:00", available: true, meet_id: 8 },
+      { time: "15:00", available: true, meet_id: 9 },
+      { time: "16:00", available: true, meet_id: 10 },
+      { time: "17:00", available: true, meet_id: 11 },
+      { time: "18:00", available: true, meet_id: 12 }
     ]
   },
   {
     day: "Четверг",
     date: "31 июля",
     timeSlots: [
-      { time: "11:00", available: true },
-      { time: "12:00", available: true },
-      { time: "13:00", available: true },
+      { time: "11:00", available: true, meet_id: 13 },
+      { time: "12:00", available: true, meet_id: 14 },
+      { time: "13:00", available: true, meet_id: 15 },
       { time: "15:00", available: false },
-      { time: "16:00", available: true },
-      { time: "17:00", available: true },
-      { time: "18:00", available: true }
+      { time: "16:00", available: true, meet_id: 16 },
+      { time: "17:00", available: true, meet_id: 17 },
+      { time: "18:00", available: true, meet_id: 18 }
     ]
   }
 ];
 
 export const RandomCoffeeSection: FC = memo(() => {
-  const [selectedSlot, setSelectedSlot] = useState<{ day: string; time: string; date: string } | null>(null);
+  const [selectedSlot, setSelectedSlot] = useState<{ day: string; time: string; date: string; meet_id?: number } | null>(null);
   const [selectedEmployee, setSelectedEmployee] = useState<string>("1");
   const [isConfirmed, setIsConfirmed] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const calendarRef = useRef<HTMLDivElement>(null);
 
-  const handleTimeSlotClick = (day: string, time: string, date: string, available: boolean) => {
+  const handleTimeSlotClick = (day: string, time: string, date: string, available: boolean, meet_id?: number) => {
     if (!available) return;
     
     if (selectedSlot && selectedSlot.day === day && selectedSlot.time === time) {
       setSelectedSlot(null);
     } else {
-      setSelectedSlot({ day, time, date });
+      setSelectedSlot({ day, time, date, meet_id });
     }
   };
 
@@ -109,16 +113,45 @@ export const RandomCoffeeSection: FC = memo(() => {
     setSelectedEmployee(employeeId);
   };
 
-  const handleScheduleMeeting = () => {
-    if (selectedSlot && selectedEmployee) {
-      setIsConfirmed(true);
-      console.log("Scheduling meeting:", { slot: selectedSlot, employee: selectedEmployee });
+  const handleScheduleMeeting = async () => {
+    if (selectedSlot && selectedEmployee && selectedSlot.meet_id) {
+      setIsLoading(true);
+      setError(null);
+      
+      try {
+        const response = await apiService.bookCoffee(selectedSlot.meet_id);
+        
+        if (response.data.status) {
+          setIsConfirmed(true);
+          console.log("Meeting scheduled successfully:", { slot: selectedSlot, employee: selectedEmployee });
+        } else {
+          setError(response.data.message || "Ошибка при записи на встречу");
+        }
+      } catch (err: any) {
+        console.error("Error booking coffee:", err);
+        
+        // Детальная обработка ошибок
+        if (err.code === 'ERR_NETWORK' || err.message?.includes('ERR_CONNECTION_REFUSED')) {
+          setError("Сервер недоступен. Проверьте подключение к интернету");
+        } else if (err.response?.status === 401) {
+          setError("Необходима авторизация. Войдите в систему");
+        } else if (err.response?.status === 404) {
+          setError("API endpoint не найден");
+        } else if (err.response?.status >= 500) {
+          setError("Ошибка сервера. Попробуйте позже");
+        } else {
+          setError("Произошла ошибка при записи на встречу. Попробуйте еще раз.");
+        }
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
   const handleCancelMeeting = () => {
     setIsConfirmed(false);
     setSelectedSlot(null);
+    setError(null);
   };
 
   const scrollCarousel = (direction: 'left' | 'right') => {
@@ -198,7 +231,7 @@ export const RandomCoffeeSection: FC = memo(() => {
                             type="button"
                             available={slot.available}
                             selected={isSlotSelected(daySchedule.day, slot.time)}
-                            onClick={() => handleTimeSlotClick(daySchedule.day, slot.time, daySchedule.date, slot.available)}
+                            onClick={() => handleTimeSlotClick(daySchedule.day, slot.time, daySchedule.date, slot.available, slot.meet_id)}
                             aria-label={
                               slot.available 
                                 ? ARIA_LABELS.TIME_SLOTS.BOOK_SLOT(slot.time, daySchedule.day, daySchedule.date)
@@ -227,14 +260,20 @@ export const RandomCoffeeSection: FC = memo(() => {
               </NavigationButton>
             </ScheduleHeader>
 
+            {error && (
+              <div style={{ color: 'red', textAlign: 'center', marginBottom: '16px' }}>
+                {error}
+              </div>
+            )}
+
             <ScheduleButton
               variant="primary"
               type="button"
               onClick={handleScheduleMeeting}
-              disabled={!selectedSlot}
+              disabled={!selectedSlot || isLoading}
               aria-label={ARIA_LABELS.SECTION.SCHEDULE_MEETING}
             >
-              {ARIA_LABELS.SECTION.SCHEDULE_MEETING}
+              {isLoading ? "Записываем..." : ARIA_LABELS.SECTION.SCHEDULE_MEETING}
             </ScheduleButton>
           </ScheduleSection>
         </>

@@ -16,20 +16,12 @@ import {
   CarouselHeader,
   CarouselSubtitle,
   CarouselImage,
-  CreateInterviewButton,
 } from "./InterviewPage.styles";
 import { ARIA_LABELS } from "./accessibility";
 
 const InterviewPage: FC = () => {
   const handleGetPoints = () => {
     console.log("Получение баллов за изучение материалов");
-  };
-
-  const handleCreateInterview = () => {
-    const simulationSection = document.querySelector('[data-section="interview-simulation"]');
-    if (simulationSection) {
-      simulationSection.scrollIntoView({ behavior: 'smooth' });
-    }
   };
 
   return (
@@ -44,14 +36,6 @@ const InterviewPage: FC = () => {
               <li role="listitem">Пройди тренировку интервью онлайн</li>
               <li role="listitem">Получи обратную связь и двигайся дальше</li>
             </BulletList>
-
-            <CreateInterviewButton
-              type="button"
-              onClick={handleCreateInterview}
-              aria-label="Перейти к созданию собеседования"
-            >
-              Создать собеседование
-            </CreateInterviewButton>
 
             <CarouselImage
               role="img"
