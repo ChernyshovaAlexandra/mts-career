@@ -1,6 +1,4 @@
-import type { Question } from "../../../components";
-
-export const financeQuestions: Question[] = [
+export const financeQuestions = [
   {
     number: 1,
     text: "Каким преимуществом МТС Деньги выделяются на фоне классического банковского мобильного приложения?",
@@ -22,7 +20,6 @@ export const financeQuestions: Question[] = [
         text: "Наличием функции «Копилка с округлением»: каждая покупка автоматически округляется до ближайших 50 ₽, а разница переводится на отдельный накопительный счёт, формируя подушку безопасности без лишних усилий.",
       },
     ],
-    correctAnswerId: "b1",
   },
 
   {
@@ -34,7 +31,6 @@ export const financeQuestions: Question[] = [
       { id: "b3", text: "МТС Инвестиции" },
       { id: "b4", text: "МТС Кредит" },
     ],
-    correctAnswerId: "b2",
   },
   {
     number: 3,
@@ -45,7 +41,6 @@ export const financeQuestions: Question[] = [
       { id: "c3", text: "Более 30 минут" },
       { id: "c4", text: "Более 24 часов" },
     ],
-    correctAnswerId: "c2",
   },
   {
     number: 4,
@@ -56,7 +51,6 @@ export const financeQuestions: Question[] = [
       { id: "d3", text: "До 25 %" },
       { id: "d4", text: "До 50 %" },
     ],
-    correctAnswerId: "d3",
   },
   {
     number: 5,
@@ -67,7 +61,6 @@ export const financeQuestions: Question[] = [
       { id: "e3", text: "МТС Pay Split" },
       { id: "e4", text: "МТС Страхование" },
     ],
-    correctAnswerId: "e2",
   },
   {
     number: 6,
@@ -78,6 +71,5 @@ export const financeQuestions: Question[] = [
       { id: "f3", text: "QR-код" },
       { id: "f4", text: "Wi-Fi Direct" },
     ],
-    correctAnswerId: "f2",
   },
 ];

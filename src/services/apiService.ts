@@ -176,7 +176,6 @@ export interface RegisterPayload {
   last_name: string;
   code: string;
   business?: string;
-  disability: boolean;
 }
 
 export interface LoginResponse {

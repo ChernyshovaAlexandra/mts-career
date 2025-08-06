@@ -9,7 +9,6 @@ import {
   Link,
   mts_brand_red,
   IconError,
-  RadioGroup,
 } from "@chernyshovaalexandra/mtsui";
 import { MainLayout } from "../../layouts";
 import { Form, PageWrapper } from "../LoginPage/style";
@@ -59,8 +58,6 @@ const RegisterPage: FC = () => {
     submit,
     timeLeft,
     // expired,
-    disability,
-    setDisability,
   } = useRegisterForm();
   const { showSnackbar } = useSnackbar();
 
@@ -105,7 +102,7 @@ const RegisterPage: FC = () => {
   }, [email]);
 
   return (
-    <MainLayout>
+    <MainLayout bg="">
       <Container>
         <PageWrapper>
           <Header variant="H1-Wide" style={{ textAlign: "center" }}>
@@ -154,17 +151,6 @@ const RegisterPage: FC = () => {
               errorMessage={fieldErrors.region?.[0]}
             />
 
-            <RadioGroup
-              name="inval"
-              direction="horizontal"
-              options={[
-                { label: "Да", value: 'true' },
-                { label: "Нет", value: 'false' },
-              ]}
-              value={disability}
-              onChange={setDisability}
-              label="Имеется ли у вас установленная инвалидность?"
-            />
             <Input
               id="password"
               name="password"

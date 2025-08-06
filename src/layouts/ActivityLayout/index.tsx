@@ -8,7 +8,7 @@ import { applyNbsp } from "../../utils/applyNbsp";
 type ActivityLayoutProps = {
   title: string;
   description: string;
-  bg: string;
+  bg?: string;
   children?: ReactNode;
 };
 

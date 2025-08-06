@@ -50,8 +50,14 @@ const LoginPage: FC = () => {
       ApiService.setAccessToken(token);
 
       const statusResp = await apiService.getStatus();
-      const userData: UserData = statusResp.data.user;
-      setUser(userData);
+      const { user, position } = statusResp.data;
+      const updUser: UserData = {
+        ...user,
+        personalCode: user.nickname,
+        position: position,
+      };
+
+      setUser({ ...updUser });
 
       navigate("/");
     } catch (err) {

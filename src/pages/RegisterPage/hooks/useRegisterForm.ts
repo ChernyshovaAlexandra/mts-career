@@ -24,7 +24,7 @@ export const useRegisterForm = (): UseRegisterFormProps => {
   const [loading, setLoading] = useState(false);
   const [sendingCode, setSendingCode] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [disability, setDisability] = useState<string>("false");
+
   const [fieldErrors, setFieldErrors] = useState<ValidationErrors>({});
   const expired = codeSent && timeLeft <= 0;
 
@@ -62,10 +62,6 @@ export const useRegisterForm = (): UseRegisterFormProps => {
 
   const submit = useCallback(async () => {
     setFieldErrors({});
-    if (disability !== "true" && disability !== "false") {
-      setError("Пожалуйста, укажите, есть ли у вас инвалидность");
-      return null;
-    }
     if (password !== password2) {
       setError("Пароли не совпадают");
       return null;
@@ -84,7 +80,6 @@ export const useRegisterForm = (): UseRegisterFormProps => {
         name: firstName.trim(),
         last_name: lastName.trim(),
         code,
-        disability: disability === "true" ? true : false,
       });
 
       if ((data as any).status === false && (data as any).errors) {
@@ -136,8 +131,6 @@ export const useRegisterForm = (): UseRegisterFormProps => {
     error,
     sendCode,
     submit,
-    disability,
-    setDisability,
     timeLeft,
     expired,
   };
