@@ -5,6 +5,7 @@ import { InterviewCarousel } from "./components/InterviewCarousel";
 import { InterviewSimulation } from "../../components";
 import {
   PageContainer,
+  HeroSection,
   ContentWrapper,
   MainTitle,
   BulletList,
@@ -21,12 +22,10 @@ import { ARIA_LABELS } from "./accessibility";
 
 const InterviewPage: FC = () => {
   const handleGetPoints = () => {
-    // TODO: Implement points earning logic
     console.log("Получение баллов за изучение материалов");
   };
 
   const handleCreateInterview = () => {
-    // Прокручиваем к секции симуляции собеседования
     const simulationSection = document.querySelector('[data-section="interview-simulation"]');
     if (simulationSection) {
       simulationSection.scrollIntoView({ behavior: 'smooth' });
@@ -35,10 +34,10 @@ const InterviewPage: FC = () => {
 
   return (
     <MainLayout>
-      <PageContainer>
+      <HeroSection aria-labelledby="interview-heading" role="banner">
         <Container>
           <ContentWrapper>
-            <MainTitle id="main-heading">Подготовка к собеседованию</MainTitle>
+            <MainTitle id="interview-heading">Подготовка к собеседованию</MainTitle>
 
             <BulletList role="list" aria-label={ARIA_LABELS.PAGE.STEPS_LIST}>
               <li role="listitem">Читай советы от экспертов по найму</li>
@@ -60,7 +59,11 @@ const InterviewPage: FC = () => {
               className="mobile-header-image"
             />
           </ContentWrapper>
+        </Container>
+      </HeroSection>
 
+      <PageContainer>
+        <Container>
           <ContentSection aria-labelledby="basic-rules-heading" role="main">
             <CarouselContainer>
               <CarouselImage
