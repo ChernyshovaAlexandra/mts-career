@@ -41,12 +41,42 @@ export const PageContainer = styled.div`
   background: #FFFFFF;
   position: relative;
   overflow-x: hidden;
+  padding-top: 0;
   
   @media (max-width: 768px) {
     padding-bottom: 40px;
   }
   
   ${accessibilityStyles}
+`;
+
+export const HeroSection = styled.section`
+  position: relative;
+  background: linear-gradient(
+    347deg,
+    #ffd4c9 -2.24%,
+    #edccd3 16.66%,
+    #bfb8ed 52.9%,
+    #9faaff 76.53%,
+    #a1a1ff 103.3%
+  );
+  min-height: 400px;
+  padding: 68px 0 40px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 48px;
+  
+  @media (max-width: 768px) {
+    min-height: 300px;
+    padding: 40px 0 20px;
+    margin-bottom: 32px;
+  }
+  
+  @media (max-width: 480px) {
+    min-height: 250px;
+    padding: 32px 0 16px;
+    margin-bottom: 24px;
+  }
 `;
 
 export const ContentContainer = styled.div`
@@ -74,7 +104,6 @@ export const ContentWrapper = styled.div`
 export const MainTitle = styled(Header).attrs({
   as: 'h1'
 })`
-  padding-top: 74px;
   margin: 0 auto;
   text-align: left;
   font-size: 56px;
@@ -83,8 +112,8 @@ export const MainTitle = styled(Header).attrs({
   font-style: normal;
   text-transform: uppercase;
   line-height: 110%;
+  color: #fff;
   
-  /* Улучшенная доступность для фокуса */
   &:focus-visible {
     outline: 2px solid ${mts_brand_red};
     outline-offset: 4px;
@@ -95,12 +124,10 @@ export const MainTitle = styled(Header).attrs({
     outline: none;
   }
   
-  /* Улучшенная читаемость */
   @media (prefers-reduced-motion: reduce) {
     transition: none;
   }
   
-  /* Улучшенный контраст */
   @media (prefers-contrast: high) {
     color: #000000;
   }
@@ -115,35 +142,39 @@ export const MainTitle = styled(Header).attrs({
   }
 `;
 
-export const BulletList = styled.ul`
+export const BulletList = styled.ol`
   font-family: 'MTS Text', sans-serif;
   font-weight: 400;
-  font-size: 20px;
-  line-height: 140%;
+  font-size: 24px;
+  line-height: 130%;
   letter-spacing: 0px;
   margin: 0 0 80px 0;
   padding-left: 20px;
   list-style: none;
+  counter-reset: item;
+  color: #fff;
 
   li {
     margin-bottom: 8px;
     position: relative;
+    counter-increment: item;
+    padding-left: 4px;
     
     &:last-child {
       margin-bottom: 0;
     }
     
     &::before {
-      content: "•";
-      color: ${mts_brand_red};
+      content: counter(item, decimal-leading-zero);
+      color: #fff;
       position: absolute;
-      left: -16px;
+      left: -34px;
       top: 0;
-      font-size: 26px;
-      line-height: 1;
+      font-size: 24px;
+      line-height: 130%;
+      font-weight: 400;
     }
     
-    /* Улучшенная доступность для фокуса */
     &:focus-within {
       outline: 2px solid ${mts_brand_red};
       outline-offset: 2px;
@@ -151,12 +182,10 @@ export const BulletList = styled.ul`
     }
   }
   
-  /* Улучшенная читаемость */
   @media (prefers-reduced-motion: reduce) {
     transition: none;
   }
   
-  /* Улучшенный контраст для людей с нарушениями зрения */
   @media (prefers-contrast: high) {
     li::before {
       color: #000000;
@@ -164,7 +193,7 @@ export const BulletList = styled.ul`
   }
   
   ${mediaQuery('desktop')} {
-    font-size: 16px;
+    font-size: 20px;
   }
   
   @media (max-width: 500px) {
@@ -201,7 +230,6 @@ export const SectionTitle = styled.h2`
     font-size: 28px;
   }
   
-  /* Улучшенная доступность для фокуса */
   &:focus-visible {
     outline: 2px solid ${mts_brand_red};
     outline-offset: 4px;
@@ -212,7 +240,6 @@ export const SectionTitle = styled.h2`
     outline: none;
   }
   
-  /* Улучшенный контраст */
   @media (prefers-contrast: high) {
     color: #000000;
   }
@@ -222,13 +249,10 @@ export const CarouselContainer = styled.div`
   position: relative;
   width: 100%;
   
-  /* Убираем возможность фокуса на контейнере карусели */
   outline: none;
   
-  /* Убираем возможность выделения при клике */
   user-select: none;
   
-  /* Убираем возможность фокуса */
   &:focus {
     outline: none;
   }
@@ -246,10 +270,8 @@ export const CarouselWrapper = styled.div`
   padding: 30px;
   position: relative;
   
-  /* Убираем возможность выделения при клике */
   user-select: none;
   
-  /* Убираем возможность фокуса */
   &:focus {
     outline: none;
   }
@@ -294,7 +316,6 @@ export const CarouselSubtitle = styled.p`
     max-width: 70%;
   }
   
-  /* Улучшенный контраст */
   @media (prefers-contrast: high) {
     color: #000000;
   }
@@ -312,13 +333,10 @@ export const CarouselImage = styled.div`
   z-index: 3;
   transform: translateY(-50%);
   
-  /* Улучшенная доступность для скринридеров */
   &[role="img"] {
-    /* Обеспечиваем, что декоративные изображения не мешают навигации */
     pointer-events: none;
   }
   
-  /* Улучшенная читаемость */
   @media (prefers-reduced-motion: reduce) {
     transform: none;
   }
@@ -343,4 +361,68 @@ export const CarouselImage = styled.div`
       z-index: 1;
     }
   }
+`;
+
+export const CreateInterviewButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 32px;
+  background: ${mts_brand_red};
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-family: 'MTS Text', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  max-width: 300px;
+  margin: 24px 0;
+  
+  &:hover {
+    background: #d32f2f;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+  }
+  
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.2);
+  }
+  
+  &:focus-visible {
+    outline: 2px solid ${mts_brand_red};
+    outline-offset: 4px;
+    border-radius: 12px;
+  }
+  
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  
+  @media (max-width: 768px) {
+    padding: 14px 24px;
+    font-size: 14px;
+    max-width: 250px;
+    margin: 20px 0;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 12px 20px;
+    font-size: 13px;
+    max-width: 200px;
+    margin: 16px 0;
+  }
+  
+  ${accessibilityStyles}
 `; 

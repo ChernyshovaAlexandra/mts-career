@@ -136,11 +136,11 @@ export class ApiService {
     const formData = new FormData();
     formData.append("resume", resume);
     formData.append("meet_id", String(meet_id));
-    return this.http.post<void>("/api/sobes", formData);
+    return this.http.post<InterviewBookingResponse>("/api/sobes", formData);
   }
 
   bookCoffee(meet_id: number) {
-    return this.http.post<void>("/api/kofe", { meet_id });
+    return this.http.post<InterviewBookingResponse>("/api/kofe", { meet_id });
   }
 
   /* ------------------------------------------------------------------ */
@@ -271,6 +271,11 @@ export interface ResumeAnalyseResponse {
   tags: string[];
 }
 
+export interface InterviewBookingResponse {
+  status: boolean;
+  message?: string;
+}
+
 export interface SystemInfo {
   games: string[];
   version: string;
@@ -281,11 +286,37 @@ export interface UserStatus {
     nickname: string;
     name: string;
     position: string;
-    kofe: unknown;
-    games: [unknown];
+    kofe: {
+      id: number;
+      type: string;
+      date: string;
+      time: string;
+      link: string;
+      status: string;
+      staff: {
+        name: string;
+        directions: string[];
+      };
+    } | null;
+    games: Array<{
+      name: string;
+      status: string;
+      points: number;
+    }>;
     points: number;
     region: string;
-    sobes: unknown;
+    sobes: {
+      id: number;
+      type: string;
+      date: string;
+      time: string;
+      link: string;
+      status: string;
+      staff: {
+        name: string;
+        directions: string[];
+      };
+    } | null;
     status: string;
   };
   position: number | null;

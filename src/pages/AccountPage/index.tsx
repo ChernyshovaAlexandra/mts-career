@@ -10,6 +10,7 @@ import {
 } from "./components";
 import { ACCOUNT_PAGE_DATA } from "./constants";
 import { useNavigate } from "react-router-dom";
+import { formatDateTime, getDirectionFromArray } from "./utils/dateUtils";
 
 /**
  * Страница личного кабинета
@@ -26,6 +27,31 @@ const AccountPage: FC = () => {
   const user = useUserStore((s) => s.user);
   const navigate = useNavigate();
 
+  const interviewSimulation = user?.sobes ? {
+    direction: getDirectionFromArray(user.sobes.staff.directions),
+    interviewDate: formatDateTime(user.sobes.date, user.sobes.time),
+    staffName: user.sobes.staff.name,
+    link: user.sobes.link,
+    status: user.sobes.status,
+  } : {
+    ...pageData.interviewSimulation,
+    direction: "Нет запланированных собеседований",
+    interviewDate: "Не запланировано",
+  };
+
+  const randomCoffee = user?.kofe ? {
+    employeeName: user.kofe.staff.name,
+    position: getDirectionFromArray(user.kofe.staff.directions),
+    meetingDate: formatDateTime(user.kofe.date, user.kofe.time),
+    link: user.kofe.link,
+    status: user.kofe.status,
+  } : {
+    ...pageData.randomCoffee,
+    employeeName: "Нет запланированных встреч",
+    position: "Не запланировано",
+    meetingDate: "Не запланировано",
+  };
+
   return (
     <MainLayout>
       <AccountPageLayout title={<AccountPageTitle />}>
@@ -41,8 +67,8 @@ const AccountPage: FC = () => {
             position: user?.position || 0,
             points: user?.points || 0,
           }}
-          interviewSimulation={pageData.interviewSimulation}
-          randomCoffee={pageData.randomCoffee}
+          interviewSimulation={interviewSimulation}
+          randomCoffee={randomCoffee}
           generalSkills={pageData.generalSkills}
           activities={pageData.activities}
           onViewRating={() => navigate("/tournament-table")}
@@ -64,8 +90,8 @@ const AccountPage: FC = () => {
             position: user?.position || 0,
             points: user?.points || 0,
           }}
-          interviewSimulation={pageData.interviewSimulation}
-          randomCoffee={pageData.randomCoffee}
+          interviewSimulation={interviewSimulation}
+          randomCoffee={randomCoffee}
           generalSkills={pageData.generalSkills}
           activities={pageData.activities}
           onViewRating={() => navigate("/tournament-table")}

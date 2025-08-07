@@ -41,7 +41,6 @@ export const GlobalAccessibilityStyles = createGlobalStyle`
 `;
 
 export const PageContainer = styled.div`
-  padding-top: 44px;
   max-width: ${breakpoints.large}px;
   margin: 0 auto;
   width: 100%;
@@ -49,25 +48,32 @@ export const PageContainer = styled.div`
 
 export const HeroSection = styled.section`
   position: relative;
-  background-image: url('/images/resume-bg.webp');
-  background-repeat: no-repeat;
-  background-position: right top;
-  background-size: auto 400px;
+  background: linear-gradient(
+    347deg,
+    #ffd4c9 -2.24%,
+    #edccd3 16.66%,
+    #bfb8ed 52.9%,
+    #9faaff 76.53%,
+    #a1a1ff 103.3%
+  );
   min-height: 400px;
+  padding: 68px 0 40px;
+  display: flex;
+  align-items: center;
   
   ${mediaQuery('desktop')} {
-    background-image: none;
-    min-height: auto;
+    min-height: 300px;
+    padding: 40px 0 20px;
   }
   
   ${mediaQuery('tablet')} {
-    background-size: auto 300px;
-    min-height: 300px;
-    background-position: right center;
+    min-height: 250px;
+    padding: 32px 0 16px;
   }
   
   ${mediaQuery('mobile')} {
-    background-image: none;
+    min-height: 200px;
+    padding: 24px 0 12px;
   }
 `;
 
@@ -92,7 +98,6 @@ export const ContentWrapper = styled.div`
 export const MainTitle = styled(Header).attrs({
   as: 'h1'
 })`
-  padding: 68px 0 40px;
   margin: 0 auto;
   text-align: center;
   font-size: 56px;
@@ -101,6 +106,7 @@ export const MainTitle = styled(Header).attrs({
   font-style: normal;
   text-transform: uppercase;
   line-height: 140%;
+  color: #fff;
   
   ${hideRedOutlineOnClick}
   
@@ -121,43 +127,48 @@ export const IntroText = styled(Text)`
   line-height: 140%;
   letter-spacing: 0px;
   margin-bottom: 21px;
+  color: #fff;
   
   ${mediaQuery('desktop')} {
     display: none;
   }
 `;
 
-export const BulletList = styled.ul`
+export const BulletList = styled.ol`
   font-family: 'MTS Text', sans-serif;
   font-weight: 400;
-  font-size: 20px;
-  line-height: 140%;
+  font-size: 24px;
+  line-height: 130%;
   letter-spacing: 0px;
   margin: 0 0 21px 0;
   padding-left: 20px;
   list-style: none;
+  counter-reset: item;
+  color: #fff;
 
   li {
     margin-bottom: 8px;
     position: relative;
+    counter-increment: item;
     
     &:last-child {
       margin-bottom: 0;
     }
     
     &::before {
-      content: "•";
-      color: ${mts_brand_red};
+      content: counter(item, decimal-leading-zero);
+      color: #fff;
       position: absolute;
-      left: -16px;
+      left: -34px;
       top: 0;
-      font-size: 26px;
-      line-height: 1;
+      font-size: 24px;
+      line-height: 130%;
+      font-weight: 400;
     }
   }
   
   ${mediaQuery('desktop')} {
-    font-size: 16px;
+    font-size: 20px;
   }
 `;
 
