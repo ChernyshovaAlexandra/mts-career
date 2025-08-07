@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Card from "../../shared/ui/Card";
 import FieldLabel from "../../shared/ui/FieldLabel";
 import FieldValue from "../../shared/ui/FieldValue";
+import { Tooltip } from "antd";
+import { InfoIcon } from "./info-icon";
 
 /**
  * @typedef {Object} PersonalDataCardProps
@@ -85,7 +87,32 @@ const PersonalDataCard: FC<PersonalDataCardProps> = ({
       </DataRow>
 
       <DataRow>
-        <FieldLabel id="code-label">Персональный код</FieldLabel>
+        <FieldLabel id="code-label">
+          Персональный код
+          <Tooltip
+            placement="right"
+            color="#ffffff"
+            overlayStyle={{ maxWidth: 420 }}
+            overlayInnerStyle={{
+              color: "#1D2023",
+              background: "#ffffff",
+              borderRadius: 12,
+              padding: 16,
+              boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+              fontFamily: "'MTS Text', sans-serif",
+              fontSize: 16,
+              lineHeight: "140%",
+              letterSpacing: 0,
+            }}
+            title={
+              "Персональный код — это уникальный для каждого участника набор цифр. Он генерируется случайным образом во время регистрации. Код используется в качестве вашего псевдонима в рейтинге участников. При этом личные данные не отображаются публично"
+            }
+          >
+            <span aria-label="Подробнее о персональном коде" style={{ display: "inline-flex", marginLeft: 8, verticalAlign: "middle" }}>
+              <InfoIcon />
+            </span>
+          </Tooltip>
+        </FieldLabel>
         <FieldValue id="code-value" aria-labelledby="code-label">
           {personalCode}
         </FieldValue>
