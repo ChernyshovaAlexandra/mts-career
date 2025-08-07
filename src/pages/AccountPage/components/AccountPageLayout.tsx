@@ -30,6 +30,7 @@ const CardsBackground = styled.div`
   margin-bottom: 24px;
   position: relative;
   z-index: 3;
+  overflow: hidden;
 
   &::after {
     content: "";
@@ -38,7 +39,7 @@ const CardsBackground = styled.div`
     right: 0;
     width: 640px;
     height: 400px;
-    background-image: url("/images/account-bg.webp");
+    background-image: url("/images/account-bg.png");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: bottom right;

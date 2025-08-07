@@ -286,11 +286,37 @@ export interface UserStatus {
     nickname: string;
     name: string;
     position: string;
-    kofe: unknown;
-    games: [unknown];
+    kofe: {
+      id: number;
+      type: string;
+      date: string;
+      time: string;
+      link: string;
+      status: string;
+      staff: {
+        name: string;
+        directions: string[];
+      };
+    } | null;
+    games: Array<{
+      name: string;
+      status: string;
+      points: number;
+    }>;
     points: number;
     region: string;
-    sobes: unknown;
+    sobes: {
+      id: number;
+      type: string;
+      date: string;
+      time: string;
+      link: string;
+      status: string;
+      staff: {
+        name: string;
+        directions: string[];
+      };
+    } | null;
     status: string;
   };
   position: number | null;
