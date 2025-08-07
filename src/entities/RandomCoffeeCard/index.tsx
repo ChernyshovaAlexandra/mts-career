@@ -13,6 +13,8 @@ import { ACCOUNTPAGE_BTN_THEME } from "../../pages/AccountPage/constants";
  * @property {string} meetingDate - Дата и время встречи
  * @property {() => void} onChangeTime - Обработчик изменения времени встречи
  * @property {string} [employeeImage] - URL изображения сотрудника (опционально)
+ * @property {string} [link] - Ссылка на встречу
+ * @property {string} [status] - Статус встречи
  */
 interface RandomCoffeeCardProps {
   employeeName: string;
@@ -20,6 +22,8 @@ interface RandomCoffeeCardProps {
   meetingDate: string;
   onChangeTime: () => void;
   employeeImage?: string;
+  link?: string;
+  status?: string;
 }
 
 const EmployeeInfo = styled.div`
@@ -81,6 +85,26 @@ const DataRow = styled.div`
   }
 `;
 
+const StatusBadge = styled.span<{ status?: string }>`
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-left: 8px;
+  background-color: ${({ status }) => {
+    switch (status) {
+      case 'reserved':
+        return '#10b981';
+      case 'completed':
+        return '#6b7280';
+      default:
+        return '#f59e0b';
+    }
+  }};
+  color: white;
+`;
+
 /**
  * Карточка рандом-кофе с сотрудником
  *
@@ -97,6 +121,7 @@ const RandomCoffeeCard: FC<RandomCoffeeCardProps> = ({
   meetingDate,
   onChangeTime,
   employeeImage,
+  status,
 }) => {
   return (
     <Card title="Рандом-кофе с сотрудником" titleId="random-coffee-title">
@@ -110,12 +135,15 @@ const RandomCoffeeCard: FC<RandomCoffeeCardProps> = ({
         </EmployeeAvatar>
         <EmployeeDetails>
           <EmployeeName>{employeeName}</EmployeeName>
-          <Position>{position}</Position>
+          <Position>
+            {position}
+            {status && <StatusBadge status={status}>{status}</StatusBadge>}
+          </Position>
         </EmployeeDetails>
       </EmployeeInfo>
 
       <DataRow>
-        <FieldLabel>Дата собеседования</FieldLabel>
+        <FieldLabel>Дата встречи</FieldLabel>
         <FieldValue>{meetingDate}</FieldValue>
       </DataRow>
 

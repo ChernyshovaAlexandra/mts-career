@@ -11,11 +11,17 @@ import { ACCOUNTPAGE_BTN_THEME } from "../../pages/AccountPage/constants";
  * @property {string} direction - Направление собеседования
  * @property {string} interviewDate - Дата и время собеседования
  * @property {() => void} onChangeTime - Обработчик изменения времени собеседования
+ * @property {string} [staffName] - Имя сотрудника, проводящего собеседование
+ * @property {string} [link] - Ссылка на встречу
+ * @property {string} [status] - Статус собеседования
  */
 interface InterviewSimulationCardProps {
   direction: string;
   interviewDate: string;
   onChangeTime: () => void;
+  staffName?: string;
+  link?: string;
+  status?: string;
 }
 
 const DataRow = styled.div`
@@ -26,6 +32,26 @@ const DataRow = styled.div`
   &:last-child {
     margin-bottom: 0;
   }
+`;
+
+const StatusBadge = styled.span<{ status?: string }>`
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-left: 8px;
+  background-color: ${({ status }) => {
+    switch (status) {
+      case 'reserved':
+        return '#10b981';
+      case 'completed':
+        return '#6b7280';
+      default:
+        return '#f59e0b';
+    }
+  }};
+  color: white;
 `;
 
 /**
@@ -42,13 +68,25 @@ const InterviewSimulationCard: FC<InterviewSimulationCardProps> = ({
   direction,
   interviewDate,
   onChangeTime,
+  staffName,
+  status,
 }) => {
   return (
     <Card title="Симуляция собеседования" titleId="interview-simulation-title">
       <DataRow>
         <FieldLabel>Направление</FieldLabel>
-        <FieldValue>{direction}</FieldValue>
+        <FieldValue>
+          {direction}
+          {status && <StatusBadge status={status}>{status}</StatusBadge>}
+        </FieldValue>
       </DataRow>
+
+      {staffName && (
+        <DataRow>
+          <FieldLabel>Проводит</FieldLabel>
+          <FieldValue>{staffName}</FieldValue>
+        </DataRow>
+      )}
 
       <DataRow>
         <FieldLabel>Дата собеседования</FieldLabel>

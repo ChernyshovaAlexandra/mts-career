@@ -14,12 +14,17 @@ export interface TablePosition {
 export interface InterviewSimulation {
   direction: string;
   interviewDate: string;
+  staffName?: string;
+  link?: string;
+  status?: string;
 }
 
 export interface RandomCoffee {
   employeeName: string;
   position: string;
   meetingDate: string;
+  link?: string;
+  status?: string;
 }
 
 export interface Skill {
