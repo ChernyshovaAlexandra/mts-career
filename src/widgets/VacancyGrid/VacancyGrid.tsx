@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   Button,
   IconLeft,
   Text,
 } from "@chernyshovaalexandra/mtsui";
-import { 
+import {
   FilterTag, 
   Grid, 
   TagRow, 
@@ -17,162 +17,62 @@ import {
   ActionButton
 } from "./style";
 
-const tags = [
-  "Работа в IT",
-  "Технический блок", 
-  "Аналитика",
-  "HR",
-  "Продажи и развитие",
-  "Другое"
-];
+export interface VacancyRaw {
+  id: string;
+  category: string;
+  experience: string;
+  location: string;
+  title: string;
+  tag: string; // e.g. "Удалённая работа"
+  company: string;
+  link: string;
+}
 
-const mockData = {
-  "Работа в IT": [
-    {
-      experience: "Без опыта • Москва",
-      title: "FRONTEND РАЗРАБОТЧИК",
-      tags: ["В офисе", "Гибкий график", "АО РТК"]
-    },
-    {
-      experience: "1-3 года • Санкт-Петербург",
-      title: "BACKEND РАЗРАБОТЧИК",
-      tags: ["Удаленно", "Полная занятость", "АО РТК"]
-    },
-    {
-      experience: "3-6 лет • Москва",
-      title: "DEVOPS ИНЖЕНЕР",
-      tags: ["В офисе", "Гибкий график", "АО РТК"]
-    },
-    {
-      experience: "Без опыта • Казань",
-      title: "QA ИНЖЕНЕР",
-      tags: ["В офисе", "Полная занятость", "АО РТК"]
-    }
-  ],
-  "Технический блок": [
-    {
-      experience: "1-3 года • Москва",
-      title: "СИСТЕМНЫЙ АДМИНИСТРАТОР",
-      tags: ["В офисе", "Полная занятость", "АО РТК"]
-    },
-    {
-      experience: "3-6 лет • Санкт-Петербург",
-      title: "СЕТЕВОЙ ИНЖЕНЕР",
-      tags: ["В офисе", "Гибкий график", "АО РТК"]
-    },
-    {
-      experience: "Без опыта • Екатеринбург",
-      title: "ТЕХНИЧЕСКИЙ СПЕЦИАЛИСТ",
-      tags: ["В офисе", "Полная занятость", "АО РТК"]
-    },
-    {
-      experience: "1-3 года • Москва",
-      title: "ИНЖЕНЕР ПОДДЕРЖКИ",
-      tags: ["Удаленно", "Гибкий график", "АО РТК"]
-    }
-  ],
-  "Аналитика": [
-    {
-      experience: "1-3 года • Москва",
-      title: "БИЗНЕС-АНАЛИТИК",
-      tags: ["В офисе", "Полная занятость", "АО РТК"]
-    },
-    {
-      experience: "3-6 лет • Санкт-Петербург",
-      title: "DATA АНАЛИТИК",
-      tags: ["В офисе", "Гибкий график", "АО РТК"]
-    },
-    {
-      experience: "Без опыта • Казань",
-      title: "МАРКЕТИНГ-АНАЛИТИК",
-      tags: ["Удаленно", "Полная занятость", "АО РТК"]
-    },
-    {
-      experience: "1-3 года • Москва",
-      title: "ПРОДУКТОВЫЙ АНАЛИТИК",
-      tags: ["В офисе", "Гибкий график", "АО РТК"]
-    }
-  ],
-  "HR": [
-    {
-      experience: "1-3 года • Москва",
-      title: "HR МЕНЕДЖЕР",
-      tags: ["В офисе", "Полная занятость", "АО РТК"]
-    },
-    {
-      experience: "Без опыта • Санкт-Петербург",
-      title: "РЕКРУТЕР",
-      tags: ["В офисе", "Гибкий график", "АО РТК"]
-    },
-    {
-      experience: "3-6 лет • Москва",
-      title: "HR БИЗНЕС-ПАРТНЕР",
-      tags: ["В офисе", "Полная занятость", "АО РТК"]
-    },
-    {
-      experience: "1-3 года • Казань",
-      title: "СПЕЦИАЛИСТ ПО ОБУЧЕНИЮ",
-      tags: ["Удаленно", "Гибкий график", "АО РТК"]
-    }
-  ],
-  "Продажи и развитие": [
-    {
-      experience: "Без опыта • Москва",
-      title: "ПРОДАВЕЦ (РОЗНИЧНАЯ СЕТЬ МТС)",
-      tags: ["В офисе", "Гибкий график", "АО РТК"]
-    },
-    {
-      experience: "1-3 года • Санкт-Петербург",
-      title: "МЕНЕДЖЕР ПО РАЗВИТИЮ",
-      tags: ["В офисе", "Полная занятость", "АО РТК"]
-    },
-    {
-      experience: "Без опыта • Екатеринбург",
-      title: "КОНСУЛЬТАНТ",
-      tags: ["В офисе", "Гибкий график", "АО РТК"]
-    },
-    {
-      experience: "1-3 года • Москва",
-      title: "СПЕЦИАЛИСТ ПО ПРОДАЖАМ",
-      tags: ["Удаленно", "Полная занятость", "АО РТК"]
-    }
-  ],
-  "Другое": [
-    {
-      experience: "Без опыта • Москва",
-      title: "ЮРИСТ",
-      tags: ["В офисе", "Полная занятость", "АО РТК"]
-    },
-    {
-      experience: "1-3 года • Санкт-Петербург",
-      title: "БУХГАЛТЕР",
-      tags: ["В офисе", "Гибкий график", "АО РТК"]
-    },
-    {
-      experience: "3-6 лет • Москва",
-      title: "МЕНЕДЖЕР ПРОЕКТОВ",
-      tags: ["В офисе", "Полная занятость", "АО РТК"]
-    },
-    {
-      experience: "Без опыта • Казань",
-      title: "СПЕЦИАЛИСТ ПО ЗАКУПКАМ",
-      tags: ["Удаленно", "Гибкий график", "АО РТК"]
-    }
-  ]
+type NormalizedVacancy = {
+  id: string;
+  title: string;
+  experience: string; // "<experience> • <location>"
+  tags: string[];
+  link: string;
 };
 
-export const VacancyGrid: React.FC = () => {
-  const [activeTab, setActiveTab] = useState("Продажи и развитие");
-  const currentVacancies = mockData[activeTab as keyof typeof mockData] || [];
+type CategoryMap = Record<string, NormalizedVacancy[]>;
 
-  const handleCardClick = (vacancy: any) => {
-    console.log("Переход к вакансии:", vacancy.title);
+export interface VacancyGridProps {
+  vacancies: VacancyRaw[];
+}
+
+export const VacancyGrid: React.FC<VacancyGridProps> = ({ vacancies }) => {
+  const dataByCategory: CategoryMap = useMemo(() => {
+    const grouped: CategoryMap = {};
+    vacancies.forEach((v) => {
+      const key = v.category;
+      if (!grouped[key]) grouped[key] = [];
+      grouped[key].push({
+        id: v.id,
+        title: v.title,
+        experience: `${v.experience} • ${v.location}`,
+        tags: [v.tag, v.company],
+        link: v.link,
+      });
+    });
+    return grouped;
+  }, [vacancies]);
+
+  const categoryTabs = useMemo(() => Object.keys(dataByCategory), [dataByCategory]);
+  const [activeTab, setActiveTab] = useState<string>(categoryTabs[0] ?? "");
+  const currentVacancies = (activeTab ? dataByCategory[activeTab] : []) || [];
+
+  const handleOpenVacancy = (vacancy: NormalizedVacancy) => {
+    if (vacancy?.link) {
+      window.open(vacancy.link, "_blank", "noopener,noreferrer");
+    }
   };
 
   return (
     <>
       <TagRow role="tablist" aria-label="Фильтры вакансий">
-        {tags.map((tag) => (
+        {categoryTabs.map((tag) => (
           <FilterTag
             key={tag}
             aria-selected={tag === activeTab}
@@ -190,10 +90,16 @@ export const VacancyGrid: React.FC = () => {
         {currentVacancies.map((vacancy, i) => (
           <VacancyCard 
             key={i} 
-            aria-label={`Вакансия ${i + 1}`}
-            onClick={() => handleCardClick(vacancy)}
+            aria-label={`Вакансия: ${vacancy.title}`}
+            onClick={() => handleOpenVacancy(vacancy)}
             role="button"
             tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                handleOpenVacancy(vacancy);
+              }
+            }}
           >
             <CardContent>
               <CardTop>
@@ -226,7 +132,13 @@ export const VacancyGrid: React.FC = () => {
                   ))}
                 </TagsContainer>
                 
-                <ActionButton aria-label="Перейти к вакансии">
+                <ActionButton
+                  aria-label="Перейти к вакансии"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleOpenVacancy(vacancy);
+                  }}
+                >
                   <div style={{ 
                     display: 'flex',
                     transform: 'rotate(180deg) scale(1.5)'
@@ -254,6 +166,10 @@ export const VacancyGrid: React.FC = () => {
         <Button
           variant="primary"
           aria-label="Показать больше вакансий"
+          onClick={() => {
+            const first = currentVacancies[0];
+            if (first) handleOpenVacancy(first);
+          }}
         >
           БОЛЬШЕ ВАКАНСИЙ
         </Button>
