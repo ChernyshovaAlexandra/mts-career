@@ -113,22 +113,10 @@ export class ApiService {
   }
 
   uploadResume(file: File) {
-    console.log('API Service: Начинаем загрузку файла', {
-      fileName: file.name,
-      fileSize: file.size,
-      fileType: file.type
-    });
 
     const formData = new FormData();
     formData.append("resume", file);
     
-    // Проверяем содержимое FormData
-    console.log('API Service: FormData создан');
-    for (let [key, value] of formData.entries()) {
-      console.log('API Service: FormData entry:', key, value);
-    }
-    
-    // Позволяем браузеру самому установить правильный Content-Type для FormData
     return this.http.post<ResumeAnalyseResponse>("/api/resume", formData);
   }
 

@@ -56,9 +56,17 @@ export const AIResumeChecker: FC<AIResumeCheckerProps> = memo(({
   const [error, setError] = useState<string | null>(null);
   const [, setStatusMessage] = useState("");
 
-  const handleDirectionChange = useCallback((value: string) => {
-    setDirection(value);
-    setStatusMessage(`Выбрано направление: ${directionOptions.find(opt => opt.value === value)?.label}`);
+  const handleDirectionChange = useCallback((
+    _name: string,
+    value: unknown
+  ) => {
+    const stringValue = String(value ?? "");
+    setDirection(stringValue);
+    setStatusMessage(
+      `Выбрано направление: ${
+        directionOptions.find(opt => String(opt.value) === stringValue)?.label ?? ""
+      }`
+    );
     setError(null);
   }, []);
 
@@ -292,7 +300,7 @@ export const AIResumeChecker: FC<AIResumeCheckerProps> = memo(({
                 <HiddenFileInput
                   id="file-input"
                   type="file"
-                  accept=".doc,.docx"
+                  accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                   onChange={handleFileInputChange}
                   aria-label="Выберите файл резюме"
                   disabled={isLoading}

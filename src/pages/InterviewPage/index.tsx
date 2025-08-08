@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { useState } from "react";
 import { Button, Container } from "@chernyshovaalexandra/mtsui";
 import { MainLayout } from "../../layouts";
 import { InterviewCarousel } from "./components/InterviewCarousel";
@@ -19,10 +20,30 @@ import {
 } from "./InterviewPage.styles";
 import { ARIA_LABELS } from "./accessibility";
 import { ClosedPlaceholder } from "../../shared";
+import { apiService } from "../../services/apiService";
+import { useUserStore } from "../../store";
 
 const InterviewPage: FC = () => {
-  const handleGetPoints = () => {
-    console.log("Получение баллов за изучение материалов");
+  const [allViewed, setAllViewed] = useState(false);
+  const user = useUserStore((s) => s.user);
+  const hasWon = Boolean(
+    user?.games?.some((g) => g.name === "sovety_sobes" && g.status === "win")
+  );
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  const handleGetPoints = async () => {
+    try {
+      await apiService.startGame("sovety_sobes");
+      const resp = await apiService.sendGameResult({ game: "sovety_sobes", result:"1", points: 100 });
+      const data: any = resp.data as any;
+      const games: Array<{ name: string; status: string; points?: number }>|undefined = data?.user?.games ?? (data?.user?.game ? [data.user.game] : undefined);
+      const interviewGame = games?.find((g) => g.name === "sovety_sobes");
+      if (interviewGame?.status === "win") {
+        setSuccessMessage("Вы получили 100 баллов!");
+      }
+    } catch (e) {
+      console.error("Не удалось отправить результат игры sovety_sobes", e);
+    }
   };
 
   return (
@@ -66,16 +87,25 @@ const InterviewPage: FC = () => {
                   </CarouselSubtitle>
                 </CarouselHeader>
 
-                <InterviewCarousel />
+                <InterviewCarousel onAllViewedChange={setAllViewed} />
 
-                <Button
-                  variant="primary"
-                  type="button"
-                  onClick={handleGetPoints}
-                  aria-label={ARIA_LABELS.PAGE.GET_POINTS}
-                >
-                  Получить баллы
-                </Button>
+                {successMessage ? (
+                  <div role="status" aria-live="polite">{successMessage}</div>
+                ) : hasWon ? (
+                  <div role="status" aria-live="polite">Баллы за карточки получены</div>
+                ) : (
+                  <Button
+                    variant="primary"
+                    type="button"
+                    onClick={handleGetPoints}
+                    aria-label={ARIA_LABELS.PAGE.GET_POINTS}
+                    disabled={!allViewed}
+                    aria-disabled={!allViewed}
+                    title={!allViewed ? "Просмотрите все карточки, чтобы получить баллы" : undefined}
+                  >
+                    Получить баллы
+                  </Button>
+                )}
               </CarouselWrapper>
             </CarouselContainer>
           </ContentSection>
