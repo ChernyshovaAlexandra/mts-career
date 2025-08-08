@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Container } from "@chernyshovaalexandra/mtsui";
 import { MainLayout } from "../../layouts";
 import { useSEO } from "../../shared";
+import { useUserStore } from "../../store";
 import {
   TipsGrid,
   ExpandableSection,
@@ -26,6 +27,7 @@ import { resumePageSEO } from "./seo";
 
 const ResumePage: FC = () => {
   const [expandedSections, setExpandedSections] = useState<string[]>([]);
+  const attemptsLeft = useUserStore((s) => s.user?.checkResumeAttemptsLeft ?? 0);
 
   useSEO(resumePageSEO);
 
@@ -112,7 +114,7 @@ const ResumePage: FC = () => {
                 onToggle={() => toggleSection("ai-checker")}
                 noPaddingTop={true}
               >
-                <AIResumeChecker attemptsRemaining={3} />
+                <AIResumeChecker attemptsRemaining={attemptsLeft} />
               </ExpandableSection>
 
               <ExpandableSection

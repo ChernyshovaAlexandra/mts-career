@@ -279,8 +279,8 @@ export const ResultContent = styled.div`
 export const ResultTitle = styled(Text)`
   color: #212529;
   margin-bottom: 16px;
-  font-weight: 600;
-  font-size: 18px;
+  font-weight: 500;
+  font-size: 24px;
   line-height: 140%;
 `;
 
@@ -290,6 +290,7 @@ export const ResultSummary = styled(Text)`
   font-size: 15px;
   line-height: 150%;
   text-align: left;
+  white-space: pre-wrap; /* Preserve line breaks from analysis text */
 `;
 
 export const ResultTags = styled.div`
