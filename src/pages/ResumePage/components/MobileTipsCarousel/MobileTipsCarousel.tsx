@@ -20,10 +20,15 @@ import {
   CarouselStatus
 } from "./styles.js";
 
-export const MobileTipsCarousel: FC = memo(() => {
+interface MobileTipsCarouselProps {
+  onAllViewedChange?: (allViewed: boolean) => void;
+}
+
+export const MobileTipsCarousel: FC<MobileTipsCarouselProps> = memo(({ onAllViewedChange }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerView, setItemsPerView] = useState(1);
   const [flippedCards, setFlippedCards] = useState<Set<string>>(new Set());
+  const [viewedOnce, setViewedOnce] = useState<Set<string>>(new Set());
   
   const getItemsPerView = () => {
     if (typeof window !== 'undefined') {
@@ -62,6 +67,7 @@ export const MobileTipsCarousel: FC = memo(() => {
   };
 
   const handleCardClick = (tipId: string) => {
+    const wasFlipped = flippedCards.has(tipId);
     setFlippedCards(prev => {
       const newSet = new Set(prev);
       if (newSet.has(tipId)) {
@@ -71,9 +77,22 @@ export const MobileTipsCarousel: FC = memo(() => {
       }
       return newSet;
     });
+    if (!wasFlipped) {
+      setViewedOnce(prev => {
+        const next = new Set(prev);
+        next.add(tipId);
+        return next;
+      });
+    }
   };
 
   const totalSlides = maxIndex + 1;
+
+  // Report "viewed at least once" upward for enabling the parent CTA
+  useEffect(() => {
+    const allViewed = viewedOnce.size === tips.length;
+    onAllViewedChange?.(allViewed);
+  }, [viewedOnce, onAllViewedChange]);
 
   return (
     <CarouselContainer 
