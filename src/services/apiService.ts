@@ -255,8 +255,10 @@ export interface MeetsResponse {
 }
 
 export interface ResumeAnalyseResponse {
-  summary: string;
-  tags: string[];
+  analysis?: string;
+  summary?: string;
+  tags?: string[];
+  status?: boolean;
 }
 
 export interface InterviewBookingResponse {
@@ -274,6 +276,8 @@ export interface UserStatus {
     nickname: string;
     name: string;
     position: string;
+    /** Кол-во оставшихся попыток проверки резюме (приходит с бэка) */
+    check_resume_attempts_left?: number;
     kofe: {
       id: number;
       type: string;

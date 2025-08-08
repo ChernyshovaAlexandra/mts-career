@@ -5,6 +5,7 @@ import {
   Select 
 } from "@chernyshovaalexandra/mtsui";
 import { apiService } from "../../../../services/apiService";
+import { useUserStore } from "../../../../store";
 import { directionOptions } from "../../constants";
 import {
   CheckerContainer,
@@ -33,7 +34,6 @@ import {
   ResultTags,
   TagItem,
   ErrorMessage,
-  SuccessMessage
 } from "./styles";
 
 interface AIResumeCheckerProps {
@@ -41,13 +41,15 @@ interface AIResumeCheckerProps {
 }
 
 interface AnalysisResult {
-  summary: string;
-  tags: string[];
+  analysis?: string;
+  summary?: string;
+  tags?: string[];
 }
 
 export const AIResumeChecker: FC<AIResumeCheckerProps> = memo(({ 
   attemptsRemaining 
 }) => {
+  const decrementAttempts = useUserStore((s) => s.decrementResumeAttempts);
   const [direction, setDirection] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
@@ -131,6 +133,9 @@ export const AIResumeChecker: FC<AIResumeCheckerProps> = memo(({
       return;
     }
 
+    // Decrease attempts immediately after user initiates a check
+    decrementAttempts();
+
     setIsLoading(true);
     setError(null);
     setAnalysisResult(null);
@@ -150,6 +155,7 @@ export const AIResumeChecker: FC<AIResumeCheckerProps> = memo(({
       console.log('Ответ от сервера:', response.data);
       
       setAnalysisResult({
+        analysis: response.data.analysis ?? response.data.summary ?? "",
         summary: response.data.summary,
         tags: response.data.tags
       });
@@ -308,24 +314,30 @@ export const AIResumeChecker: FC<AIResumeCheckerProps> = memo(({
               </DropZone>
             </FormField>
 
-            <ButtonWrapper>
-              <SubmitButton
-                variant="primary"
-                type="submit"
-                disabled={!isFormValid}
-                aria-describedby="submit-help"
-                title={isFormValid ? "Отправить резюме на проверку" : "Заполните все поля для активации"}
-              >
-                {isLoading ? (
-                  <>
-                    <LoadingSpinner aria-hidden="true" />
-                    Отправка...
-                  </>
-                ) : (
-                  "Отправить на проверку"
-                )}
-              </SubmitButton>
-            </ButtonWrapper>
+            {attemptsRemaining > 0 ? (
+              <ButtonWrapper>
+                <SubmitButton
+                  variant="primary"
+                  type="submit"
+                  disabled={!isFormValid}
+                  aria-describedby="submit-help"
+                  title={isFormValid ? "Отправить резюме на проверку" : "Заполните все поля для активации"}
+                >
+                  {isLoading ? (
+                    <>
+                      <LoadingSpinner aria-hidden="true" />
+                      Отправка...
+                    </>
+                  ) : (
+                    "Отправить на проверку"
+                  )}
+                </SubmitButton>
+              </ButtonWrapper>
+            ) : (
+              <Text role="status" aria-live="polite" variant="P4-Regular-Text">
+                Попытки проверки резюме закончились.
+              </Text>
+            )}
           </form>
         </FormSection>
 
@@ -343,20 +355,12 @@ export const AIResumeChecker: FC<AIResumeCheckerProps> = memo(({
             </div>
           ) : analysisResult ? (
             <ResultContent id="analysis-result">
-              <SuccessMessage 
-                role="status" 
-                aria-live="polite"
-                variant="P4-Regular-Text"
-              >
-                Анализ завершен успешно!
-              </SuccessMessage>
-              
-              <ResultTitle variant={"P2-Regular-Comp"}>
-                Результаты анализа резюме
+              <ResultTitle variant={"P4-Bold-Upp-Wide"} >
+                Результат
               </ResultTitle>
               
               <ResultSummary variant="P4-Regular-Text">
-                {analysisResult.summary}
+                {analysisResult.analysis || analysisResult.summary}
               </ResultSummary>
               
               {analysisResult.tags && analysisResult.tags.length > 0 && (

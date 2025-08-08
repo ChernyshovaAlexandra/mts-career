@@ -36,6 +36,7 @@ export interface UserData {
   kofe: KofeData | null;
   sobes: SobesData | null;
   personalCode: string;
+  checkResumeAttemptsLeft?: number;
   games?: Array<{
     name: string;
     status: string;
@@ -47,6 +48,7 @@ interface UserState {
   isAuth: boolean;
   user: UserData | null;
   setUser: (user: UserData) => void;
+  decrementResumeAttempts: () => void;
   logout: () => void;
 }
 export const useUserStore = create<UserState>()(
@@ -55,6 +57,12 @@ export const useUserStore = create<UserState>()(
       isAuth: false,
       user: null,
       setUser: (user) => set({ user, isAuth: true }),
+      decrementResumeAttempts: () =>
+        set((state) => {
+          if (!state.user) return state;
+          const next = Math.max(0, (state.user.checkResumeAttemptsLeft ?? 0) - 1);
+          return { user: { ...state.user, checkResumeAttemptsLeft: next } };
+        }),
       logout: () => set({ isAuth: false, user: null }),
     }),
     {
