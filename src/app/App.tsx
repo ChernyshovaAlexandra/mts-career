@@ -21,6 +21,7 @@ export const App: React.FC = () => {
           ...user,
           personalCode: user.nickname,
           position: position,
+          checkResumeAttemptsLeft: user.check_resume_attempts_left,
         };
 
         setUser({ ...updUser });
