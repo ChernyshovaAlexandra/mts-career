@@ -2,7 +2,7 @@ import type { FC } from "react";
 import { Button, Container } from "@chernyshovaalexandra/mtsui";
 import { MainLayout } from "../../layouts";
 import { InterviewCarousel } from "./components/InterviewCarousel";
-import { InterviewSimulation } from "../../components";
+// import { InterviewSimulation } from "../../components";
 import {
   PageContainer,
   HeroSection,
@@ -18,6 +18,7 @@ import {
   CarouselImage,
 } from "./InterviewPage.styles";
 import { ARIA_LABELS } from "./accessibility";
+import { ClosedPlaceholder } from "../../shared";
 
 const InterviewPage: FC = () => {
   const handleGetPoints = () => {
@@ -79,9 +80,14 @@ const InterviewPage: FC = () => {
             </CarouselContainer>
           </ContentSection>
 
-          <div data-section="interview-simulation">
+          {/* <div data-section="interview-simulation">
             <InterviewSimulation />
-          </div>
+          </div> */}
+          <ClosedPlaceholder
+            title="Симуляция собеседования"
+            reason="Похоже, все слоты заняты. Иногда они освобождаются, попробуй позже"
+            margin="24px 0"
+          />
         </Container>
       </PageContainer>
     </MainLayout>

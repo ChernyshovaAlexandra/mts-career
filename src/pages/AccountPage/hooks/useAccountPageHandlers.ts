@@ -1,24 +1,43 @@
 import { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const useAccountPageHandlers = () => {
+  const navigate = useNavigate();
+
   const handleViewRating = useCallback(() => {
-    console.log("Открыть рейтинг участников");
-  }, []);
+    navigate("/tournament-table");
+  }, [navigate]);
 
   const handleChangeInterviewTime = useCallback(() => {
-    console.log("Изменить время собеседования");
-  }, []);
+    navigate("/interview");
+  }, [navigate]);
 
   const handleChangeCoffeeTime = useCallback(() => {
-    console.log("Изменить время рандом-кофе");
-  }, []);
+    navigate("/work");
+  }, [navigate]);
 
-  const handleActivityClick = useCallback((activityName: string) => {
-    console.log(`Перейти к активности: ${activityName}`);
-  }, []);
+  const handleActivityClick = useCallback(
+    (activityName: string) => {
+      const routeMap: Record<string, string> = {
+        "Подготовка резюме": "/resume",
+        "Подготовка к собеседованию": "/interview",
+        "Работа в МТС": "/work",
+        "Финтек": "/activities/fintech",
+        "МТС Медиа": "/activities/media",
+        "Рекламные технологии AdTech": "/activities/adtech",
+        "IT-направление MTS WEB SERVICES": "/activities/web",
+        "Кикшеринг МТС Юрент": "/activities/urent",
+        "Телеком": "/activities/telecom",
+      };
+
+      const path = routeMap[activityName];
+      if (path) navigate(path);
+    },
+    [navigate]
+  );
 
   const handleTakeSurvey = useCallback(() => {
-    console.log("Пройти опрос");
+    window.open("https://mtsopros.mts.ru/s/vK0IZ", "_blank", "noopener,noreferrer");
   }, []);
 
   return {

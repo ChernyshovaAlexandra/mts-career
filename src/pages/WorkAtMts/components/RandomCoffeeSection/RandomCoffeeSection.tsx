@@ -3,6 +3,7 @@ import { memo, useState, useRef } from "react";
 import { EmployeeCarousel } from "../EmployeeCarousel/EmployeeCarousel";
 import { ARIA_LABELS } from "./accessibility";
 import { apiService } from "../../../../services/apiService";
+import { ClosedPlaceholder } from "../../../../shared";
 import {
   SectionContainer,
   SectionHeader,
@@ -95,6 +96,8 @@ export const RandomCoffeeSection: FC = memo(() => {
   const [error, setError] = useState<string | null>(null);
   const calendarRef = useRef<HTMLDivElement>(null);
 
+  const hasAvailableSlots = mockSchedule.some((d) => d.timeSlots.some((t) => t.available));
+
   const handleTimeSlotClick = (day: string, time: string, date: string, available: boolean, meet_id?: number) => {
     if (!available) return;
     
@@ -176,6 +179,16 @@ export const RandomCoffeeSection: FC = memo(() => {
       });
     }
   };
+
+  if (!hasAvailableSlots && !isConfirmed) {
+    return (
+      <ClosedPlaceholder
+        title={ARIA_LABELS.SECTION.TITLE}
+        reason="Похоже, все слоты заняты. Иногда они освобождаются, попробуй позже"
+        margin="32px 0"
+      />
+    );
+  }
 
   return (
     <SectionContainer 
