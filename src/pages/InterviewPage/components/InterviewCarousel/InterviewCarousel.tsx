@@ -4,7 +4,11 @@ import { IconArrowCircle } from "@chernyshovaalexandra/mtsui";
 import { interviewCards } from "../../constants";
 import * as S from "./styles";
 
-export const InterviewCarousel: FC = memo(() => {
+interface InterviewCarouselProps {
+  onAllViewedChange?: (allViewed: boolean) => void;
+}
+
+export const InterviewCarousel: FC<InterviewCarouselProps> = memo(({ onAllViewedChange }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerView, setItemsPerView] = useState(1);
   const [isDragging, setIsDragging] = useState(false);
@@ -12,6 +16,7 @@ export const InterviewCarousel: FC = memo(() => {
   const [currentX, setCurrentX] = useState(0);
   const trackRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const [viewedIds, setViewedIds] = useState<Set<string>>(new Set());
   
   const getItemsPerView = () => {
     return 1;
@@ -123,6 +128,25 @@ export const InterviewCarousel: FC = memo(() => {
 
   const currentCards = getCurrentCards();
   const totalSlides = maxIndex + 1;
+
+  // Mark currently visible cards as viewed whenever position or layout changes
+  useEffect(() => {
+    const start = currentIndex;
+    const end = Math.min(start + itemsPerView, interviewCards.length);
+    setViewedIds(prev => {
+      const next = new Set(prev);
+      for (let i = start; i < end; i += 1) {
+        next.add(interviewCards[i].id);
+      }
+      return next;
+    });
+  }, [currentIndex, itemsPerView]);
+
+  // Report whether all cards were viewed
+  useEffect(() => {
+    const allViewed = viewedIds.size === interviewCards.length;
+    onAllViewedChange?.(allViewed);
+  }, [viewedIds, onAllViewedChange]);
 
   return (
     <S.CarouselContainer 
