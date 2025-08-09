@@ -30,9 +30,9 @@ const AccountPage: FC = () => {
   const userGames = user?.games ?? [];
 
   const getProgressByGameId = (gameId: string | undefined) => {
-    if (!gameId) return "Не начато";
+    if (!gameId) return "Ещё не пройдено";
     const g = userGames.find((it) => it.name === gameId);
-    return g ? `${g.points ?? 0} баллов` : "Не начато";
+    return g ? `${g.points ?? 0} баллов` : "Ещё не пройдено";
   };
 
   const computedGeneralSkills = useMemo(() => {
@@ -42,12 +42,12 @@ const AccountPage: FC = () => {
       "Собери резюме": "komiks",
     };
 
-    return pageData.generalSkills.map((s) => ({
-      ...s,
-      progress: skillIdByName[s.name]
-        ? getProgressByGameId(skillIdByName[s.name])
-        : s.progress,
-    }));
+    return pageData.generalSkills.map((s) => {
+      const id = skillIdByName[s.name];
+      const progress = id ? getProgressByGameId(id) : "Ещё не пройдено";
+      const completed = /\d+\sбалл/iu.test(progress);
+      return { ...s, progress, completed };
+    });
   }, [pageData.generalSkills, userGames]);
 
   const computedActivities = useMemo(() => {
@@ -60,12 +60,12 @@ const AccountPage: FC = () => {
       "MTS AdTech": "game6",
     };
 
-    return pageData.activities.map((a) => ({
-      ...a,
-      progress: activityIdByName[a.name]
-        ? getProgressByGameId(activityIdByName[a.name])
-        : a.progress,
-    }));
+    return pageData.activities.map((a) => {
+      const id = activityIdByName[a.name];
+      const progress = id ? getProgressByGameId(id) : "Ещё не пройдено";
+      const completed = /\d+\sбалл/iu.test(progress);
+      return { ...a, progress, completed };
+    });
   }, [pageData.activities, userGames]);
 
   const interviewSimulation = user?.sobes ? {

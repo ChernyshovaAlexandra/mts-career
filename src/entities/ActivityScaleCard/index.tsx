@@ -113,7 +113,7 @@ const ActivityScaleCard: FC<ActivityScaleCardProps> = ({
   onActivityClick,
 }) => {
   const renderActivityItem = (item: ActivityItem, index: number) => {
-    const isProgress = item.progress.includes("из");
+    const isProgress = /из|балл/iu.test(item.progress);
     const TextComponent = isProgress ? ProgressText : StatusText;
 
     return (

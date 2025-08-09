@@ -48,11 +48,11 @@ export const ACCOUNT_PAGE_DATA: AccountPageData = {
     },
     {
       name: "МТС Медиа",
-      progress: "Не начато",
+      progress: "Ещё не пройдено",
     },
     {
       name: "MTS AdTech",
-      progress: "Не начато",
+      progress: "Ещё не пройдено",
     },
     {
       name: "MTS Web Services",
