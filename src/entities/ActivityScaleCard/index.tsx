@@ -93,6 +93,12 @@ const ActivityLink = styled(Link)`
     outline: none;
     text-decoration: underline !important;
   }
+
+  @media (max-width: 500px) {
+    && svg {
+      display: none;
+    }
+  }
 `;
 
 const ProgressText = styled.span`
@@ -104,6 +110,16 @@ const ProgressText = styled.span`
   letter-spacing: var(--letter-spacing-none);
   text-align: right;
   color: var(--text-primary);
+
+  @media (max-width: 500px) {
+    font-family: "MTS Wide", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 14px;
+    line-height: 120%;
+    letter-spacing: 0px;
+    text-align: right;
+  }
 `;
 
 const StatusText = styled.span`

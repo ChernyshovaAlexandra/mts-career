@@ -8,7 +8,7 @@ const MobileTitle = styled.h1`
   font-weight: 600;
   color: var(--text-primary);
   text-align: center;
-  margin: 16px 0 24px 0;
+  margin: 20px 0 24px 0;
   font-family: "MTS Wide", sans-serif;
 
   @media (max-width: 768px) {
