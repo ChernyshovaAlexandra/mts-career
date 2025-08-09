@@ -5,49 +5,101 @@ export interface HRVideo {
   description: string;
   imageUrl: string;
   videoUrl: string;
-  subtitlesUrl: string;
+  subtitlesUrl?: string;
   duration: string;
+  /** When true, this video plays inline directly inside the carousel card */
+  playInline?: boolean;
 }
 
 export const hrVideos: HRVideo[] = [
   {
-    id: "video-1",
-    name: "Анна Петрова",
-    position: "HR-директор",
-    description: "Расскажу, как составить резюме, которое привлечет внимание рекрутера",
-    imageUrl: "/images/hr/anna-petrova.jpg",
-    videoUrl: "/videos/hr/anna-petrova.mp4",
-    subtitlesUrl: "/videos/hr/anna-petrova.vtt",
-    duration: "5-7 мин"
+    id: "hr-lud",
+    name: "Людмила Красникова",
+    position: "Руководитель группы подбора",
+    description: "",
+    imageUrl: "",
+    videoUrl: "/videos/hr/HR_Lud.mp4",
+    duration: "",
+    playInline: true
   },
   {
-    id: "video-2", 
-    name: "Михаил Сидоров",
-    position: "Старший рекрутер",
-    description: "Покажу ошибки в резюме и как их избежать на конкретных примерах.",
-    imageUrl: "/images/hr/mikhail-sidorov.jpg",
-    videoUrl: "/videos/hr/mikhail-sidorov.mp4",
-    subtitlesUrl: "/videos/hr/mikhail-sidorov.vtt",
-    duration: "6-8 мин"
+    id: "hr-ans",
+    name: "Анастасия Еряшкина",
+    position: "Руководитель группы подбора",
+    description: "",
+    imageUrl: "",
+    videoUrl: "/videos/hr/HR_Ans.mp4",
+    duration: "",
+    playInline: true
   },
   {
-    id: "video-3",
-    name: "Елена Козлова", 
-    position: "IT-рекрутер",
-    description: "Поделюсь особенностями составления резюме.",
-    imageUrl: "/images/hr/elena-kozlova.jpg",
-    videoUrl: "/videos/hr/elena-kozlova.mp4",
-    subtitlesUrl: "/videos/hr/elena-kozlova.vtt",
-    duration: "4-6 мин"
+    id: "hr-mark",
+    name: "Марк Гуревич",
+    position: "Ведущий ИТ-рекрутер",
+    description: "",
+    imageUrl: "",
+    videoUrl: "/videos/hr/HR_Mark.mp4",
+    duration: "",
+    playInline: true
   },
   {
-    id: "video-4",
-    name: "Дмитрий Волков",
-    position: "Ведущий рекрутер",
-    description: "Объясню, как описать навыки, чтобы выделиться среди других кандидатов.",
-    imageUrl: "/images/hr/dmitry-volkov.jpg",
-    videoUrl: "/videos/hr/dmitry-volkov.mp4",
-    subtitlesUrl: "/videos/hr/dmitry-volkov.vtt",
-    duration: "7-9 мин"
+    id: "hr-art",
+    name: "Артем Соколов",
+    position: "Руководитель группы подбор",
+    description: "",
+    imageUrl: "",
+    videoUrl: "/videos/hr/HR_Art.mp4",
+    duration: "",
+    playInline: true
+  },
+  {
+    id: "hr-mziuri",
+    name: "Мзиури Чаава",
+    position: "Руководитель группы подбора",
+    description: "",
+    imageUrl: "",
+    videoUrl: "/videos/hr/HR_Mziuri.mp4",
+    duration: "",
+    playInline: true
+  },
+  {
+    id: "hr-dar",
+    name: "Дарья Селезнева",
+    position: "Специалист группы подбора",
+    description: "",
+    imageUrl: "",
+    videoUrl: "/videos/hr/HR_Dar.mp4",
+    duration: "",
+    playInline: true
+  },
+  {
+    id: "hr-gal",
+    name: "Галина Дворникова",
+    position: "Менеджер по персоналу",
+    description: "",
+    imageUrl: "",
+    videoUrl: "/videos/hr/HR_Gal.mp4",
+    duration: "",
+    playInline: true
+  },
+  {
+    id: "hr-val",
+    name: "Валерия Скубьева",
+    position: "Менеджер по персоналу",
+    description: "",
+    imageUrl: "",
+    videoUrl: "/videos/hr/HR_Val.mp4",
+    duration: "",
+    playInline: true
+  },
+  {
+    id: "hr-kat",
+    name: "Екатерина Галактионова",
+    position: "Ведущий ИТ-рекрутер",
+    description: "",
+    imageUrl: "",
+    videoUrl: "/videos/hr/HR_Kat.mp4",
+    duration: "",
+    playInline: true
   }
-]; 
+];
