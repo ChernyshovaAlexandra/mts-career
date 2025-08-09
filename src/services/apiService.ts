@@ -127,8 +127,19 @@ export class ApiService {
     return this.http.post<InterviewBookingResponse>("/api/sobes", formData);
   }
 
+  cancelInterview(meet_id: number) {
+    const formData = new FormData();
+    formData.append("meet_id", String(meet_id));
+    formData.append("cancel", "1");
+    return this.http.post<InterviewBookingResponse>("/api/sobes", formData);
+  }
+
   bookCoffee(meet_id: number) {
     return this.http.post<InterviewBookingResponse>("/api/kofe", { meet_id });
+  }
+
+  cancelCoffee(meet_id: number) {
+    return this.http.post<InterviewBookingResponse>("/api/kofe", { meet_id, cancel: 1 });
   }
 
   /* ------------------------------------------------------------------ */

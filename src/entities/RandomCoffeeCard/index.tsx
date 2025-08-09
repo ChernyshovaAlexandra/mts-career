@@ -122,7 +122,9 @@ const RandomCoffeeCard: FC<RandomCoffeeCardProps> = ({
   onChangeTime,
   employeeImage,
   status,
+  link,
 }) => {
+  const canCancel = Boolean(status || link || employeeName) && meetingDate !== "Не запланировано";
   return (
     <Card title="Рандом-кофе с сотрудником" titleId="random-coffee-title">
       <EmployeeInfo>
@@ -147,13 +149,15 @@ const RandomCoffeeCard: FC<RandomCoffeeCardProps> = ({
         <FieldValue>{meetingDate}</FieldValue>
       </DataRow>
 
-      <Button
-        {...ACCOUNTPAGE_BTN_THEME}
-        onClick={onChangeTime}
-        aria-label={`Изменить время встречи с ${employeeName}`}
-      >
-        ИЗМЕНИТЬ ВРЕМЯ
-      </Button>
+      {canCancel && (
+        <Button
+          {...ACCOUNTPAGE_BTN_THEME}
+          onClick={onChangeTime}
+          aria-label={`Отменить запись на встречу с ${employeeName}`}
+        >
+          ОТМЕНИТЬ ЗАПИСЬ
+        </Button>
+      )}
     </Card>
   );
 };
