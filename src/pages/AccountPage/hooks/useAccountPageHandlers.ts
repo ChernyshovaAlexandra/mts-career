@@ -19,8 +19,11 @@ export const useAccountPageHandlers = () => {
   const handleActivityClick = useCallback(
     (activityName: string) => {
       const routeMap: Record<string, string> = {
-        "Подготовка резюме": "/resume",
-        "Подготовка к собеседованию": "/interview",
+        "Карточки с советами": "/resume#tips",
+        "Собери резюме": "/resume#dos-donts",
+        "Основные правила": "/interview#basic-rules",
+        "Подготовка резюме": "/resume#tips",
+        "Подготовка к собеседованию": "/interview#basic-rules",
         "Работа в МТС": "/work",
         "Финтек": "/activities/fintech",
         "МТС Медиа": "/activities/media",
@@ -31,7 +34,10 @@ export const useAccountPageHandlers = () => {
       };
 
       const path = routeMap[activityName];
-      if (path) navigate(path);
+      if (path) {
+        // Используем полную перезагрузку hash для корректного скролла
+        navigate(path);
+      }
     },
     [navigate]
   );

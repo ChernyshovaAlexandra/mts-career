@@ -1,4 +1,4 @@
-import { type FC } from "react";
+import { type FC, useMemo } from "react";
 import { MainLayout } from "../../layouts";
 import { useUserStore } from "../../store";
 import { useAccountPageHandlers } from "./hooks";
@@ -26,6 +26,47 @@ const AccountPage: FC = () => {
   const pageData = ACCOUNT_PAGE_DATA;
   const user = useUserStore((s) => s.user);
   const navigate = useNavigate();
+
+  const userGames = user?.games ?? [];
+
+  const getProgressByGameId = (gameId: string | undefined) => {
+    if (!gameId) return "Не начато";
+    const g = userGames.find((it) => it.name === gameId);
+    return g ? `${g.points ?? 0} баллов` : "Не начато";
+  };
+
+  const computedGeneralSkills = useMemo(() => {
+    const skillIdByName: Record<string, string | undefined> = {
+      "Карточки с советами": "sovety_resume",
+      "Основные правила": "sovety_sobes",
+      "Собери резюме": "komiks",
+    };
+
+    return pageData.generalSkills.map((s) => ({
+      ...s,
+      progress: skillIdByName[s.name]
+        ? getProgressByGameId(skillIdByName[s.name])
+        : s.progress,
+    }));
+  }, [pageData.generalSkills, userGames]);
+
+  const computedActivities = useMemo(() => {
+    const activityIdByName: Record<string, string | undefined> = {
+      "МТС Финтех": "game1",
+      "МТС Медиа": "game2",
+      "МТС Телеком": "game3",
+      "МТС Юрент": "game4",
+      "MTS Web Services": "game5",
+      "MTS AdTech": "game6",
+    };
+
+    return pageData.activities.map((a) => ({
+      ...a,
+      progress: activityIdByName[a.name]
+        ? getProgressByGameId(activityIdByName[a.name])
+        : a.progress,
+    }));
+  }, [pageData.activities, userGames]);
 
   const interviewSimulation = user?.sobes ? {
     direction: getDirectionFromArray(user.sobes.staff.directions),
@@ -69,8 +110,8 @@ const AccountPage: FC = () => {
           }}
           interviewSimulation={interviewSimulation}
           randomCoffee={randomCoffee}
-          generalSkills={pageData.generalSkills}
-          activities={pageData.activities}
+          generalSkills={computedGeneralSkills}
+          activities={computedActivities}
           onViewRating={() => navigate("/tournament-table")}
           onChangeInterviewTime={handlers.handleChangeInterviewTime}
           onChangeCoffeeTime={handlers.handleChangeCoffeeTime}
@@ -92,8 +133,8 @@ const AccountPage: FC = () => {
           }}
           interviewSimulation={interviewSimulation}
           randomCoffee={randomCoffee}
-          generalSkills={pageData.generalSkills}
-          activities={pageData.activities}
+          generalSkills={computedGeneralSkills}
+          activities={computedActivities}
           onViewRating={() => navigate("/tournament-table")}
           onChangeInterviewTime={handlers.handleChangeInterviewTime}
           onChangeCoffeeTime={handlers.handleChangeCoffeeTime}
