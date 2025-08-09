@@ -57,6 +57,9 @@ export const MobileLayout: FC<MobileLayoutProps> = ({
         <PersonalDataCard {...personalData} />
       </LazyCard>
       <LazyCard>
+        <ReferralLinkCard />
+      </LazyCard>
+      <LazyCard>
         <TablePositionCard
           position={tablePosition.position}
           points={tablePosition.points}
@@ -77,6 +80,7 @@ export const MobileLayout: FC<MobileLayoutProps> = ({
           generalSkills={generalSkills}
           activities={activities}
           onActivityClick={onActivityClick}
+          referralSection={{ title: "Приглашенные друзья", progress: "XX из 50", completed: true }}
         />
       </LazyCard>
       <LazyCard>
@@ -107,3 +111,6 @@ const ActivityScaleCard = lazy(
   () => import("../../../entities/ActivityScaleCard")
 );
 const FeedbackCard = lazy(() => import("../../../entities/FeedbackCard"));
+const ReferralLinkCard = lazy(
+  () => import("../../../entities/ReferralLinkCard")
+);
