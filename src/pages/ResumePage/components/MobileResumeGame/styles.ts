@@ -113,13 +113,23 @@ export const OptionCard = styled.button<{ $isSelected: boolean; $isRevealed: boo
   width: 100%;
   height: auto;
   min-height: 180px;
-  border: ${({ $isSelected }) => ($isSelected ? '4px solid transparent' : '1px solid #dee2e6')};
-  background: ${({ $isSelected }) =>
-    $isSelected
+  border: ${({ $isSelected, $isRevealed, $isCorrect }) => {
+    if ($isRevealed && $isSelected) {
+      return `4px solid ${$isCorrect ? '#26CD58' : '#F95721'}`;
+    }
+    return $isSelected ? '4px solid transparent' : '1px solid #dee2e6';
+  }};
+  background: ${({ $isSelected, $isRevealed }) => {
+    if ($isRevealed && $isSelected) {
+      return '#ffffff';
+    }
+    return $isSelected
       ? `linear-gradient(#ffffff, #ffffff) padding-box,
          linear-gradient(9deg, #FFD4C9 4.4%, #EDCCD3 19.79%, #BFB8ED 49.27%, #9FAAFF 68.5%, #A1A1FF 90.29%) border-box`
-      : '#ffffff'};
-  background-clip: ${({ $isSelected }) => ($isSelected ? 'padding-box, border-box' : 'border-box')};
+      : '#ffffff';
+  }};
+  background-clip: ${({ $isSelected, $isRevealed }) =>
+    $isRevealed && $isSelected ? 'border-box' : $isSelected ? 'padding-box, border-box' : 'border-box'};
   border-radius: 12px;
   cursor: ${({ $isRevealed }) => $isRevealed ? 'default' : 'pointer'};
   transition: border-color 0.2s ease-in-out, background 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
