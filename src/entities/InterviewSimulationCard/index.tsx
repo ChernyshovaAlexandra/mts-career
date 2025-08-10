@@ -70,7 +70,9 @@ const InterviewSimulationCard: FC<InterviewSimulationCardProps> = ({
   onChangeTime,
   staffName,
   status,
+  link,
 }) => {
+  const canCancel = Boolean(status || link || staffName) && interviewDate !== "Не запланировано";
   return (
     <Card title="Симуляция собеседования" titleId="interview-simulation-title">
       <DataRow>
@@ -93,13 +95,15 @@ const InterviewSimulationCard: FC<InterviewSimulationCardProps> = ({
         <FieldValue>{interviewDate}</FieldValue>
       </DataRow>
 
-      <Button
-        {...ACCOUNTPAGE_BTN_THEME}
-        onClick={onChangeTime}
-        aria-label="Изменить время симуляции собеседования"
-      >
-        ИЗМЕНИТЬ ВРЕМЯ
-      </Button>
+      {canCancel && (
+        <Button
+          {...ACCOUNTPAGE_BTN_THEME}
+          onClick={onChangeTime}
+          aria-label="Отменить запись на симуляцию собеседования"
+        >
+          ОТМЕНИТЬ ЗАПИСЬ
+        </Button>
+      )}
     </Card>
   );
 };

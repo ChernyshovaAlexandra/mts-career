@@ -120,7 +120,7 @@ const ResumePage: FC = () => {
               <ExpandableSection
                 id="hr-videos"
                 title="Видео от HR-специалистов"
-                description="Специалисты подут тебе советы по подготовке резюме."
+                description="Смотри короткие ролики от экспертов по управлению персоналом МТС. Запоминай, на что обратить внимание перед отправкой резюме"
                 isExpanded={expandedSections.includes("hr-videos")}
                 onToggle={() => toggleSection("hr-videos")}
               >

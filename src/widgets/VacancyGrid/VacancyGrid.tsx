@@ -166,10 +166,7 @@ export const VacancyGrid: React.FC<VacancyGridProps> = ({ vacancies }) => {
         <Button
           variant="primary"
           aria-label="Показать больше вакансий"
-          onClick={() => {
-            const first = currentVacancies[0];
-            if (first) handleOpenVacancy(first);
-          }}
+          onClick={() => window.open("https://job.mts.ru", "_blank", "noopener,noreferrer")}
         >
           БОЛЬШЕ ВАКАНСИЙ
         </Button>

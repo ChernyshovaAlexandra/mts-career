@@ -70,7 +70,7 @@ const InterviewPage: FC = () => {
 
       <PageContainer>
         <Container>
-          <ContentSection aria-labelledby="basic-rules-heading" role="main">
+          <ContentSection aria-labelledby="basic-rules-heading" role="main" id="basic-rules">
             <CarouselContainer>
               <CarouselImage
                 role="img"

@@ -1,12 +1,7 @@
 import type { FC } from "react";
 import styled from "styled-components";
 import Card from "../../shared/ui/Card";
-import {
-  Header,
-  IconStar,
-  Link,
-  IconChevronRight,
-} from "@chernyshovaalexandra/mtsui";
+import { Header, IconStar, Link, IconChevronRight } from "@chernyshovaalexandra/mtsui";
 
 /**
  * @typedef {Object} ActivityItem
@@ -30,6 +25,11 @@ interface ActivityScaleCardProps {
   generalSkills: ActivityItem[];
   activities: ActivityItem[];
   onActivityClick: (activityName: string) => void;
+  referralSection?: {
+    title: string;
+    progress: string;
+    completed?: boolean;
+  };
 }
 
 const Section = styled.section``;
@@ -75,6 +75,32 @@ const ActivityProgress = styled.div`
   min-width: 80px;
 `;
 
+const ActivityLink = styled(Link)`
+  && {
+    display: flex;
+    align-items: end;
+    font-size: var(--font-size-lg);
+    color: var(--text-primary);
+    text-decoration: none !important;
+    cursor: pointer;
+  }
+
+  &&:hover {
+    text-decoration: underline !important;
+  }
+
+  &&:focus-visible {
+    outline: none;
+    text-decoration: underline !important;
+  }
+
+  @media (max-width: 500px) {
+    && svg {
+      display: none;
+    }
+  }
+`;
+
 const ProgressText = styled.span`
   font-family: "MTS Wide", sans-serif;
   font-weight: var(--font-weight-medium);
@@ -84,6 +110,16 @@ const ProgressText = styled.span`
   letter-spacing: var(--letter-spacing-none);
   text-align: right;
   color: var(--text-primary);
+
+  @media (max-width: 500px) {
+    font-family: "MTS Wide", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 14px;
+    line-height: 120%;
+    letter-spacing: 0px;
+    text-align: right;
+  }
 `;
 
 const StatusText = styled.span`
@@ -111,25 +147,21 @@ const ActivityScaleCard: FC<ActivityScaleCardProps> = ({
   generalSkills,
   activities,
   onActivityClick,
+  referralSection,
 }) => {
   const renderActivityItem = (item: ActivityItem, index: number) => {
-    const isProgress = item.progress.includes("из");
+    const isProgress = /из|балл/iu.test(item.progress);
     const TextComponent = isProgress ? ProgressText : StatusText;
 
     return (
       <ActivityItem key={`${item.name}-${index}`}>
-        <Link
-          style={{
-            display: "flex",
-            alignItems: "end",
-            fontSize: "var(--font-size-lg)",
-          }}
+        <ActivityLink
           onClick={() => onActivityClick(item.name)}
           aria-label={`Перейти к активности: ${item.name}. Прогресс: ${item.progress}`}
         >
           {item.name}
           <IconChevronRight width={20} />
-        </Link>
+        </ActivityLink>
         <ActivityProgress aria-live="polite" aria-atomic="true">
           <TextComponent>{item.progress}</TextComponent>
           {item.completed && (
@@ -173,6 +205,31 @@ const ActivityScaleCard: FC<ActivityScaleCardProps> = ({
           )}
         </ActivityList>
       </Section>
+
+      {referralSection && (
+        <>
+          <SectionSeparator />
+          <Section>
+            <Header
+              variant="H3-Wide"
+              id="referral-title"
+              style={SectionTitleStyle}
+            >
+              РЕФЕРАЛЬНАЯ ССЫЛКА
+            </Header>
+            <ActivityList role="list">
+              {renderActivityItem(
+                {
+                  name: "Приглашенные друзья",
+                  progress: referralSection.progress,
+                  completed: Boolean(referralSection.completed),
+                },
+                0
+              )}
+            </ActivityList>
+          </Section>
+        </>
+      )}
     </Card>
   );
 };

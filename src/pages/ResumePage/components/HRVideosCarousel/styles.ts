@@ -9,14 +9,19 @@ export const CarouselContainer = styled.section`
 export const CarouselWrapper = styled.div`
   position: relative;
   margin: 0;
+  touch-action: pan-y;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
 `;
 
-export const CarouselTrack = styled.div<{ $currentIndex: number; $itemsPerView: number }>`
+export const CarouselTrack = styled.div`
   display: flex;
-  transition: transform 0.3s ease-in-out;
-  transform: translateX(-${({ $currentIndex, $itemsPerView }) => 
-    ($currentIndex * 100) / $itemsPerView}%);
   margin: 0 60px;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-tap-highlight-color: transparent;
   
   @media (max-width: 768px) {
     margin: 0 50px;

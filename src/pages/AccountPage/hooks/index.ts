@@ -1,1 +1,1 @@
-export { useAccountPageHandlers } from "./useAccountPageHandlers";
+export { useAccountPageHandlers } from "./useAccountPageHandlers.tsx";

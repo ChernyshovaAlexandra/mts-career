@@ -28,48 +28,59 @@ export const ACCOUNT_PAGE_DATA: AccountPageData = {
   },
   generalSkills: [
     {
-      name: "Подготовка резюме",
-      progress: "XX из XX",
-      completed: true,
+      name: "Карточки с советами",
+      progress: "0 из 90",
     },
     {
-      name: "Подготовка к собеседованию",
-      progress: "Не начато",
+      name: "Собери резюме",
+      progress: "0 из 120",
     },
     {
-      name: "Работа в МТС",
-      progress: "XX из XX",
-      completed: true,
+      name: "Основные правила",
+      progress: "0 из 100",
     },
   ],
   activities: [
     {
-      name: "Финтек",
+      name: "МТС Финтех",
       progress: "XX из XX",
       completed: true,
     },
     {
       name: "МТС Медиа",
-      progress: "Не начато",
+      progress: "Ещё не пройдено",
     },
     {
-      name: "Рекламные технологии AdTech",
-      progress: "Не начато",
+      name: "MTS AdTech",
+      progress: "Ещё не пройдено",
     },
     {
-      name: "IT-направление MTS WEB SERVICES",
+      name: "MTS Web Services",
       progress: "XX из XX",
       completed: true,
     },
     {
-      name: "Кикшеринг МТС Юрент",
+      name: "МТС Юрент",
       progress: "XX из XX",
       completed: true,
     },
     {
-      name: "Телеком",
+      name: "МТС Телеком",
       progress: "XX из XX",
       completed: true,
     },
   ],
 };
+
+
+export const ACTIVITIES_DATA = {
+  "МТС Финтех": "game1",
+  "МТС Медиа": "game2",
+  "МТС Телеком": "game3",
+  "МТС Юрент": "game4",
+  "MTS Web Services": "game5",
+  "MTS AdTech": "game6",
+  "Карточки с советами": "sovety_resume",
+  "Основные правила": "sovety_sobes",
+  "Собери резюме": "komiks",
+}
