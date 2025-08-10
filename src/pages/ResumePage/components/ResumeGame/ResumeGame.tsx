@@ -1,5 +1,6 @@
 import React, { type FC } from "react";
 import { memo, useState } from "react";
+import { apiService } from "../../../../services/apiService";
 import { GAME_QUESTIONS } from "../../constants";
 import { CheckIcon, MinusIcon, DownloadIcon } from "./icons";
 import {
@@ -29,6 +30,8 @@ export const ResumeGame: FC = memo(() => {
     Record<string, string>
   >({});
   const [isRevealed, setIsRevealed] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const handleOptionSelect = (questionId: string, optionId: string) => {
     if (isRevealed) return;
@@ -39,8 +42,24 @@ export const ResumeGame: FC = memo(() => {
     }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setIsRevealed(true);
+    try {
+      setSending(true);
+      await apiService.startGame("komiks");
+      const points = correctAnswers * 10;
+      const resp = await apiService.sendGameResult({ game: "komiks", result: "1", points });
+      const data: any = resp.data as any;
+      const games: Array<{ name: string; status: string; points?: number }>|undefined = data?.user?.games ?? (data?.user?.game ? [data.user.game] : undefined);
+      const game = games?.find((g) => g.name === "komiks");
+      if (game?.status === "win") {
+        setSuccessMessage(`Вы получили ${points} баллов!`);
+      }
+    } catch (e) {
+      console.error("Не удалось отправить результат игры komiks", e);
+    } finally {
+      setSending(false);
+    }
   };
 
   const handleRestart = () => {
@@ -49,6 +68,8 @@ export const ResumeGame: FC = memo(() => {
   };
 
   const answeredQuestions = Object.keys(selectedAnswers).length;
+  const totalQuestions = GAME_QUESTIONS.length;
+  const allAnswered = answeredQuestions === totalQuestions;
   const correctAnswers = GAME_QUESTIONS.filter((question) => {
     const selectedOptionId = selectedAnswers[question.id];
     const selectedOption = question.options.find(
@@ -175,10 +196,12 @@ export const ResumeGame: FC = memo(() => {
           <ActionButton
             variant="primary"
             onClick={handleSubmit}
-            disabled={answeredQuestions === 0}
+            disabled={!allAnswered || sending}
+            aria-disabled={!allAnswered || sending}
+            title={!allAnswered ? "Ответьте на все вопросы, чтобы узнать результат" : undefined}
             aria-label="Узнать результат"
           >
-            УЗНАТЬ РЕЗУЛЬТАТ
+            {sending ? "ОТПРАВЛЯЕМ…" : "УЗНАТЬ РЕЗУЛЬТАТ"}
           </ActionButton>
         ) : (
           <ActionButton
@@ -190,6 +213,10 @@ export const ResumeGame: FC = memo(() => {
           </ActionButton>
         )}
       </ActionButtons>
+
+      {successMessage && (
+        <div role="status" aria-live="polite" style={{ textAlign: "center" }}>{successMessage}</div>
+      )}
 
       {isRevealed && (
         <CongratulationsCard>
