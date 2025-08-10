@@ -192,10 +192,29 @@ export const StepContent = styled.div`
 export const QuestionText = styled.div`
   display: flex;
   flex-direction: column;
+  font-family: 'MTS Text', sans-serif;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 140%;
+  letter-spacing: 0px;
+  color: #212529;
+`;
+
+export const Explanation = styled.div`
+  margin-top: 8px;
+  font-family: 'MTS Text', sans-serif;
   font-size: 16px;
   line-height: 140%;
   color: #212529;
-  font-weight: 400;
+
+  .ex-heading {
+    font-weight: 500;
+    margin-top: 6px;
+  }
+
+  .ex-p {
+    margin-top: 4px;
+  }
 `;
 
 export const OptionsContainer = styled.div`
@@ -209,18 +228,33 @@ export const OptionsContainer = styled.div`
   }
 `;
 
-export const ImageCard = styled.button<{ $isSelected: boolean; $isRevealed: boolean; $isCorrect?: boolean }>`
+export const ImageCard = styled.button<{
+  $isSelected: boolean;
+  $isRevealed: boolean;
+  $isCorrect?: boolean;
+  $customHeight?: number;
+}>`
   width: 370px;
-  height: auto;
-  min-height: 370px;
+  height: ${({ $customHeight }) => ($customHeight ? `${$customHeight}px` : 'auto')};
+  min-height: ${({ $customHeight }) => ($customHeight ? `${$customHeight}px` : '370px')};
   border-radius: 16px;
-  border: ${({ $isSelected }) => ($isSelected ? '4px solid transparent' : '1px solid #e9ecef')};
-  background: ${({ $isSelected }) =>
-    $isSelected
+  border: ${({ $isSelected, $isRevealed, $isCorrect }) => {
+    if ($isRevealed && $isSelected) {
+      return `4px solid ${$isCorrect ? '#26CD58' : '#F95721'}`;
+    }
+    return $isSelected ? '4px solid transparent' : '1px solid #e9ecef';
+  }};
+  background: ${({ $isSelected, $isRevealed }) => {
+    if ($isRevealed && $isSelected) {
+      return '#ffffff';
+    }
+    return $isSelected
       ? `linear-gradient(#ffffff, #ffffff) padding-box,
          linear-gradient(9deg, #FFD4C9 4.4%, #EDCCD3 19.79%, #BFB8ED 49.27%, #9FAAFF 68.5%, #A1A1FF 90.29%) border-box`
-      : '#ffffff'};
-  background-clip: ${({ $isSelected }) => ($isSelected ? 'padding-box, border-box' : 'border-box')};
+      : '#ffffff';
+  }};
+  background-clip: ${({ $isSelected, $isRevealed }) =>
+    $isRevealed && $isSelected ? 'border-box' : $isSelected ? 'padding-box, border-box' : 'border-box'};
   border-radius: 16px;
   cursor: ${({ $isRevealed }) => $isRevealed ? 'default' : 'pointer'};
   transition: border-color 0.2s ease-in-out, background 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
@@ -252,16 +286,19 @@ export const ImageCard = styled.button<{ $isSelected: boolean; $isRevealed: bool
   }
 `;
 
-export const OptionTitleContent = styled.div`
+export const OptionTitleContent = styled.div<{
+  $fontSizePx?: number;
+  $paddingTB?: number;
+}>`
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   width: 100%;
-  padding: 53px 16px;
+  padding: ${({ $paddingTB }) => ($paddingTB !== undefined ? `${$paddingTB}px 16px` : '53px 16px')};
   font-family: 'MTS Wide', sans-serif;
   font-weight: 500;
-  font-size: 20px;
+  font-size: ${({ $fontSizePx }) => ($fontSizePx ? `${$fontSizePx}px` : '20px')};
   line-height: 140%;
   color: var(--text-primary);
 `;

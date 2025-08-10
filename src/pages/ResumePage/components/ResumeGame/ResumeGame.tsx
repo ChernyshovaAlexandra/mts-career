@@ -7,6 +7,7 @@ import {
   StyledSteps,
   StepContent,
   QuestionText,
+  Explanation,
   OptionsContainer,
   ImageCard,
   OptionTitleContent,
@@ -15,7 +16,6 @@ import {
   OCSubtitle,
   OCParagraph,
   PlaceholderText,
-  ResultBadge,
   ActionButtons,
   CongratulationsCard,
   CongratulationsTitle,
@@ -94,7 +94,18 @@ export const ResumeGame: FC = memo(() => {
       icon,
       description: (
         <StepContent>
-          <QuestionText>{question.questionText}</QuestionText>
+          <div>
+            <QuestionText>{question.questionText}</QuestionText>
+            {isRevealed && question.explanationDetails?.length ? (
+              <Explanation aria-live="polite">
+                {question.explanationDetails.map((it, idx) => (
+                  <div key={idx} className={it.type === 'heading' ? 'ex-heading' : 'ex-p'}>
+                    {it.text}
+                  </div>
+                ))}
+              </Explanation>
+            ) : null}
+          </div>
           <OptionsContainer>
             {question.options.map((option, optionIndex) => (
               <ImageCard
@@ -102,6 +113,7 @@ export const ResumeGame: FC = memo(() => {
                 $isSelected={selectedOptionId === option.id}
                 $isRevealed={isRevealed}
                 $isCorrect={option.isCorrect}
+                $customHeight={question.id === 'question2' ? 130 : undefined}
                 onClick={() => handleOptionSelect(question.id, option.id)}
                 disabled={isRevealed}
                 aria-pressed={selectedOptionId === option.id}
@@ -116,7 +128,7 @@ export const ResumeGame: FC = memo(() => {
                     style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 12 }}
                   />
                 ) : question.id === "question2" || question.id === "question5" ? (
-                  <OptionTitleContent>
+                  <OptionTitleContent $fontSizePx={17} $paddingTB={question.id === 'question2' ? 16 : undefined}>
                     {/* Контент будет передаваться из данных вопроса как JSX */}
                     {((option as any).customContent) ?? (
                       <>Вариант должности {optionIndex + 1}</>
@@ -145,11 +157,7 @@ export const ResumeGame: FC = memo(() => {
                   )
                 )}
 
-                {isRevealed && selectedOptionId === option.id && (
-                  <ResultBadge $isCorrect={option.isCorrect}>
-                    {option.isCorrect ? "Да" : "Нет"}
-                  </ResultBadge>
-                )}
+                {/* Убрали текстовые бейджи Да/Нет; цвет границы показывает результат */}
               </ImageCard>
             ))}
           </OptionsContainer>
