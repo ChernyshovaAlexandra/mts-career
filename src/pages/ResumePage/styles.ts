@@ -1,5 +1,5 @@
 import styled, { css, createGlobalStyle } from "styled-components";
-import { Text, Header, mts_brand_red } from "@chernyshovaalexandra/mtsui";
+import { Header, mts_brand_red } from "@chernyshovaalexandra/mtsui";
 
 const breakpoints = {
   mobile: 480,
@@ -48,14 +48,9 @@ export const PageContainer = styled.div`
 
 export const HeroSection = styled.section`
   position: relative;
-  background: linear-gradient(
-    347deg,
-    #ffd4c9 -2.24%,
-    #edccd3 16.66%,
-    #bfb8ed 52.9%,
-    #9faaff 76.53%,
-    #a1a1ff 103.3%
-  );
+  background: var(--hero-section-gradient);
+  background-blend-mode: multiply;
+  
   min-height: 400px;
   padding: 68px 0 40px;
   display: flex;
@@ -120,19 +115,7 @@ export const MainTitle = styled(Header).attrs({
   }
 `;
 
-export const IntroText = styled(Text)`
-  font-family: 'MTS Text', sans-serif;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 140%;
-  letter-spacing: 0px;
-  margin-bottom: 21px;
-  color: #fff;
-  
-  ${mediaQuery('desktop')} {
-    display: none;
-  }
-`;
+
 
 export const BulletList = styled.ol`
   font-family: 'MTS Text', sans-serif;
@@ -141,7 +124,6 @@ export const BulletList = styled.ol`
   line-height: 130%;
   letter-spacing: 0px;
   margin: 0 0 21px 0;
-  padding-left: 20px;
   list-style: none;
   counter-reset: item;
   color: #fff;
@@ -150,6 +132,7 @@ export const BulletList = styled.ol`
     margin-bottom: 8px;
     position: relative;
     counter-increment: item;
+    padding-left: 10px;
     
     &:last-child {
       margin-bottom: 0;

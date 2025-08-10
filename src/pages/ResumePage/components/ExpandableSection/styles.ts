@@ -65,7 +65,6 @@ export const SectionTitle = styled(Header)`
 `;
 
 export const SectionContent = styled.div<{ $isExpanded: boolean; $noPaddingTop?: boolean }>`
-  max-height: ${({ $isExpanded }) => $isExpanded ? "2000px" : "0"};
   overflow: hidden;
   transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
   padding: ${({ $isExpanded, $noPaddingTop }) => {

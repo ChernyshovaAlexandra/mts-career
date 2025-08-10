@@ -9,6 +9,11 @@ import {
   QuestionText,
   OptionsContainer,
   ImageCard,
+  OptionTitleContent,
+  OptionContent,
+  OCTitle,
+  OCSubtitle,
+  OCParagraph,
   PlaceholderText,
   ResultBadge,
   ActionButtons,
@@ -104,7 +109,41 @@ export const ResumeGame: FC = memo(() => {
                   question.questionNumber
                 }`}
               >
-                <PlaceholderText>Изображение</PlaceholderText>
+                {question.id === "question1" ? (
+                  <img
+                    src={optionIndex === 0 ? "/images/activities/op1-q1-resume.jpg" : "/images/activities/op2-q1-resume.jpg"}
+                    alt={`Изображение резюме вариант ${optionIndex + 1}`}
+                    style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 12 }}
+                  />
+                ) : question.id === "question2" || question.id === "question5" ? (
+                  <OptionTitleContent>
+                    {/* Контент будет передаваться из данных вопроса как JSX */}
+                    {((option as any).customContent) ?? (
+                      <>Вариант должности {optionIndex + 1}</>
+                    )}
+                  </OptionTitleContent>
+                ) : (
+                  (option as any).customContent ? (
+                    <OptionContent>
+                      {question.id === "question6" ? (
+                        // Для 6 вопроса убираем заголовки и показываем все строки одинаково
+                        ((option as any).customContent.split('\n')).map((line: string, idx: number) => (
+                          <OCParagraph key={idx}>{line}</OCParagraph>
+                        ))
+                      ) : (
+                        <>
+                          <OCTitle>{(option as any).customContent.split('\n')[0]}</OCTitle>
+                          <OCSubtitle>{(option as any).customContent.split('\n')[1]}</OCSubtitle>
+                          {((option as any).customContent.split('\n').slice(2)).map((line: string, idx: number) => (
+                            <OCParagraph key={idx}>{line}</OCParagraph>
+                          ))}
+                        </>
+                      )}
+                    </OptionContent>
+                  ) : (
+                    <PlaceholderText>Изображение</PlaceholderText>
+                  )
+                )}
 
                 {isRevealed && selectedOptionId === option.id && (
                   <ResultBadge $isCorrect={option.isCorrect}>
