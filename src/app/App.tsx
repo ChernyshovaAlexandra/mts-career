@@ -17,11 +17,17 @@ export const App: React.FC = () => {
       
       apiService.getStatus().then((resp) => {
         const { user, position } = resp.data;
+        const referralsCount = Array.isArray(user.referrals)
+          ? user.referrals.length
+          : Number(user.referrals ?? 0);
+
         const updUser: UserData = {
           ...user,
           personalCode: user.nickname,
           position: position,
           checkResumeAttemptsLeft: user.check_resume_attempts_left,
+          refCode: user.ref_code,
+          referralsCount,
         };
 
         setUser({ ...updUser });
