@@ -51,10 +51,15 @@ const LoginPage: FC = () => {
 
       const statusResp = await apiService.getStatus();
       const { user, position } = statusResp.data;
+      const referralsCount = Array.isArray(user.referrals)
+        ? user.referrals.length
+        : Number(user.referrals ?? 0);
       const updUser: UserData = {
         ...user,
         personalCode: user.nickname,
         position: position,
+        refCode: user.ref_code,
+        referralsCount,
       };
 
       setUser({ ...updUser });

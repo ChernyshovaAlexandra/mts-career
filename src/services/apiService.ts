@@ -287,6 +287,10 @@ export interface UserStatus {
     nickname: string;
     name: string;
     position: string;
+    /** Реферальный код пользователя */
+    ref_code?: string;
+    /** Может быть массивом объектов рефералов или числом */
+    referrals?: number | any[];
     /** Кол-во оставшихся попыток проверки резюме (приходит с бэка) */
     check_resume_attempts_left?: number;
     kofe: {

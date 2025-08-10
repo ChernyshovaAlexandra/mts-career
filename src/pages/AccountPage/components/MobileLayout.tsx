@@ -36,6 +36,8 @@ interface MobileLayoutProps {
   onChangeCoffeeTime: () => void;
   onActivityClick: (activityName: string) => void;
   onTakeSurvey: () => void;
+  referralProgress: string;
+  referralCompleted: boolean;
 }
 
 export const MobileLayout: FC<MobileLayoutProps> = ({
@@ -50,6 +52,8 @@ export const MobileLayout: FC<MobileLayoutProps> = ({
   onChangeCoffeeTime,
   onActivityClick,
   onTakeSurvey,
+  referralProgress,
+  referralCompleted,
 }) => {
   return (
     <MobileLayoutContainer role="list" aria-label="Мобильная версия карточек">
@@ -80,7 +84,7 @@ export const MobileLayout: FC<MobileLayoutProps> = ({
           generalSkills={generalSkills}
           activities={activities}
           onActivityClick={onActivityClick}
-          referralSection={{ title: "Приглашенные друзья", progress: "XX из 50", completed: true }}
+          referralSection={{ title: "Приглашенные друзья", progress: referralProgress, completed: referralCompleted }}
         />
       </LazyCard>
       <LazyCard>
