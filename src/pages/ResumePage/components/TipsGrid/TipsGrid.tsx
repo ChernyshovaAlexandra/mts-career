@@ -14,7 +14,6 @@ import {
   CardFront,
   CardBack,
   TipTitle,
-  TipDescription,
   BackContent
 } from "./styles";
 import { apiService } from "../../../../services/apiService";
@@ -132,9 +131,6 @@ export const TipsGrid: FC = memo(() => {
                 <TipTitle as="h3">
                   {tip.title}
                 </TipTitle>
-                <TipDescription variant="P4-Regular-Text">
-                  {tip.shortDescription}
-                </TipDescription>
               </CardFront>
               <CardBack>
                 <BackContent variant="P4-Regular-Text">

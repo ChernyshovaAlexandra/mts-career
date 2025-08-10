@@ -50,6 +50,10 @@ const GlobalStyles = createGlobalStyle`
     --font-weight-semibold: 600;
     --font-weight-bold: 700;
     --font-weight-black: 900;
+
+    /* Градиенты */
+    --hero-section-gradient: linear-gradient(0deg, #D9D9D9, #D9D9D9),
+      linear-gradient(314.72deg, #FFD4C9 1.89%, #EDCCD3 14.16%, #BFB8ED 37.68%, #9FAAFF 53.01%, #A1A1FF 70.39%);
   }
 
   @media (max-width: 768px) {

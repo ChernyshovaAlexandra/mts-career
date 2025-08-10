@@ -38,14 +38,8 @@ const accessibilityStyles = css`
 
 export const HeroSection = styled.section`
   position: relative;
-  background: linear-gradient(
-    347deg,
-    #ffd4c9 -2.24%,
-    #edccd3 16.66%,
-    #bfb8ed 52.9%,
-    #9faaff 76.53%,
-    #a1a1ff 103.3%
-  );
+  background: var(--hero-section-gradient);
+  background-blend-mode: multiply;
   min-height: 400px;
   padding: 68px 0 40px;
   display: flex;

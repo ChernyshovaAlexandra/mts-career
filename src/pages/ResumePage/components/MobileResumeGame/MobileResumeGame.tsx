@@ -11,12 +11,17 @@ import {
   QuestionTitle,
   OptionCard,
   PlaceholderText,
+  OptionTitleContent,
   NavigationButtons,
   ActionButton,
   CongratulationsCard,
   CongratulationsTitle,
   CongratulationsText,
-  DownloadButton
+  DownloadButton,
+  OptionContent,
+  OCTitle,
+  OCSubtitle,
+  OCParagraph,
 } from "./styles";
 
 interface MobileStepsProps {
@@ -190,9 +195,41 @@ export const MobileResumeGame: FC = memo(() => {
             aria-pressed={isSelected}
             aria-label={`Вариант ${optionIndex + 1} для вопроса ${currentQuestion.questionNumber}`}
           >
-            <PlaceholderText>
-              Изображение резюме {optionIndex + 1}
-            </PlaceholderText>
+            {currentQuestion.id === "question1" ? (
+              <img
+                src={optionIndex === 0 ? "/images/activities/op1-q1-resume.jpg" : "/images/activities/op2-q1-resume.jpg"}
+                alt={`Изображение резюме вариант ${optionIndex + 1}`}
+                style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 10 }}
+              />
+            ) : currentQuestion.id === "question2" || currentQuestion.id === "question5" ? (
+              <OptionTitleContent>
+                {(option as any).customContent ?? (
+                  <>Вариант должности {optionIndex + 1}</>
+                )}
+              </OptionTitleContent>
+            ) : (
+              (option as any).customContent ? (
+                <OptionContent>
+                  {currentQuestion.id === "question6" ? (
+                    ((option as any).customContent.split('\n')).map((line: string, idx: number) => (
+                      <OCParagraph key={idx}>{line}</OCParagraph>
+                    ))
+                  ) : (
+                    <>
+                      <OCTitle>{(option as any).customContent.split('\n')[0]}</OCTitle>
+                      <OCSubtitle>{(option as any).customContent.split('\n')[1]}</OCSubtitle>
+                      {((option as any).customContent.split('\n').slice(2)).map((line: string, idx: number) => (
+                        <OCParagraph key={idx}>{line}</OCParagraph>
+                      ))}
+                    </>
+                  )}
+                </OptionContent>
+              ) : (
+                <PlaceholderText>
+                  Изображение резюме {optionIndex + 1}
+                </PlaceholderText>
+              )
+            )}
           </OptionCard>
         );
       })}
