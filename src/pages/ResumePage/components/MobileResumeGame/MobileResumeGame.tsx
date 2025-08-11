@@ -167,7 +167,7 @@ export const MobileResumeGame: FC = memo(() => {
         <CongratulationsCard>
           <CongratulationsTitle>Молодец!</CongratulationsTitle>
           <CongratulationsText>
-            Ты заработал {correctAnswers * 10} баллов.
+            Ты заработал {correctAnswers * 15} баллов.
             <br />
             Забирай пример идеального, по нашему мнению, резюме.
           </CongratulationsText>
