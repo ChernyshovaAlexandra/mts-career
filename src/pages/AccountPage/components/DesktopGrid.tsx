@@ -54,20 +54,24 @@ interface DesktopGridProps {
   onChangeCoffeeTime: () => void;
   onActivityClick: (activityName: string) => void;
   onTakeSurvey: () => void;
+  referralProgress: string;
+  referralCompleted: boolean;
 }
 
 export const DesktopGrid: FC<DesktopGridProps> = ({
   personalData,
   tablePosition,
-  interviewSimulation,
-  randomCoffee,
+  // interviewSimulation,
+  // randomCoffee,
   generalSkills,
   activities,
   onViewRating,
-  onChangeInterviewTime,
-  onChangeCoffeeTime,
+  // onChangeInterviewTime,
+  // onChangeCoffeeTime,
   onActivityClick,
   onTakeSurvey,
+  referralProgress,
+  referralCompleted,
 }) => {
   return (
     <GridLayout role="grid" aria-label="Сетка карточек">
@@ -85,7 +89,7 @@ export const DesktopGrid: FC<DesktopGridProps> = ({
             onViewRating={onViewRating}
           />
         </LazyCard>
-        <LazyCard>
+        {/* <LazyCard>
           <InterviewSimulationCard
             {...interviewSimulation}
             onChangeTime={onChangeInterviewTime}
@@ -96,7 +100,7 @@ export const DesktopGrid: FC<DesktopGridProps> = ({
             {...randomCoffee}
             onChangeTime={onChangeCoffeeTime}
           />
-        </LazyCard>
+        </LazyCard> */}
       </LeftColumn>
 
       <RightColumn role="rowgroup" aria-label="Правая колонка">
@@ -105,7 +109,7 @@ export const DesktopGrid: FC<DesktopGridProps> = ({
             generalSkills={generalSkills}
             activities={activities}
             onActivityClick={onActivityClick}
-            referralSection={{ title: "Приглашенные друзья", progress: "XX из 50", completed: true }}
+            referralSection={{ title: "Приглашенные друзья", progress: referralProgress, completed: referralCompleted }}
           />
         </LazyCard>
         <LazyCard>
@@ -127,12 +131,12 @@ const PersonalDataCard = lazy(
 const TablePositionCard = lazy(
   () => import("../../../entities/TablePositionCard")
 );
-const InterviewSimulationCard = lazy(
-  () => import("../../../entities/InterviewSimulationCard")
-);
-const RandomCoffeeCard = lazy(
-  () => import("../../../entities/RandomCoffeeCard")
-);
+// const InterviewSimulationCard = lazy(
+//   () => import("../../../entities/InterviewSimulationCard")
+// );
+// const RandomCoffeeCard = lazy(
+//   () => import("../../../entities/RandomCoffeeCard")
+// );
 const ActivityScaleCard = lazy(
   () => import("../../../entities/ActivityScaleCard")
 );

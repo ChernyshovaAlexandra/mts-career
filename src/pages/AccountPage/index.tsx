@@ -93,6 +93,10 @@ const AccountPage: FC = () => {
     meetingDate: "Не запланировано",
   };
 
+  const referralsCount = user?.referralsCount ?? 0;
+  const referralProgress = `${referralsCount} из 5`;
+  const referralCompleted = referralsCount >= 50;
+
   return (
     <MainLayout>
       <AccountPageLayout title={<AccountPageTitle />}>
@@ -112,6 +116,8 @@ const AccountPage: FC = () => {
           randomCoffee={randomCoffee}
           generalSkills={computedGeneralSkills}
           activities={computedActivities}
+          referralProgress={referralProgress}
+          referralCompleted={referralCompleted}
           onViewRating={() => navigate("/tournament-table")}
           onChangeInterviewTime={handlers.handleChangeInterviewTime}
           onChangeCoffeeTime={handlers.handleChangeCoffeeTime}
@@ -135,6 +141,8 @@ const AccountPage: FC = () => {
           randomCoffee={randomCoffee}
           generalSkills={computedGeneralSkills}
           activities={computedActivities}
+          referralProgress={referralProgress}
+          referralCompleted={referralCompleted}
           onViewRating={() => navigate("/tournament-table")}
           onChangeInterviewTime={handlers.handleChangeInterviewTime}
           onChangeCoffeeTime={handlers.handleChangeCoffeeTime}

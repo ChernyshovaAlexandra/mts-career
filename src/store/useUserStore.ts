@@ -42,6 +42,10 @@ export interface UserData {
     status: string;
     points: number;
   }>;
+  /** Реферальный код пользователя (приходит как user.ref_code) */
+  refCode?: string;
+  /** Количество приглашённых друзей (может приходить числом или массивом) */
+  referralsCount?: number;
 }
 
 interface UserState {

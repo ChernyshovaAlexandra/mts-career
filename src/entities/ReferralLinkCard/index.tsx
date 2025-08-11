@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Card from "../../shared/ui/Card";
 import { Button } from "@chernyshovaalexandra/mtsui";
 import { ACCOUNTPAGE_BTN_THEME } from "../../pages/AccountPage/constants";
+import { useUserStore } from "../../store";
 
 const Description = styled.p`
   margin: 8px 0 16px 0;
@@ -17,13 +18,15 @@ const Status = styled.div`
 
 const ReferralLinkCard: FC = () => {
   const [copied, setCopied] = useState(false);
+  const user = useUserStore((s) => s.user);
 
   const link = useMemo(() => {
-    const origin = typeof window !== "undefined" ? window.location.origin : "https://mts.ru";
-    return `${origin}/ref/demo`;
-  }, []);
+    const code = user?.refCode?.trim();
+    return code;
+  }, [user?.refCode]);
 
   const handleCopy = async () => {
+    if (!link) return;
     try {
       await navigator.clipboard.writeText(link);
       setCopied(true);
@@ -40,6 +43,9 @@ const ReferralLinkCard: FC = () => {
         {...ACCOUNTPAGE_BTN_THEME}
         onClick={handleCopy}
         aria-label="Скопировать реферальную ссылку"
+        disabled={!link}
+        aria-disabled={!link}
+        title={!link ? "Реферальный код пока недоступен" : undefined}
       >
         СКОПИРОВАТЬ ССЫЛКУ
       </Button>
