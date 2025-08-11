@@ -150,7 +150,7 @@ export const AIResumeChecker: FC<AIResumeCheckerProps> = memo(({
         direction: direction
       });
 
-      const response = await apiService.uploadResume(selectedFile);
+      const response = await apiService.uploadResume(selectedFile, direction);
       
       console.log('Ответ от сервера:', response.data);
       
@@ -350,7 +350,7 @@ export const AIResumeChecker: FC<AIResumeCheckerProps> = memo(({
             <div role="status" aria-live="polite">
               <LoadingSpinner aria-hidden="true" />
               <Text variant="P4-Regular-Text">
-                Анализируем ваше резюме...
+                Анализируем твоё резюме...
               </Text>
             </div>
           ) : analysisResult ? (
