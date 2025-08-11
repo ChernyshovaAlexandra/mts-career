@@ -142,13 +142,13 @@ export const GAME_QUESTIONS: GameQuestion[] = [
     options: [
       {
         id: "q5_option1",
-        isCorrect: true,
+        isCorrect: false,
         explanation: "Верная формулировка без медицинских диагнозов",
         customContent: "Передвигаюсь на инвалидной коляске"
       },
       {
         id: "q5_option2",
-        isCorrect: false,
+        isCorrect: true,
         explanation: "Лишние подробности: диагнозы и коды",
         customContent: "G71.0 (Код МКБ-10), II группа инвалидности, миодистрофия Дюшенна"
       }

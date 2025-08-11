@@ -1,11 +1,12 @@
 import type { FC, KeyboardEvent } from "react";
-import { memo, useState, useEffect } from "react";
+import { memo, useState, useEffect, useMemo, useRef } from "react";
+import { Carousel } from "antd";
+import type { CarouselRef } from "antd/es/carousel";
 import { IconArrowCircle } from "@chernyshovaalexandra/mtsui";
 import { tips } from "../../constants";
 import {
   CarouselContainer,
   CarouselWrapper,
-  CarouselTrack,
   CarouselCard,
   TipCard,
   CardInner,
@@ -17,7 +18,8 @@ import {
   NavigationButton,
   DotsContainer,
   Dot,
-  CarouselStatus
+  CarouselStatus,
+  SlideRow
 } from "./styles.js";
 
 interface MobileTipsCarouselProps {
@@ -29,11 +31,12 @@ export const MobileTipsCarousel: FC<MobileTipsCarouselProps> = memo(({ onAllView
   const [itemsPerView, setItemsPerView] = useState(1);
   const [flippedCards, setFlippedCards] = useState<Set<string>>(new Set());
   const [viewedOnce, setViewedOnce] = useState<Set<string>>(new Set());
+  const carouselRef = useRef<CarouselRef | null>(null);
   
   const getItemsPerView = () => {
     if (typeof window !== 'undefined') {
       if (window.innerWidth <= 500) return 1;
-      if (window.innerWidth <= 800) return 2;
+      if (window.innerWidth <= 800) return 1;
       return 3;
     }
     return 1;
@@ -44,27 +47,28 @@ export const MobileTipsCarousel: FC<MobileTipsCarouselProps> = memo(({ onAllView
       const newItemsPerView = getItemsPerView();
       setItemsPerView(newItemsPerView);
       setCurrentIndex(0);
+      carouselRef.current?.goTo?.(0, true);
     };
-    
     handleResize();
     window.addEventListener('resize', handleResize);
-    
     return () => window.removeEventListener('resize', handleResize);
   }, []);
   
-  const maxIndex = Math.max(0, tips.length - itemsPerView);
+  const slides = useMemo(() => {
+    const chunkSize = Math.max(1, Math.min(itemsPerView, 2));
+    const result: typeof tips[] = [] as any;
+    for (let i = 0; i < tips.length; i += chunkSize) {
+      result.push(tips.slice(i, i + chunkSize));
+    }
+    return result;
+  }, [itemsPerView]);
+
+  const totalSlides = slides.length;
+  const showShortDescription = itemsPerView > 1; // show subtitle only when width > 500px
   
-  const handlePrevClick = () => {
-    setCurrentIndex(prev => Math.max(0, prev - 1));
-  };
-  
-  const handleNextClick = () => {
-    setCurrentIndex(prev => Math.min(maxIndex, prev + 1));
-  };
-  
-  const handleDotClick = (index: number) => {
-    setCurrentIndex(Math.min(index, maxIndex));
-  };
+  const handlePrevClick = () => carouselRef.current?.prev?.();
+  const handleNextClick = () => carouselRef.current?.next?.();
+  const handleDotClick = (index: number) => carouselRef.current?.goTo?.(index, true);
 
   const handleCardClick = (tipId: string) => {
     const wasFlipped = flippedCards.has(tipId);
@@ -85,9 +89,6 @@ export const MobileTipsCarousel: FC<MobileTipsCarouselProps> = memo(({ onAllView
       });
     }
   };
-
-  const totalSlides = maxIndex + 1;
-
   // Report "viewed at least once" upward for enabling the parent CTA
   useEffect(() => {
     const allViewed = viewedOnce.size === tips.length;
@@ -111,67 +112,58 @@ export const MobileTipsCarousel: FC<MobileTipsCarouselProps> = memo(({ onAllView
       </CarouselStatus>
 
       <CarouselWrapper>
-        <CarouselTrack 
-          $currentIndex={currentIndex} 
-          $itemsPerView={itemsPerView}
-          role="group"
-          aria-label={`Группа советов ${currentIndex + 1} из ${totalSlides}`}
+        <Carousel
+          ref={carouselRef}
+          dots={false}
+          infinite={false}
+          accessibility
+          afterChange={(idx) => setCurrentIndex(idx)}
         >
-          {tips.map((tip) => (
-            <CarouselCard 
-              key={tip.id}
-              role="group"
-              aria-labelledby={`tip-${tip.id}-title`}
-              aria-describedby={`tip-${tip.id}-description`}
-            >
-              <TipCard
-                $isFlipped={flippedCards.has(tip.id)}
-                tabIndex={0}
-                role="button"
-                aria-label={`Карточка совета: ${tip.title}. Нажмите чтобы ${flippedCards.has(tip.id) ? 'скрыть' : 'показать'} подробности`}
-                onClick={() => handleCardClick(tip.id)}
-                onKeyDown={(e: KeyboardEvent<HTMLDivElement>) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    handleCardClick(tip.id);
-                  }
-                }}
-              >
-                <CardInner $isFlipped={flippedCards.has(tip.id)}>
-                  <CardFront>
-                    <TipTitle 
-                      as="h4"
-                      id={`tip-${tip.id}-title`}
+          {slides.map((group, slideIdx) => (
+            <div key={slideIdx} aria-label={`Группа советов ${slideIdx + 1} из ${totalSlides}`} role="group">
+              <SlideRow>
+                {group.map((tip) => (
+                  <CarouselCard
+                    key={tip.id}
+                    role="group"
+                    aria-labelledby={`tip-${tip.id}-title`}
+                    aria-describedby={showShortDescription ? `tip-${tip.id}-description` : undefined}
+                  >
+                    <TipCard
+                      $isFlipped={flippedCards.has(tip.id)}
+                      tabIndex={0}
+                      role="button"
+                      aria-label={`Карточка совета: ${tip.title}. Нажмите чтобы ${flippedCards.has(tip.id) ? 'скрыть' : 'показать'} подробности`}
+                      onClick={() => handleCardClick(tip.id)}
+                      onKeyDown={(e: KeyboardEvent<HTMLDivElement>) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          handleCardClick(tip.id);
+                        }
+                      }}
                     >
-                      {tip.title}
-                    </TipTitle>
-                    <TipDescription 
-                      variant="P4-Regular-Text"
-                      id={`tip-${tip.id}-description`}
-                    >
-                      {tip.shortDescription.split('/n').map((line, idx) => (
-                        <span key={idx}>
-                          {line}
-                          <br />
-                        </span>
-                      ))}
-                    </TipDescription>
-                  </CardFront>
-                  <CardBack>
-                    <BackContent variant="P4-Regular-Text">
-                      {tip.fullDescription.split('/n').map((line, idx) => (
-                        <span key={idx}>
-                          {line}
-                          <br />
-                        </span>
-                      ))}
-                    </BackContent>
-                  </CardBack>
-                </CardInner>
-              </TipCard>
-            </CarouselCard>
+                      <CardInner $isFlipped={flippedCards.has(tip.id)}>
+                        <CardFront>
+                          <TipTitle as="h4" id={`tip-${tip.id}-title`}>
+                            {tip.title}
+                          </TipTitle>
+                          {showShortDescription && (
+                            <TipDescription variant="P4-Regular-Text" id={`tip-${tip.id}-description`}>
+                              {tip.shortDescription}
+                            </TipDescription>
+                          )}
+                        </CardFront>
+                        <CardBack>
+                          <BackContent variant="P4-Regular-Text">{tip.fullDescription}</BackContent>
+                        </CardBack>
+                      </CardInner>
+                    </TipCard>
+                  </CarouselCard>
+                ))}
+              </SlideRow>
+            </div>
           ))}
-        </CarouselTrack>
+        </Carousel>
         
         <NavigationButton
           $direction="prev"
@@ -191,8 +183,8 @@ export const MobileTipsCarousel: FC<MobileTipsCarouselProps> = memo(({ onAllView
         <NavigationButton
           $direction="next" 
           onClick={handleNextClick}
-          disabled={currentIndex >= maxIndex}
-          aria-label={`Следующие советы. ${currentIndex >= maxIndex ? 'Недоступно - вы находитесь в конце' : `Показать советы ${currentIndex + itemsPerView + 1}-${Math.min(tips.length, currentIndex + itemsPerView * 2)}`}`}
+          disabled={currentIndex >= totalSlides - 1}
+          aria-label={`Следующие советы. ${currentIndex >= totalSlides - 1 ? 'Недоступно - вы находитесь в конце' : `Показать следующую группу ${currentIndex + 2} из ${totalSlides}`}`}
           title="Следующая группа советов"
         >
           <IconArrowCircle

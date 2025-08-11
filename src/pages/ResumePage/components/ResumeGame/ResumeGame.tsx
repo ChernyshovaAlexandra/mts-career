@@ -1,5 +1,5 @@
 import React, { type FC } from "react";
-import { memo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 import { apiService } from "../../../../services/apiService";
 import { GAME_QUESTIONS } from "../../constants";
 import { CheckIcon, MinusIcon, DownloadIcon } from "./icons";
@@ -78,6 +78,20 @@ export const ResumeGame: FC = memo(() => {
     return selectedOption?.isCorrect;
   }).length;
 
+  // Случайный порядок вариантов для каждого вопроса (перемешиваем один раз за монтирование)
+  const shuffledOptionsByQuestion = useMemo(() => {
+    const map: Record<string, typeof GAME_QUESTIONS[number]["options"]> = {};
+    GAME_QUESTIONS.forEach((q) => {
+      const copy = [...q.options];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      map[q.id] = copy;
+    });
+    return map;
+  }, []);
+
   const stepItems = GAME_QUESTIONS.map((question) => {
     const selectedOptionId = selectedAnswers[question.id];
     const selectedOption = selectedOptionId
@@ -128,7 +142,7 @@ export const ResumeGame: FC = memo(() => {
             ) : null}
           </div>
           <OptionsContainer>
-            {question.options.map((option, optionIndex) => (
+            {(shuffledOptionsByQuestion[question.id] ?? question.options).map((option, optionIndex) => (
               <ImageCard
                 key={option.id}
                 $isSelected={selectedOptionId === option.id}
@@ -144,7 +158,7 @@ export const ResumeGame: FC = memo(() => {
               >
                 {question.id === "question1" ? (
                   <img
-                    src={optionIndex === 0 ? "/images/activities/op1-q1-resume.jpg" : "/images/activities/op2-q1-resume.jpg"}
+                    src={option.id === 'q1_option1' ? "/images/activities/op1-q1-resume.jpg" : "/images/activities/op2-q1-resume.jpg"}
                     alt={`Изображение резюме вариант ${optionIndex + 1}`}
                     style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 12 }}
                   />
