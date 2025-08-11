@@ -112,10 +112,11 @@ export class ApiService {
     return this.http.get<MeetsResponse>("/api/meets");
   }
 
-  uploadResume(file: File) {
+  uploadResume(file: File, direction?: string) {
 
     const formData = new FormData();
     formData.append("resume", file);
+    if (direction) formData.append("direction", direction);
     
     return this.http.post<ResumeAnalyseResponse>("/api/resume", formData);
   }

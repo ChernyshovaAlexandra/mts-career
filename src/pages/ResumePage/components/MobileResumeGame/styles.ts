@@ -111,20 +111,28 @@ export const QuestionTitle = styled(Text)`
 
 export const OptionCard = styled.button<{ $isSelected: boolean; $isRevealed: boolean; $isCorrect?: boolean }>`
   width: 100%;
-  height: 180px;
-  background: ${({ $isSelected, $isCorrect, $isRevealed }) => {
-    if (!$isRevealed) return $isSelected ? '#f8f9fa' : '#e9ecef';
-    if ($isCorrect) return '#d4edda';
-    return $isSelected ? '#f8d7da' : '#e9ecef';
+  height: auto;
+  min-height: 180px;
+  border: ${({ $isSelected, $isRevealed, $isCorrect }) => {
+    if ($isRevealed && $isSelected) {
+      return `4px solid ${$isCorrect ? '#26CD58' : '#F95721'}`;
+    }
+    return $isSelected ? '4px solid transparent' : '1px solid #dee2e6';
   }};
-  border: 2px solid ${({ $isSelected, $isCorrect, $isRevealed }) => {
-    if (!$isRevealed) return $isSelected ? mts_brand_red : '#dee2e6';
-    if ($isCorrect) return '#28a745';
-    return $isSelected ? '#dc3545' : '#dee2e6';
+  background: ${({ $isSelected, $isRevealed }) => {
+    if ($isRevealed && $isSelected) {
+      return '#ffffff';
+    }
+    return $isSelected
+      ? `linear-gradient(#ffffff, #ffffff) padding-box,
+         linear-gradient(9deg, #FFD4C9 4.4%, #EDCCD3 19.79%, #BFB8ED 49.27%, #9FAAFF 68.5%, #A1A1FF 90.29%) border-box`
+      : '#ffffff';
   }};
+  background-clip: ${({ $isSelected, $isRevealed }) =>
+    $isRevealed && $isSelected ? 'border-box' : $isSelected ? 'padding-box, border-box' : 'border-box'};
   border-radius: 12px;
   cursor: ${({ $isRevealed }) => $isRevealed ? 'default' : 'pointer'};
-  transition: all 0.2s ease-in-out;
+  transition: border-color 0.2s ease-in-out, background 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -158,6 +166,51 @@ export const PlaceholderText = styled(Text)`
   color: #6c757d;
   font-size: 14px;
   font-weight: 400;
+`;
+
+export const OptionTitleContent = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  padding: 53px 16px;
+  font-family: 'MTS Wide', sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 140%;
+  color: var(--text-primary);
+`;
+
+export const OptionContent = styled.div`
+  display: block;
+  width: 100%;
+  height: auto;
+  padding: 16px;
+  text-align: left;
+  white-space: pre-wrap;
+  overflow: visible;
+  font-family: 'MTS Text', sans-serif;
+  font-size: 14px;
+  line-height: 140%;
+  color: var(--text-primary);
+`;
+
+export const OCTitle = styled.div`
+  font-family: 'MTS Wide', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 140%;
+  margin: 0 0 8px 0;
+`;
+
+export const OCSubtitle = styled.div`
+  color: #4b5563;
+  margin: 0 0 12px 0;
+`;
+
+export const OCParagraph = styled.p`
+  margin: 12px 0 0 0;
 `;
 
 export const ResultBadge = styled.div<{ $isCorrect: boolean }>`

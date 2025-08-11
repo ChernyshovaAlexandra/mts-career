@@ -17,7 +17,6 @@ import {
   HeroSection,
   ContentWrapper,
   MainTitle,
-  IntroText,
   BulletList,
   MobileHeroImage,
   ContentSection,
@@ -49,20 +48,17 @@ const ResumePage: FC = () => {
               <MainTitle id="main-heading" variant="H1-Wide">
                 Подготовка резюме
               </MainTitle>
-              
-              <IntroText variant="P4-Regular-Text" role="text">
-                Шаг за шагом научись создавать резюме, которое выделит тебя среди других кандидатов.
-              </IntroText>
+            
 
               <BulletList 
                 role="list" 
                 aria-label="Этапы подготовки резюме"
               >
-                <li role="listitem">Изучи основные советы</li>
+                <li role="listitem">Изучи советы по составлению резюме</li>
                 <li role="listitem">Сравни хорошие и неудачные примеры</li>
-                <li role="listitem">Получи обратную связь от HR</li>
-                <li role="listitem">Познакомься с опытом реальных сотрудников МТС</li>
-                <li role="listitem">Перейди к следующему этапу</li>
+                <li role="listitem">Получи обратную связь от нейросети</li>
+                <li role="listitem">Познакомься с опытом сотрудников МТС</li>
+                <li role="listitem">Заработай баллы за свою активность</li>
               </BulletList>
             </ContentWrapper>
           </Container>

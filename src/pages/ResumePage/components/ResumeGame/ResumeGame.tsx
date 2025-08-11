@@ -1,5 +1,6 @@
 import React, { type FC } from "react";
 import { memo, useState } from "react";
+import { apiService } from "../../../../services/apiService";
 import { GAME_QUESTIONS } from "../../constants";
 import { CheckIcon, MinusIcon, DownloadIcon } from "./icons";
 import {
@@ -7,10 +8,15 @@ import {
   StyledSteps,
   StepContent,
   QuestionText,
+  Explanation,
   OptionsContainer,
   ImageCard,
+  OptionTitleContent,
+  OptionContent,
+  OCTitle,
+  OCSubtitle,
+  OCParagraph,
   PlaceholderText,
-  ResultBadge,
   ActionButtons,
   CongratulationsCard,
   CongratulationsTitle,
@@ -24,6 +30,8 @@ export const ResumeGame: FC = memo(() => {
     Record<string, string>
   >({});
   const [isRevealed, setIsRevealed] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const handleOptionSelect = (questionId: string, optionId: string) => {
     if (isRevealed) return;
@@ -34,8 +42,24 @@ export const ResumeGame: FC = memo(() => {
     }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setIsRevealed(true);
+    try {
+      setSending(true);
+      await apiService.startGame("komiks");
+      const points = correctAnswers * 10;
+      const resp = await apiService.sendGameResult({ game: "komiks", result: "1", points });
+      const data: any = resp.data as any;
+      const games: Array<{ name: string; status: string; points?: number }>|undefined = data?.user?.games ?? (data?.user?.game ? [data.user.game] : undefined);
+      const game = games?.find((g) => g.name === "komiks");
+      if (game?.status === "win") {
+        setSuccessMessage(`Вы получили ${points} баллов!`);
+      }
+    } catch (e) {
+      console.error("Не удалось отправить результат игры komiks", e);
+    } finally {
+      setSending(false);
+    }
   };
 
   const handleRestart = () => {
@@ -44,6 +68,8 @@ export const ResumeGame: FC = memo(() => {
   };
 
   const answeredQuestions = Object.keys(selectedAnswers).length;
+  const totalQuestions = GAME_QUESTIONS.length;
+  const allAnswered = answeredQuestions === totalQuestions;
   const correctAnswers = GAME_QUESTIONS.filter((question) => {
     const selectedOptionId = selectedAnswers[question.id];
     const selectedOption = question.options.find(
@@ -89,7 +115,18 @@ export const ResumeGame: FC = memo(() => {
       icon,
       description: (
         <StepContent>
-          <QuestionText>{question.questionText}</QuestionText>
+          <div>
+            <QuestionText>{question.questionText}</QuestionText>
+            {isRevealed && question.explanationDetails?.length ? (
+              <Explanation aria-live="polite">
+                {question.explanationDetails.map((it, idx) => (
+                  <div key={idx} className={it.type === 'heading' ? 'ex-heading' : 'ex-p'}>
+                    {it.text}
+                  </div>
+                ))}
+              </Explanation>
+            ) : null}
+          </div>
           <OptionsContainer>
             {question.options.map((option, optionIndex) => (
               <ImageCard
@@ -97,6 +134,7 @@ export const ResumeGame: FC = memo(() => {
                 $isSelected={selectedOptionId === option.id}
                 $isRevealed={isRevealed}
                 $isCorrect={option.isCorrect}
+                $customHeight={question.id === 'question2' ? 130 : undefined}
                 onClick={() => handleOptionSelect(question.id, option.id)}
                 disabled={isRevealed}
                 aria-pressed={selectedOptionId === option.id}
@@ -104,13 +142,43 @@ export const ResumeGame: FC = memo(() => {
                   question.questionNumber
                 }`}
               >
-                <PlaceholderText>Изображение</PlaceholderText>
-
-                {isRevealed && selectedOptionId === option.id && (
-                  <ResultBadge $isCorrect={option.isCorrect}>
-                    {option.isCorrect ? "Да" : "Нет"}
-                  </ResultBadge>
+                {question.id === "question1" ? (
+                  <img
+                    src={optionIndex === 0 ? "/images/activities/op1-q1-resume.jpg" : "/images/activities/op2-q1-resume.jpg"}
+                    alt={`Изображение резюме вариант ${optionIndex + 1}`}
+                    style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 12 }}
+                  />
+                ) : question.id === "question2" || question.id === "question5" ? (
+                  <OptionTitleContent $fontSizePx={17} $paddingTB={question.id === 'question2' ? 16 : undefined}>
+                    {/* Контент будет передаваться из данных вопроса как JSX */}
+                    {((option as any).customContent) ?? (
+                      <>Вариант должности {optionIndex + 1}</>
+                    )}
+                  </OptionTitleContent>
+                ) : (
+                  (option as any).customContent ? (
+                    <OptionContent>
+                      {question.id === "question6" ? (
+                        // Для 6 вопроса убираем заголовки и показываем все строки одинаково
+                        ((option as any).customContent.split('\n')).map((line: string, idx: number) => (
+                          <OCParagraph key={idx}>{line}</OCParagraph>
+                        ))
+                      ) : (
+                        <>
+                          <OCTitle>{(option as any).customContent.split('\n')[0]}</OCTitle>
+                          <OCSubtitle>{(option as any).customContent.split('\n')[1]}</OCSubtitle>
+                          {((option as any).customContent.split('\n').slice(2)).map((line: string, idx: number) => (
+                            <OCParagraph key={idx}>{line}</OCParagraph>
+                          ))}
+                        </>
+                      )}
+                    </OptionContent>
+                  ) : (
+                    <PlaceholderText>Изображение</PlaceholderText>
+                  )
                 )}
+
+                {/* Убрали текстовые бейджи Да/Нет; цвет границы показывает результат */}
               </ImageCard>
             ))}
           </OptionsContainer>
@@ -128,10 +196,12 @@ export const ResumeGame: FC = memo(() => {
           <ActionButton
             variant="primary"
             onClick={handleSubmit}
-            disabled={answeredQuestions === 0}
+            disabled={!allAnswered || sending}
+            aria-disabled={!allAnswered || sending}
+            title={!allAnswered ? "Ответьте на все вопросы, чтобы узнать результат" : undefined}
             aria-label="Узнать результат"
           >
-            УЗНАТЬ РЕЗУЛЬТАТ
+            {sending ? "ОТПРАВЛЯЕМ…" : "УЗНАТЬ РЕЗУЛЬТАТ"}
           </ActionButton>
         ) : (
           <ActionButton
@@ -143,6 +213,10 @@ export const ResumeGame: FC = memo(() => {
           </ActionButton>
         )}
       </ActionButtons>
+
+      {successMessage && (
+        <div role="status" aria-live="polite" style={{ textAlign: "center" }}>{successMessage}</div>
+      )}
 
       {isRevealed && (
         <CongratulationsCard>

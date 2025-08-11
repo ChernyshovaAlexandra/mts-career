@@ -192,10 +192,29 @@ export const StepContent = styled.div`
 export const QuestionText = styled.div`
   display: flex;
   flex-direction: column;
+  font-family: 'MTS Text', sans-serif;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 140%;
+  letter-spacing: 0px;
+  color: #212529;
+`;
+
+export const Explanation = styled.div`
+  margin-top: 8px;
+  font-family: 'MTS Text', sans-serif;
   font-size: 16px;
   line-height: 140%;
   color: #212529;
-  font-weight: 400;
+
+  .ex-heading {
+    font-weight: 500;
+    margin-top: 6px;
+  }
+
+  .ex-p {
+    margin-top: 4px;
+  }
 `;
 
 export const OptionsContainer = styled.div`
@@ -209,30 +228,43 @@ export const OptionsContainer = styled.div`
   }
 `;
 
-export const ImageCard = styled.button<{ $isSelected: boolean; $isRevealed: boolean; $isCorrect?: boolean }>`
+export const ImageCard = styled.button<{
+  $isSelected: boolean;
+  $isRevealed: boolean;
+  $isCorrect?: boolean;
+  $customHeight?: number;
+}>`
   width: 370px;
-  height: 370px;
-  background: ${({ $isSelected, $isCorrect, $isRevealed }) => {
-    if (!$isRevealed) return $isSelected ? '#f8f9fa' : '#e9ecef';
-    if ($isCorrect) return '#d4edda';
-    return $isSelected ? '#f8d7da' : '#e9ecef';
+  height: ${({ $customHeight }) => ($customHeight ? `${$customHeight}px` : 'auto')};
+  min-height: ${({ $customHeight }) => ($customHeight ? `${$customHeight}px` : '370px')};
+  border-radius: 16px;
+  border: ${({ $isSelected, $isRevealed, $isCorrect }) => {
+    if ($isRevealed && $isSelected) {
+      return `4px solid ${$isCorrect ? '#26CD58' : '#F95721'}`;
+    }
+    return $isSelected ? '4px solid transparent' : '1px solid #e9ecef';
   }};
-  border: 3px solid ${({ $isSelected, $isCorrect, $isRevealed }) => {
-    if (!$isRevealed) return $isSelected ? mts_brand_red : 'transparent';
-    if ($isCorrect) return '#28a745';
-    return $isSelected ? '#dc3545' : 'transparent';
+  background: ${({ $isSelected, $isRevealed }) => {
+    if ($isRevealed && $isSelected) {
+      return '#ffffff';
+    }
+    return $isSelected
+      ? `linear-gradient(#ffffff, #ffffff) padding-box,
+         linear-gradient(9deg, #FFD4C9 4.4%, #EDCCD3 19.79%, #BFB8ED 49.27%, #9FAAFF 68.5%, #A1A1FF 90.29%) border-box`
+      : '#ffffff';
   }};
+  background-clip: ${({ $isSelected, $isRevealed }) =>
+    $isRevealed && $isSelected ? 'border-box' : $isSelected ? 'padding-box, border-box' : 'border-box'};
   border-radius: 16px;
   cursor: ${({ $isRevealed }) => $isRevealed ? 'default' : 'pointer'};
-  transition: all 0.2s ease-in-out;
+  transition: border-color 0.2s ease-in-out, background 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: stretch;
+  justify-content: stretch;
   position: relative;
 
   &:hover:not(:disabled) {
-    border-color: ${mts_brand_red};
-    background: #f8f9fa;
+    /* сохраняем белый фон и границу без мерцаний */
   }
 
   &:focus-visible {
@@ -252,6 +284,54 @@ export const ImageCard = styled.button<{ $isSelected: boolean; $isRevealed: bool
     width: 100%;
     height: 200px;
   }
+`;
+
+export const OptionTitleContent = styled.div<{
+  $fontSizePx?: number;
+  $paddingTB?: number;
+}>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  padding: ${({ $paddingTB }) => ($paddingTB !== undefined ? `${$paddingTB}px 16px` : '53px 16px')};
+  font-family: 'MTS Wide', sans-serif;
+  font-weight: 500;
+  font-size: ${({ $fontSizePx }) => ($fontSizePx ? `${$fontSizePx}px` : '20px')};
+  line-height: 140%;
+  color: var(--text-primary);
+`;
+
+export const OptionContent = styled.div`
+  display: block;
+  width: 100%;
+  height: auto;
+  padding: 20px;
+  text-align: left;
+  white-space: pre-wrap;
+  overflow: visible;
+  font-family: 'MTS Text', sans-serif;
+  font-size: 14px;
+  line-height: 140%;
+  color: var(--text-primary);
+`;
+
+export const OCTitle = styled.div`
+  font-family: 'MTS Wide', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 140%;
+  margin: 0 0 8px 0;
+`;
+
+export const OCSubtitle = styled.div`
+  color: #4b5563;
+  margin: 0 0 12px 0;
+`;
+
+export const OCParagraph = styled.p`
+  margin: 12px 0 0 0;
 `;
 
 export const PlaceholderText = styled(Text)`
