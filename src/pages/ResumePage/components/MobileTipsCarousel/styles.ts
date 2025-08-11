@@ -9,6 +9,11 @@ export const CarouselContainer = styled.section`
 export const CarouselWrapper = styled.div`
   position: relative;
   margin: 0;
+  padding: 0 60px; /* reserve space for nav buttons while keeping track centered */
+
+  @media (max-width: 768px) {
+    padding: 0 0px;
+  }
 `;
 
 export const CarouselTrack = styled.div<{ $currentIndex: number; $itemsPerView: number }>`
@@ -16,17 +21,24 @@ export const CarouselTrack = styled.div<{ $currentIndex: number; $itemsPerView: 
   transition: transform 0.3s ease-in-out;
   transform: translateX(-${({ $currentIndex, $itemsPerView }) => 
     ($currentIndex * 100) / $itemsPerView}%);
-  margin: 0 60px;
-  
-  @media (max-width: 768px) {
-    margin: 0 50px;
-  }
+  margin: 0;
+`;
+
+// Row container used inside each Ant Design Carousel slide
+export const SlideRow = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
 `;
 
 export const CarouselCard = styled.article`
   flex: 0 0 33.333%;
   padding: 0 10px;
   box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   
   @media (max-width: 800px) {
     flex: 0 0 50%;
@@ -42,11 +54,16 @@ export const TipCard = styled.div<{ $isFlipped: boolean }>`
   height: 296px;
   width: 100%;
   max-width: 370px;
+  width: 295px;
   cursor: pointer;
   margin: 0 auto;
   
   @media (max-width: 768px) {
     max-width: 100%;
+  }
+  
+  @media (max-width: 500px) {
+    width: 295px;
   }
   
   &:focus-visible {
@@ -117,6 +134,20 @@ export const TipTitle = styled(Header)`
   text-align: center;
   z-index: 2;
   position: relative;
+  line-height: 120%;
+  letter-spacing: 0px;
+
+  @media (max-width: 500px) {
+    /* Mobile typography spec */
+    font-family: "MTS Wide";
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 120%;
+    letter-spacing: 0px;
+    text-transform: uppercase;
+    text-align: center;
+    vertical-align: middle;
+  }
 `;
 
 export const TipDescription = styled(Text)`
