@@ -9,29 +9,30 @@ export const CarouselContainer = styled.section`
 export const CarouselWrapper = styled.div`
   position: relative;
   margin: 0;
-  touch-action: pan-y;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
+  padding: 0 60px; /* space for nav buttons */
+
+  @media (max-width: 768px) {
+    padding: 0 0px;
+  }
 `;
 
-export const CarouselTrack = styled.div`
+// Row container used inside each Ant Design Carousel slide
+export const SlideRow = styled.div`
   display: flex;
-  margin: 0 60px;
-  cursor: grab;
-  user-select: none;
-  -webkit-user-drag: none;
-  -webkit-tap-highlight-color: transparent;
-  
-  @media (max-width: 768px) {
-    margin: 0 50px;
-  }
+  justify-content: center;
+  align-items: stretch;
+  gap: 16px;
+  width: 100%;
 `;
 
 export const CarouselCard = styled.article`
   flex: 0 0 33.333%;
   padding: 0 10px;
   box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 0; /* allow content to shrink within flex item to avoid overflow */
   
   @media (max-width: 1024px) {
     flex: 0 0 50%;
@@ -49,7 +50,8 @@ export const VideoCard = styled.div`
   text-align: center;
   border: 1px solid rgba(0, 0, 0, 0.04);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  width: 344px;
+  width: 100%;
+  max-width: 344px;
   height: 500px;
   display: flex;
   flex-direction: column;
@@ -59,14 +61,14 @@ export const VideoCard = styled.div`
   box-sizing: border-box;
   
   @media (max-width: 768px) {
-    width: 282px;
+    max-width: 282px;
     height: 426px;
     border-radius: 16px;
     padding: 20px;
   }
   
   @media (max-width: 500px) {
-    width: 260px;
+    max-width: 260px;
     height: 380px;
     gap: 12px;
     padding: 16px;
