@@ -28,7 +28,7 @@ export const StepsWrapper = styled.div`
   gap: 0;
 `;
 
-export const StepCircle = styled.div<{ $isActive: boolean; $isCompleted: boolean }>`
+export const StepCircle = styled.div<{ $isActive: boolean; $isCompleted: boolean; $isResults?: boolean }>`
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -39,6 +39,8 @@ export const StepCircle = styled.div<{ $isActive: boolean; $isCompleted: boolean
   font-size: 14px;
   z-index: 2;
   position: relative;
+  transform: ${({ $isResults }) => ($isResults ? 'scale(0.8)' : 'none')};
+  transform-origin: center;
   
   ${({ $isActive, $isCompleted }) => {
     if ($isActive) {
@@ -113,6 +115,7 @@ export const OptionCard = styled.button<{ $isSelected: boolean; $isRevealed: boo
   width: 100%;
   height: auto;
   min-height: 180px;
+  -webkit-tap-highlight-color: transparent; /* убрать вспышку при тапе на мобильных */
   border: ${({ $isSelected, $isRevealed, $isCorrect }) => {
     if ($isRevealed && $isSelected) {
       return `4px solid ${$isCorrect ? '#26CD58' : '#F95721'}`;
@@ -139,10 +142,8 @@ export const OptionCard = styled.button<{ $isSelected: boolean; $isRevealed: boo
   position: relative;
   margin-bottom: 16px;
 
-  &:hover:not(:disabled) {
-    border-color: ${mts_brand_red};
-    background: #f8f9fa;
-  }
+  /* Убираем красную подсветку перед появлением градиента — ховер ничего не меняет */
+  &:hover:not(:disabled) {}
 
   &:focus-visible {
     outline: 2px solid ${mts_brand_red};

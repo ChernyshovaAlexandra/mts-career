@@ -32,33 +32,48 @@ interface MobileStepsProps {
 }
 
 const MobileSteps: FC<MobileStepsProps> = ({ totalSteps, currentStep, showResults = false, selectedAnswers = {} }) => {
+  // На мобильных показываем только текущее и следующее значения (переход текущий→следующий)
+  // В режиме результатов показываем весь путь с индикацией правильности
+  const indicesToRender = (() => {
+    if (showResults) {
+      return Array.from({ length: totalSteps }, (_, i) => i);
+    }
+    const currentIndex = Math.max(0, Math.min(totalSteps - 1, currentStep - 1));
+    if (currentIndex === totalSteps - 1 && totalSteps > 1) {
+      // На последнем шаге показываем предпоследний → последний
+      return [totalSteps - 2, totalSteps - 1];
+    }
+    // На остальных шагах показываем текущий → следующий
+    return [currentIndex, Math.min(totalSteps - 1, currentIndex + 1)];
+  })();
+
   return (
     <MobileStepsContainer>
       <StepsWrapper>
-        {Array.from({ length: totalSteps }, (_, index) => {
+        {indicesToRender.map((index, localIdx) => {
           const stepNumber = index + 1;
           const isActive = !showResults && stepNumber === currentStep;
           const isCompleted = stepNumber < currentStep;
-          
-          let stepResult = null;
+
+          let stepResult: boolean | null = null;
           if (showResults && selectedAnswers) {
             const question = GAME_QUESTIONS[index];
             const selectedOptionId = selectedAnswers[question.id];
             if (selectedOptionId) {
-              const selectedOption = question.options.find(opt => opt.id === selectedOptionId);
-              stepResult = selectedOption?.isCorrect;
+              const selectedOption = question.options.find((opt) => opt.id === selectedOptionId);
+              stepResult = selectedOption?.isCorrect ?? null;
             }
           }
-          
+
           return (
             <React.Fragment key={stepNumber}>
-              <StepCircle 
-                $isActive={isActive} 
+              <StepCircle
+                $isActive={isActive}
                 $isCompleted={isCompleted}
+                $isResults={showResults}
                 aria-label={`Шаг ${stepNumber}`}
               >
                 {stepNumber}
-                
                 {stepResult !== null && (
                   <>
                     {stepResult && (
@@ -74,8 +89,7 @@ const MobileSteps: FC<MobileStepsProps> = ({ totalSteps, currentStep, showResult
                   </>
                 )}
               </StepCircle>
-              
-              {index < totalSteps - 1 && (
+              {localIdx < indicesToRender.length - 1 && (
                 <StepLine $isCompleted={isCompleted} />
               )}
             </React.Fragment>
@@ -90,6 +104,20 @@ export const MobileResumeGame: FC = memo(() => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string>>({});
   const [isGameCompleted, setIsGameCompleted] = useState(false);
+
+  // Перемешиваем ответы для каждого вопроса, чтобы верная карточка могла быть слева или справа
+  const shuffledOptionsByQuestion = React.useMemo(() => {
+    const map: Record<string, typeof GAME_QUESTIONS[number]['options']> = {};
+    GAME_QUESTIONS.forEach((q) => {
+      const copy = [...q.options];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      map[q.id] = copy;
+    });
+    return map;
+  }, []);
 
   const currentQuestion = GAME_QUESTIONS[currentQuestionIndex];
   const isLastQuestion = currentQuestionIndex === GAME_QUESTIONS.length - 1;
@@ -181,7 +209,7 @@ export const MobileResumeGame: FC = memo(() => {
         {currentQuestion.questionText}
       </QuestionTitle>
 
-      {currentQuestion.options.map((option, optionIndex) => {
+      {(shuffledOptionsByQuestion[currentQuestion.id] ?? currentQuestion.options).map((option, optionIndex) => {
         const selectedOptionId = selectedAnswers[currentQuestion.id];
         const isSelected = selectedOptionId === option.id;
 
@@ -197,7 +225,7 @@ export const MobileResumeGame: FC = memo(() => {
           >
             {currentQuestion.id === "question1" ? (
               <img
-                src={optionIndex === 0 ? "/images/activities/op1-q1-resume.jpg" : "/images/activities/op2-q1-resume.jpg"}
+                src={option.id === 'q1_option1' ? "/images/activities/op1-q1-resume.jpg" : "/images/activities/op2-q1-resume.jpg"}
                 alt={`Изображение резюме вариант ${optionIndex + 1}`}
                 style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 10 }}
               />
