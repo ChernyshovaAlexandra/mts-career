@@ -149,12 +149,22 @@ export const MobileTipsCarousel: FC<MobileTipsCarouselProps> = memo(({ onAllView
                       variant="P4-Regular-Text"
                       id={`tip-${tip.id}-description`}
                     >
-                      {tip.shortDescription}
+                      {tip.shortDescription.split('/n').map((line, idx) => (
+                        <span key={idx}>
+                          {line}
+                          <br />
+                        </span>
+                      ))}
                     </TipDescription>
                   </CardFront>
                   <CardBack>
                     <BackContent variant="P4-Regular-Text">
-                      {tip.fullDescription}
+                      {tip.fullDescription.split('/n').map((line, idx) => (
+                        <span key={idx}>
+                          {line}
+                          <br />
+                        </span>
+                      ))}
                     </BackContent>
                   </CardBack>
                 </CardInner>

@@ -75,7 +75,6 @@ export const InterviewCardElement = styled.div`
   background: #FFFFFF;
   width: 100%;
   max-width: 620px;
-  height: 420px;
   border-radius: 20px;
   padding: 30px;
   overflow: hidden;

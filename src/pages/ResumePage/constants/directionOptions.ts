@@ -6,9 +6,9 @@ export interface DirectionOption {
 
 export const directionOptions: DirectionOption[] = [
   { label: "Выбери направление", value: "", disabled: true },
-  { label: "IT и разработка", value: "it" },
-  { label: "Маркетинг и реклама", value: "marketing" },
-  { label: "Продажи и развитие", value: "sales" },
-  { label: "Финансы и аналитика", value: "finance" },
-  { label: "Дизайн и творчество", value: "design" }
+  { label: "Работа в IT", value: "Работа в IT" },
+  { label: "Технический блок", value: "Технический блок" },
+  { label: "Аналитика", value: "Аналитика" },
+  { label: "HR", value: "HR" },
+  { label: " Продажи и развитие", value: " Продажи и развитие" }
 ]; 

@@ -187,10 +187,6 @@ export const InterviewCarousel: FC<InterviewCarouselProps> = memo(({ onAllViewed
               aria-describedby={`card-${card.id}-description`}
             >
               <S.InterviewCardElement>
-                <S.CardImagePlaceholder 
-                  role="img" 
-                  aria-label={`Заглушка изображения для совета: ${card.title}`}
-                />
                 
                 <S.CardContent>
                   <S.CardTitle 
@@ -204,7 +200,12 @@ export const InterviewCarousel: FC<InterviewCarouselProps> = memo(({ onAllViewed
                   <S.CardDescription 
                     id={`card-${card.id}-description`}
                   >
-                    {card.description}
+                    {card.description.split('/n').map((line, idx) => (
+                      <span key={idx}>
+                        {line}
+                        <br />
+                      </span>
+                    ))}
                   </S.CardDescription>
                 </S.CardContent>
               </S.InterviewCardElement>
