@@ -47,7 +47,7 @@ export const ResumeGame: FC = memo(() => {
     try {
       setSending(true);
       await apiService.startGame("komiks");
-      const points = correctAnswers * 10;
+      const points = correctAnswers * 15;
       const resp = await apiService.sendGameResult({ game: "komiks", result: "1", points });
       const data: any = resp.data as any;
       const games: Array<{ name: string; status: string; points?: number }>|undefined = data?.user?.games ?? (data?.user?.game ? [data.user.game] : undefined);
@@ -236,7 +236,7 @@ export const ResumeGame: FC = memo(() => {
         <CongratulationsCard>
           <CongratulationsTitle>Молодец!</CongratulationsTitle>
           <CongratulationsText>
-            Ты заработал {correctAnswers * 10} баллов.
+            Ты заработал {correctAnswers * 15} баллов.
             <br />
             Забирай пример идеального, по нашему мнению, резюме.
           </CongratulationsText>
