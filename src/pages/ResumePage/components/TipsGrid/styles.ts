@@ -118,6 +118,9 @@ export const TipDescription = styled(Text)`
   line-height: 1.5;
   color: #6c757d;
   text-align: center;
+  white-space: pre-line;
+  overflow-y: auto;
+  max-height: 140px;
 `;
 
 export const BackContent = styled(Text)`
@@ -127,4 +130,5 @@ export const BackContent = styled(Text)`
   color: #212529;
   text-align: left;
   overflow-y: auto;
+  white-space: pre-line;
 `; 

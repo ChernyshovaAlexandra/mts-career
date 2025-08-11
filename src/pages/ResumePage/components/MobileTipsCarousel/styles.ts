@@ -158,6 +158,9 @@ export const TipDescription = styled(Text)`
   text-align: center;
   z-index: 2;
   position: relative;
+  white-space: pre-line;
+  overflow-y: auto;
+  max-height: 140px;
 `;
 
 export const BackContent = styled(Text)`
@@ -169,6 +172,7 @@ export const BackContent = styled(Text)`
   overflow-y: auto;
   z-index: 2;
   position: relative;
+  white-space: pre-line;
 `;
 
 export const NavigationButton = styled.button<{ $direction: 'prev' | 'next' }>`

@@ -42,16 +42,16 @@ export const hrVideos: HRVideo[] = [
     duration: "",
     playInline: true
   },
-  {
-    id: "hr-art",
-    name: "Артем Соколов",
-    position: "Руководитель группы подбор",
-    description: "",
-    imageUrl: "",
-    videoUrl: "/videos/hr/HR_Art.mp4",
-    duration: "",
-    playInline: true
-  },
+  // {
+  //   id: "hr-art",
+  //   name: "Артем Соколов",
+  //   position: "Руководитель группы подбор",
+  //   description: "",
+  //   imageUrl: "",
+  //   videoUrl: "/videos/hr/HR_Art.mp4",
+  //   duration: "",
+  //   playInline: true
+  // },
   {
     id: "hr-mziuri",
     name: "Мзиури Чаава",

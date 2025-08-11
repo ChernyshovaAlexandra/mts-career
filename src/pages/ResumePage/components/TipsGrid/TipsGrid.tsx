@@ -134,12 +134,7 @@ export const TipsGrid: FC = memo(() => {
               </CardFront>
               <CardBack>
                 <BackContent variant="P4-Regular-Text">
-                  {tip.fullDescription.split('/n').map((line, idx) => (
-                    <span key={idx}>
-                      {line}
-                      <br />
-                    </span>
-                  ))}
+                  {tip.fullDescription}
                 </BackContent>
               </CardBack>
             </CardInner>
