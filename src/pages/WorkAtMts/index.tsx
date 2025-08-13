@@ -17,6 +17,7 @@ import {
 } from "./WorkAtMtsPage.styles";
 import { ARIA_LABELS } from "./accessibility";
 import { ClosedPlaceholder } from "../../shared";
+import { RandomCoffeeSection } from "./components";
 
 const VACANCIES: VacancyRaw[] = [
   {
@@ -299,12 +300,12 @@ const WorkAtMtsPage: FC = () => {
             </VacancySection>
           </ContentSection>
 
-          {/* <RandomCoffeeSection /> */}
-          <ClosedPlaceholder 
+          <RandomCoffeeSection />
+          {/* <ClosedPlaceholder 
             title="Рандом-кофе с сотрудником"
             reason="Похоже, все слоты заняты. Иногда они освобождаются, попробуй позже"
             margin="24px 0"
-          />
+          /> */}
         </Container>
       </PageContainer>
     </MainLayout>

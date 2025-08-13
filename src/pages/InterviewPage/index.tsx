@@ -22,6 +22,7 @@ import { ARIA_LABELS } from "./accessibility";
 import { ClosedPlaceholder } from "../../shared";
 import { apiService } from "../../services/apiService";
 import { useUserStore } from "../../store";
+import { InterviewSimulation } from "../../components";
 
 const InterviewPage: FC = () => {
   const [allViewed, setAllViewed] = useState(false);
@@ -110,14 +111,14 @@ const InterviewPage: FC = () => {
             </CarouselContainer>
           </ContentSection>
 
-          {/* <div data-section="interview-simulation">
+          <div data-section="interview-simulation">
             <InterviewSimulation />
-          </div> */}
-          <ClosedPlaceholder
+          </div>
+          {/* <ClosedPlaceholder
             title="Симуляция собеседования"
             reason="Похоже, все слоты заняты. Иногда они освобождаются, попробуй позже"
             margin="24px 0"
-          />
+          /> */}
         </Container>
       </PageContainer>
     </MainLayout>
